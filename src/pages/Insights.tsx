@@ -218,18 +218,18 @@ export const Insights: React.FC = () => {
                   <BarChart data={scoreDistributionData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="scoreHistogramGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#FFFFFF" stopOpacity={0.98} />
-                        <stop offset="60%" stopColor="#C8E3F6" stopOpacity={0.88} />
-                        <stop offset="100%" stopColor="#8EC5E8" stopOpacity={0.75} />
+                        <stop offset="0%" stopColor="#0284C7" stopOpacity={0.95} />
+                        <stop offset="60%" stopColor="#38BDF8" stopOpacity={0.88} />
+                        <stop offset="100%" stopColor="#7DD3FC" stopOpacity={0.75} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#222" vertical={false} />
-                    <XAxis dataKey="range" stroke="#777" fontSize={11} tickLine={false} />
-                    <YAxis stroke="#777" fontSize={11} tickLine={false} allowDecimals={false} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-border-hairline" vertical={false} />
+                    <XAxis dataKey="range" stroke="currentColor" className="text-muted" fontSize={11} tickLine={false} />
+                    <YAxis stroke="currentColor" className="text-muted" fontSize={11} tickLine={false} allowDecimals={false} />
                     <Tooltip
                       content={<CustomTooltip />}
-                      cursor={{ fill: 'rgba(255, 255, 255, 0.04)', radius: 6 }}
-                      animationDuration={200}
+                      cursor={{ fill: 'rgba(56, 189, 248, 0.08)', radius: 6 }}
+                      animationDuration={150}
                       animationEasing="ease-out"
                     />
                     <Bar
@@ -238,14 +238,13 @@ export const Insights: React.FC = () => {
                       fill="url(#scoreHistogramGrad)"
                       radius={[6, 6, 0, 0]}
                       isAnimationActive={true}
-                      animationDuration={1100}
+                      animationDuration={450}
                       animationEasing="ease-out"
-                      animationBegin={80}
+                      animationBegin={0}
                       activeBar={{
-                        fill: '#FFFFFF',
-                        stroke: '#8EC5E8',
-                        strokeWidth: 2,
-                        filter: 'drop-shadow(0 0 10px rgba(142,197,232,0.65))'
+                        fill: '#38BDF8',
+                        stroke: '#0284C7',
+                        strokeWidth: 2
                       }}
                     />
                   </BarChart>
@@ -254,7 +253,7 @@ export const Insights: React.FC = () => {
             </Card>
 
             {/* Domain Performance Breakdown */}
-            <Card hoverable className="p-6 transition-all duration-300 border-border-hairline hover:border-border-subtle shadow-card animate-slide-up" style={{ animationDelay: '300ms' }}>
+            <Card hoverable className="p-6 transition-all duration-300 border-border-hairline hover:border-border-subtle shadow-card animate-slide-up">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="font-serif text-lg font-medium text-primary">
@@ -273,18 +272,18 @@ export const Insights: React.FC = () => {
                   <BarChart data={domainData} layout="vertical" margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                     <defs>
                       <linearGradient id="domainBarGrad" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stopColor="#4A7C9B" stopOpacity={0.75} />
-                        <stop offset="65%" stopColor="#6BA8D1" stopOpacity={0.9} />
-                        <stop offset="100%" stopColor="#8EC5E8" stopOpacity={1} />
+                        <stop offset="0%" stopColor="#0284C7" stopOpacity={0.85} />
+                        <stop offset="65%" stopColor="#38BDF8" stopOpacity={0.95} />
+                        <stop offset="100%" stopColor="#7DD3FC" stopOpacity={1} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#222" horizontal={false} />
-                    <XAxis type="number" domain={[80, 100]} stroke="#777" fontSize={11} />
-                    <YAxis dataKey="domain" type="category" stroke="#777" fontSize={11} width={95} tickLine={false} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-border-hairline" horizontal={false} />
+                    <XAxis type="number" domain={[80, 100]} stroke="currentColor" className="text-muted" fontSize={11} />
+                    <YAxis dataKey="domain" type="category" stroke="currentColor" className="text-muted" fontSize={11} width={95} tickLine={false} />
                     <Tooltip
                       content={<CustomTooltip />}
-                      cursor={{ fill: 'rgba(255, 255, 255, 0.04)', radius: 6 }}
-                      animationDuration={200}
+                      cursor={{ fill: 'rgba(56, 189, 248, 0.08)', radius: 6 }}
+                      animationDuration={150}
                       animationEasing="ease-out"
                     />
                     <Bar
@@ -294,14 +293,13 @@ export const Insights: React.FC = () => {
                       radius={[0, 6, 6, 0]}
                       barSize={18}
                       isAnimationActive={true}
-                      animationDuration={1200}
+                      animationDuration={450}
                       animationEasing="ease-out"
-                      animationBegin={120}
+                      animationBegin={0}
                       activeBar={{
-                        fill: '#A8DBFD',
-                        stroke: '#ffffff',
-                        strokeWidth: 1.5,
-                        filter: 'drop-shadow(0 0 10px rgba(142,197,232,0.65))'
+                        fill: '#7DD3FC',
+                        stroke: '#0284C7',
+                        strokeWidth: 1.5
                       }}
                     />
                   </BarChart>
@@ -340,8 +338,8 @@ export const Insights: React.FC = () => {
                   <XAxis dataKey="month" stroke="currentColor" className="text-muted" fontSize={12} />
                   <YAxis domain={[85, 100]} stroke="currentColor" className="text-muted" fontSize={12} />
                   <Tooltip content={<CustomTooltip />} />
-                  <Line type="monotone" dataKey="avgScore" name="Avg Score" stroke="currentColor" className="text-primary" strokeWidth={2.5} dot={{ r: 4 }} />
-                  <Line type="monotone" dataKey="confidence" name="Confidence" stroke="#8ec5e8" strokeWidth={2} strokeDasharray="4 4" dot={{ r: 3 }} />
+                  <Line type="monotone" dataKey="avgScore" name="Avg Score" stroke="currentColor" className="text-primary" strokeWidth={2.5} dot={{ r: 4 }} isAnimationActive={true} animationDuration={450} animationEasing="ease-out" />
+                  <Line type="monotone" dataKey="confidence" name="Confidence" stroke="#8ec5e8" strokeWidth={2} strokeDasharray="4 4" dot={{ r: 3 }} isAnimationActive={true} animationDuration={450} animationEasing="ease-out" />
                 </LineChart>
               </ResponsiveContainer>
             </div>

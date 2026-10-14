@@ -389,20 +389,24 @@ html:not(.dark) .glass-modal {
 }
 
 .recharts-tooltip-wrapper {
-  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: transform 0.08s cubic-bezier(0.16, 1, 0.3, 1) !important;
   pointer-events: none;
+  will-change: transform;
 }
 
 .recharts-active-dot circle {
-  transition: r 0.25s cubic-bezier(0.16, 1, 0.3, 1), fill 0.2s ease, filter 0.2s ease;
-  filter: drop-shadow(0 0 10px rgba(142, 197, 232, 0.8));
+  transition: r 0.15s cubic-bezier(0.16, 1, 0.3, 1), fill 0.15s ease;
 }
 
-/* Staggered Tab & Element Entrance Animations */
+.recharts-surface {
+  shape-rendering: geometricPrecision;
+}
+
+/* Butter-Smooth GPU-Accelerated Entrance Animations */
 @keyframes dropDownFade {
   0% {
     opacity: 0;
-    transform: translateY(-16px);
+    transform: translateY(-8px);
   }
   100% {
     opacity: 1;
@@ -413,7 +417,7 @@ html:not(.dark) .glass-modal {
 @keyframes slideUpFade {
   0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   100% {
     opacity: 1;
@@ -424,7 +428,7 @@ html:not(.dark) .glass-modal {
 @keyframes cardScaleIn {
   0% {
     opacity: 0;
-    transform: scale(0.94) translateY(12px);
+    transform: scale(0.98) translateY(6px);
   }
   100% {
     opacity: 1;
@@ -442,19 +446,23 @@ html:not(.dark) .glass-modal {
 }
 
 .animate-fade-in {
-  animation: fadeInAnim 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: fadeInAnim 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity;
 }
 
 .animate-drop-down {
-  animation: dropDownFade 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: dropDownFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
 }
 
 .animate-slide-up {
-  animation: slideUpFade 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: slideUpFade 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
 }
 
 .animate-card-in {
-  animation: cardScaleIn 0.58s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: cardScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
 }
 
 .delay-50 { animation-delay: 50ms; }

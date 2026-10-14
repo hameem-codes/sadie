@@ -36,7 +36,7 @@ function parseNumericValue(val: number | string) {
 
 export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
   value,
-  duration = 1750,
+  duration = 500,
   className
 }) => {
   const parsed = parseNumericValue(value);
@@ -58,15 +58,23 @@ export const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
 
     const startVal = prevNumericRef.current;
     const targetVal = currentParsed.numeric;
-    const startTime = performance.now();
+    
+    // If values are identical, set immediately and avoid frame overhead
+    if (startVal === targetVal && prevNumericRef.current !== 0) {
+      setDisplayValue(
+        `${currentParsed.prefix}${targetVal.toFixed(currentParsed.decimals)}${currentParsed.suffix}`
+      );
+      return;
+    }
 
+    const startTime = performance.now();
     let animFrameId: number;
 
     const step = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Smooth ease-out cubic curve for natural, readable deceleration
-      const ease = 1 - Math.pow(1 - progress, 3);
+      // Fast, silky ease-out curve (quartic)
+      const ease = 1 - Math.pow(1 - progress, 4);
       const current = startVal + (targetVal - startVal) * ease;
 
       setDisplayValue(
