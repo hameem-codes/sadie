@@ -103,7 +103,7 @@ export const ExecutionDetailsModal: React.FC<ExecutionDetailsModalProps> = ({
           {phases.map((name, idx) => (
             <div key={name} className="flex items-center gap-2.5">
               {getPhaseIcon(idx)}
-              <span className="text-white text-xs sm:text-sm font-normal truncate">
+              <span className="text-primary text-xs sm:text-sm font-normal truncate">
                 {name}
               </span>
             </div>
@@ -116,7 +116,7 @@ export const ExecutionDetailsModal: React.FC<ExecutionDetailsModalProps> = ({
             <span className="text-[11px] sm:text-xs text-muted block mb-1 truncate">
               Confidence
             </span>
-            <span className="font-mono text-sm sm:text-lg md:text-xl font-bold text-white block truncate">
+            <span className="font-mono text-sm sm:text-lg md:text-xl font-bold text-primary block truncate">
               {confidence}
             </span>
           </div>
@@ -125,7 +125,7 @@ export const ExecutionDetailsModal: React.FC<ExecutionDetailsModalProps> = ({
             <span className="text-[11px] sm:text-xs text-muted block mb-1 truncate">
               Quality Score
             </span>
-            <span className="font-mono text-sm sm:text-lg md:text-xl font-bold text-white block truncate">
+            <span className="font-mono text-sm sm:text-lg md:text-xl font-bold text-primary block truncate">
               {qualityScore}
             </span>
           </div>

@@ -371,9 +371,25 @@ export const Knowledge: React.FC = () => {
                       {/* Download */}
                       <button
                         type="button"
-                        onClick={() => toast({ type: 'success', title: 'Downloading Document', message: `Saved ${activeDocument.title}.pdf` })}
+                        onClick={() => {
+                          const docBlob = new Blob([
+                            `# ${activeDocument.title}\n\n` +
+                            `Category: ${activeDocument.category} | Version: v${activeDocument.version}\n` +
+                            `Author: ${activeDocument.author || 'SADIE Clinical Consensus Board'}\n` +
+                            `Last Updated: ${activeDocument.lastUpdated} | Pages: ${activeDocument.pages}\n\n` +
+                            `## Summary\n${activeDocument.summary}\n\n` +
+                            `## Clinical Guidelines\n${activeDocument.contentMarkdown || 'Standardized clinical evaluation protocols.'}\n`
+                          ], { type: 'text/markdown;charset=utf-8' });
+                          const url = URL.createObjectURL(docBlob);
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = `${activeDocument.title.replace(/[^a-zA-Z0-9_-]/g, '_')}_v${activeDocument.version}.md`;
+                          a.click();
+                          URL.revokeObjectURL(url);
+                          toast({ type: 'success', title: 'Document Downloaded', message: `Saved ${activeDocument.title}` });
+                        }}
                         className="p-1 sm:p-1.5 rounded hover:bg-elevated hover:text-primary cursor-pointer shrink-0"
-                        title="Download PDF"
+                        title="Download Document"
                       >
                         <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </button>

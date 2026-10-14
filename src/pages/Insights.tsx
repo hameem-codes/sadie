@@ -25,7 +25,8 @@ import {
   Calendar,
   CheckCircle2,
   Layers,
-  ArrowUpRight
+  ArrowUpRight,
+  Download
 } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { KpiCard } from '../components/ui/KpiCard';
@@ -33,8 +34,10 @@ import { Button } from '../components/ui/Button';
 import { Tabs } from '../components/ui/Tabs';
 import { mockCases } from '../data/mockData';
 import { CaseItem } from '../types';
+import { useToast } from '../components/ui/Toast';
 
 export const Insights: React.FC = () => {
+  const { toast } = useToast();
   const [selectedSection, setSelectedSection] = useState<'scores' | 'trends' | 'compare'>('scores');
   const [procedureFilter, setProcedureFilter] = useState('all');
   const [stageFilter, setStageFilter] = useState('all');
@@ -150,9 +153,39 @@ export const Insights: React.FC = () => {
           </select>
         </div>
 
-        <div className="flex items-center gap-2 text-muted">
-          <Calendar className="w-3.5 h-3.5" />
-          <span>Last 180 Days</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 text-muted">
+            <Calendar className="w-3.5 h-3.5" />
+            <span>Last 180 Days</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              const csvContent = "data:text/csv;charset=utf-8," +
+                "Month,AvgScore,Volume,Confidence\n" +
+                trendsData.map(t => `${t.month},${t.avgScore}%,${t.volume},${t.confidence}%`).join("\n") +
+                "\n\nDomain,Score,Target\n" +
+                domainData.map(d => `${d.domain},${d.score}%,${d.target}%`).join("\n");
+              const encodedUri = encodeURI(csvContent);
+              const link = document.createElement("a");
+              link.setAttribute("href", encodedUri);
+              link.setAttribute("download", `SADIE_Surgical_Analytics_Cohort_${Date.now()}.csv`);
+              document.body.appendChild(link);
+              link.click();
+              link.remove();
+              toast({
+                type: 'success',
+                title: 'Analytics Data Exported',
+                message: 'Downloaded cohort metrics CSV dossier.'
+              });
+            }}
+            className="flex items-center gap-1.5 px-3 py-1 rounded-pill bg-elevated hover:bg-elevated-hover border border-border-hairline text-secondary hover:text-primary transition-all cursor-pointer shadow-sm text-xs"
+            title="Export Cohort Analytics to CSV"
+          >
+            <Download className="w-3.5 h-3.5 text-accent" />
+            <span>Export CSV</span>
+          </button>
         </div>
       </div>
 

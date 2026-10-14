@@ -100,10 +100,69 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
     setTimeout(() => setIsFlashing(false), 300);
 
     const filename = `${patientName.replace(/\s+/g, '_')}_${activeModality.toUpperCase()}_slice${sliceIndex}.png`;
+
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1000;
+      canvas.height = 700;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        // Clinical background
+        ctx.fillStyle = '#0a0e17';
+        ctx.fillRect(0, 0, 1000, 700);
+
+        // Header info
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 18px sans-serif';
+        ctx.fillText(`SADIE Radiomic Snapshot: ${patientName}`, 32, 45);
+        ctx.font = '13px monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText(`Modality: ${activeModality.toUpperCase()}  |  Slice: #${sliceIndex}  |  Zoom: ${zoomLevel}%  |  W/L: ${windowWidth}/${windowLevel}`, 32, 75);
+        ctx.fillText(`Procedure: ${procedure}  |  Timestamp: ${new Date().toLocaleString()}`, 32, 98);
+
+        // Grid lines
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 1;
+        for (let x = 32; x < 968; x += 80) {
+          ctx.beginPath();
+          ctx.moveTo(x, 120);
+          ctx.lineTo(x, 660);
+          ctx.stroke();
+        }
+        for (let y = 120; y < 660; y += 60) {
+          ctx.beginPath();
+          ctx.moveTo(32, y);
+          ctx.lineTo(968, y);
+          ctx.stroke();
+        }
+
+        // Draw crosshair center
+        ctx.strokeStyle = '#0284c7';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(280, 180, 440, 420);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '14px monospace';
+        ctx.fillText(`[3D MULTIPLANAR VOXEL PROJECTION]`, 340, 400);
+
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+          }
+        });
+      }
+    } catch {
+      // Fallback
+    }
+
     toast({
       type: 'success',
       title: 'Screenshot Captured',
-      message: `Saved high-resolution snapshot: ${filename}`
+      message: `Downloaded snapshot: ${filename}`
     });
   };
 
@@ -174,9 +233,9 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
       )}
 
       {/* Viewer Header Toolbar */}
-      <div className="h-12 border-b border-white/10 px-3 sm:px-4 flex items-center justify-between bg-surface/80 backdrop-blur-sm z-10 shrink-0 gap-2">
+      <div className="h-12 border-b border-border-hairline px-3 sm:px-4 flex items-center justify-between bg-surface/80 backdrop-blur-sm z-10 shrink-0 gap-2">
         {/* Modality & Cross-Sectional Selector */}
-        <div className="flex items-center gap-1 bg-[#161616] p-1 rounded-pill border border-white/10">
+        <div className="flex items-center gap-1 bg-elevated p-1 rounded-pill border border-border-hairline">
           {[
             { id: '3d', label: '3D Volume', icon: Box },
             { id: 'axial', label: 'Axial (Z)', icon: Layers },
@@ -191,8 +250,8 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
                 onClick={() => setActiveModality(m.id as any)}
                 className={`flex items-center gap-1 px-2.5 py-1 rounded-pill text-[11px] font-medium transition-all cursor-pointer ${
                   activeModality === m.id
-                    ? 'bg-white text-black font-semibold shadow-sm'
-                    : 'text-secondary hover:text-white'
+                    ? 'bg-btn-primary-bg text-btn-primary-text font-semibold shadow-sm'
+                    : 'text-secondary hover:text-primary'
                 }`}
               >
                 <Icon className="w-3 h-3" />
@@ -203,12 +262,12 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
         </div>
 
         {/* View Mode Toggle */}
-        <div className="hidden sm:flex items-center gap-1 bg-[#161616] p-1 rounded-pill border border-white/10">
+        <div className="hidden sm:flex items-center gap-1 bg-elevated p-1 rounded-pill border border-border-hairline">
           <button
             type="button"
             onClick={() => setViewMode('side-by-side')}
             className={`px-2 py-0.5 rounded-pill text-[10px] font-medium transition-all cursor-pointer ${
-              viewMode === 'side-by-side' ? 'bg-white text-black font-semibold' : 'text-secondary hover:text-white'
+              viewMode === 'side-by-side' ? 'bg-btn-primary-bg text-btn-primary-text font-semibold' : 'text-secondary hover:text-primary'
             }`}
           >
             Side-by-Side
@@ -217,7 +276,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
             type="button"
             onClick={() => setViewMode('split-slider')}
             className={`px-2 py-0.5 rounded-pill text-[10px] font-medium transition-all cursor-pointer ${
-              viewMode === 'split-slider' ? 'bg-white text-black font-semibold' : 'text-secondary hover:text-white'
+              viewMode === 'split-slider' ? 'bg-btn-primary-bg text-btn-primary-text font-semibold' : 'text-secondary hover:text-primary'
             }`}
           >
             Split Overlay
@@ -226,7 +285,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
             type="button"
             onClick={() => setViewMode('multiplanar')}
             className={`px-2 py-0.5 rounded-pill text-[10px] font-medium transition-all cursor-pointer ${
-              viewMode === 'multiplanar' ? 'bg-white text-black font-semibold' : 'text-secondary hover:text-white'
+              viewMode === 'multiplanar' ? 'bg-btn-primary-bg text-btn-primary-text font-semibold' : 'text-secondary hover:text-primary'
             }`}
           >
             MPR Orthogonal
@@ -234,7 +293,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
         </div>
 
         {/* Window Level (WW/WL) Presets */}
-        <div className="hidden md:flex items-center gap-1 bg-[#161616] p-1 rounded-pill border border-white/10">
+        <div className="hidden md:flex items-center gap-1 bg-elevated p-1 rounded-pill border border-border-hairline">
           {[
             { id: 'bone', label: 'Bone' },
             { id: 'soft', label: 'Soft' },
@@ -245,7 +304,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
               type="button"
               onClick={() => handlePresetSelect(p.id as any)}
               className={`px-2 py-0.5 rounded-pill text-[10px] font-medium transition-all cursor-pointer ${
-                windowPreset === p.id ? 'bg-[#8EC5E8] text-black font-semibold' : 'text-secondary hover:text-white'
+                windowPreset === p.id ? 'bg-btn-primary-bg text-btn-primary-text font-semibold' : 'text-secondary hover:text-primary'
               }`}
             >
               {p.label}
@@ -259,10 +318,10 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
           <button
             type="button"
             onClick={handleCaptureScreenshot}
-            className="p-1.5 rounded-md hover:bg-elevated hover:text-white transition-colors cursor-pointer text-muted"
+            className="p-1.5 rounded-md hover:bg-elevated hover:text-primary transition-colors cursor-pointer text-muted"
             title="Capture Viewport Screenshot"
           >
-            <Camera className="w-4 h-4 text-[#8EC5E8]" />
+            <Camera className="w-4 h-4 text-accent" />
           </button>
 
           {/* Caliper Measurement Toggle */}
@@ -270,7 +329,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
             type="button"
             onClick={() => setActiveTool(activeTool === 'ruler' ? 'pan' : 'ruler')}
             className={`p-1.5 rounded-md hover:bg-elevated transition-colors cursor-pointer ${
-              activeTool === 'ruler' ? 'text-[#a3ffb2] bg-elevated border border-[#2f6b3a]' : 'text-muted hover:text-white'
+              activeTool === 'ruler' ? 'text-status-completed bg-elevated border border-status-completed/30' : 'text-muted hover:text-primary'
             }`}
             title="Measurement Caliper (Distance & Angle)"
           >
@@ -282,7 +341,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
             type="button"
             onClick={() => setShowWlSliders(!showWlSliders)}
             className={`p-1.5 rounded-md hover:bg-elevated transition-colors cursor-pointer ${
-              showWlSliders ? 'text-white bg-elevated' : 'text-muted hover:text-white'
+              showWlSliders ? 'text-primary bg-elevated' : 'text-muted hover:text-primary'
             }`}
             title="Window Level / Window Width HU Adjustment"
           >
@@ -294,7 +353,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
             type="button"
             onClick={() => setShowLandmarks(!showLandmarks)}
             className={`p-1.5 rounded-md hover:bg-elevated transition-colors cursor-pointer ${
-              showLandmarks ? 'text-white bg-elevated' : 'text-muted'
+              showLandmarks ? 'text-primary bg-elevated' : 'text-muted'
             }`}
             title="Toggle Cephalometric Landmarks"
           >
@@ -304,7 +363,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
           <button
             type="button"
             onClick={() => handleZoom(-15)}
-            className="p-1.5 rounded-md hover:bg-elevated hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-md hover:bg-elevated hover:text-primary transition-colors cursor-pointer"
             title="Zoom Out"
           >
             <ZoomOut className="w-4 h-4" />
@@ -315,7 +374,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
           <button
             type="button"
             onClick={() => handleZoom(+15)}
-            className="p-1.5 rounded-md hover:bg-elevated hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-md hover:bg-elevated hover:text-primary transition-colors cursor-pointer"
             title="Zoom In"
           >
             <ZoomIn className="w-4 h-4" />
@@ -323,7 +382,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
           <button
             type="button"
             onClick={resetView}
-            className="p-1.5 rounded-md hover:bg-elevated hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-md hover:bg-elevated hover:text-primary transition-colors cursor-pointer"
             title="Reset View"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -333,7 +392,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
           <button
             type="button"
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-1.5 rounded-md hover:bg-elevated hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 rounded-md hover:bg-elevated hover:text-primary transition-colors cursor-pointer"
             title={isFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen'}
           >
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -343,7 +402,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
 
       {/* Expandable Window Width / Window Level adjustment overlay */}
       {showWlSliders && (
-        <div className="bg-[#121318]/95 border-b border-white/10 px-4 py-2.5 z-20 flex flex-wrap items-center gap-6 text-xs text-secondary animate-fade-up">
+        <div className="bg-surface/95 backdrop-blur-md border-b border-border-hairline px-4 py-2.5 z-20 flex flex-wrap items-center gap-6 text-xs text-secondary animate-fade-up">
           <div className="flex items-center gap-2">
             <span className="font-mono text-[11px] text-muted">WW (Width):</span>
             <input
@@ -355,7 +414,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
               onChange={(e) => setWindowWidth(Number(e.target.value))}
               className="accent-[#8EC5E8] w-28 cursor-pointer"
             />
-            <span className="font-mono text-[11px] text-white w-12">{windowWidth} HU</span>
+            <span className="font-mono text-[11px] text-primary w-12">{windowWidth} HU</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -369,7 +428,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
               onChange={(e) => setWindowLevel(Number(e.target.value))}
               className="accent-[#8EC5E8] w-28 cursor-pointer"
             />
-            <span className="font-mono text-[11px] text-white w-12">{windowLevel} HU</span>
+            <span className="font-mono text-[11px] text-primary w-12">{windowLevel} HU</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -382,21 +441,21 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
               onChange={(e) => setSliceIndex(Number(e.target.value))}
               className="accent-[#8EC5E8] w-24 cursor-pointer"
             />
-            <span className="font-mono text-[11px] text-white w-14">#{sliceIndex}/320</span>
+            <span className="font-mono text-[11px] text-primary w-14">#{sliceIndex}/320</span>
           </div>
 
           <div className="ml-auto text-[11px] text-muted font-mono">
-            Preset: <span className="text-white capitalize">{windowPreset}</span>
+            Preset: <span className="text-primary capitalize">{windowPreset}</span>
           </div>
         </div>
       )}
 
       {/* 3D Volume Rotation & Threshold Sub-bar (when 3D mode is active) */}
       {activeModality === '3d' && (
-        <div className="bg-[#0b0c10]/90 border-b border-white/5 px-4 py-1.5 z-15 flex flex-wrap items-center justify-between text-xs text-muted">
+        <div className="bg-surface/90 border-b border-border-hairline px-4 py-1.5 z-15 flex flex-wrap items-center justify-between text-xs text-muted">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] uppercase font-mono text-[#8EC5E8]">Yaw:</span>
+              <span className="text-[10px] uppercase font-mono text-accent">Yaw:</span>
               <input
                 type="range"
                 min="-180"
@@ -405,10 +464,10 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
                 onChange={(e) => setYawRotation(Number(e.target.value))}
                 className="accent-[#8EC5E8] w-20 cursor-pointer"
               />
-              <span className="font-mono text-[10px] text-white w-8">{yawRotation}°</span>
+              <span className="font-mono text-[10px] text-primary w-8">{yawRotation}°</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] uppercase font-mono text-[#8EC5E8]">Pitch:</span>
+              <span className="text-[10px] uppercase font-mono text-accent">Pitch:</span>
               <input
                 type="range"
                 min="-45"
@@ -417,7 +476,7 @@ export const ImagingViewer: React.FC<ImagingViewerProps> = ({
                 onChange={(e) => setPitchRotation(Number(e.target.value))}
                 className="accent-[#8EC5E8] w-20 cursor-pointer"
               />
-              <span className="font-mono text-[10px] text-white w-8">{pitchRotation}°</span>
+              <span className="font-mono text-[10px] text-primary w-8">{pitchRotation}°</span>
             </div>
           </div>
           <div className="flex items-center gap-2">

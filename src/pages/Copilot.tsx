@@ -184,8 +184,8 @@ export const Copilot: React.FC = () => {
         className="hidden"
       />
 
-      {/* TOP BAR CONTROLS - Positioned at true top right */}
-      <div className={`w-full h-14 flex items-center justify-between shrink-0 py-2.5 px-4 sm:px-8 pl-16 md:pl-8 ${isChatActive ? 'border-b border-white/5 bg-surface/30' : ''}`}>
+      {/* TOP BAR CONTROLS - Positioned cleanly at top */}
+      <div className={`w-full h-14 flex items-center justify-between shrink-0 py-2.5 px-4 sm:px-8 pl-16 md:pl-8 ${isChatActive ? 'border-b border-border-hairline bg-surface/30' : ''}`}>
         {/* Left: New Query button */}
         <div className="flex items-center gap-2.5">
           {isChatActive && (
@@ -201,7 +201,7 @@ export const Copilot: React.FC = () => {
         </div>
 
         {/* Right: Context & Sources sub-tab sidebar trigger + Threads drawer trigger */}
-        <div className="flex items-center gap-2 ml-auto pr-0 sm:pr-48">
+        <div className="flex items-center gap-2 ml-auto">
           <button
             type="button"
             onClick={() => setIsContextPanelOpen(!isContextPanelOpen)}

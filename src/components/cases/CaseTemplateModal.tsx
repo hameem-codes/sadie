@@ -79,14 +79,14 @@ export const CaseTemplateModal: React.FC<CaseTemplateModalProps> = ({
                 onSelectTemplate(tmpl);
                 onClose();
               }}
-              className="p-3.5 rounded-xl bg-surface/50 border border-white/10 hover:border-white/30 hover:bg-elevated/80 transition-all cursor-pointer group flex items-start justify-between gap-4"
+              className="p-3.5 rounded-xl bg-surface/50 border border-border-hairline hover:border-border-subtle hover:bg-elevated/80 transition-all cursor-pointer group flex items-start justify-between gap-4"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-white group-hover:text-[#8EC5E8] transition-colors">
+                  <span className="text-xs font-semibold text-primary group-hover:text-accent transition-colors">
                     {tmpl.name}
                   </span>
-                  <span className="text-[10px] font-mono text-[#a3ffb2] bg-[#122415] px-2 py-0.5 rounded-pill border border-[#2f6b3a]/50">
+                  <span className="text-[10px] font-mono text-status-completed bg-status-completed/10 px-2 py-0.5 rounded-pill border border-status-completed/30">
                     {tmpl.procedure}
                   </span>
                 </div>
@@ -99,7 +99,7 @@ export const CaseTemplateModal: React.FC<CaseTemplateModalProps> = ({
               <Button
                 variant="ghost"
                 size="sm"
-                className="shrink-0 text-xs group-hover:bg-white group-hover:text-black transition-all"
+                className="shrink-0 text-xs group-hover:bg-btn-primary-bg group-hover:text-btn-primary-text transition-all"
               >
                 Use Template
                 <ChevronRight className="w-3.5 h-3.5 ml-1" />

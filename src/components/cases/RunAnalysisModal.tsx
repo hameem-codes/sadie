@@ -144,7 +144,7 @@ export const RunAnalysisModal: React.FC<RunAnalysisModalProps> = ({
             <Sparkles className="w-5 h-5 text-[#8EC5E8]" />
           </div>
           <div>
-            <h3 className="font-serif text-xl sm:text-2xl font-medium tracking-tight text-white leading-tight">
+            <h3 className="font-serif text-xl sm:text-2xl font-medium tracking-tight text-primary leading-tight">
               {isCompleted ? 'Evaluation Complete' : 'Executing Radiomic Analysis'}
             </h3>
             <span className="text-xs text-muted block mt-0.5">
@@ -173,7 +173,7 @@ export const RunAnalysisModal: React.FC<RunAnalysisModalProps> = ({
                 </>
               )}
             </span>
-            <span className="font-mono text-white text-xs font-semibold">
+            <span className="font-mono text-primary text-xs font-semibold">
               {progressPercent}%
             </span>
           </div>
@@ -274,12 +274,12 @@ export const RunAnalysisModal: React.FC<RunAnalysisModalProps> = ({
 
         {/* Final Execution Result Summary (Revealed when completed) */}
         {isCompleted && (
-          <div className="p-4 rounded-xl bg-surface border border-white/10 animate-fade-up space-y-3">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+          <div className="p-4 rounded-xl bg-surface border border-border-hairline animate-fade-up space-y-3">
+            <div className="flex items-center justify-between pb-3 border-b border-border-hairline">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-[#a3ffb2]" />
+                <ShieldCheck className="w-5 h-5 text-status-completed" />
                 <div>
-                  <h5 className="text-xs font-semibold uppercase tracking-wider text-white">
+                  <h5 className="text-xs font-semibold uppercase tracking-wider text-primary">
                     Clinical Synthesis Verified
                   </h5>
                   <span className="text-[11px] text-muted">
@@ -290,24 +290,24 @@ export const RunAnalysisModal: React.FC<RunAnalysisModalProps> = ({
 
               <div className="text-right">
                 <span className="text-[10px] text-muted block uppercase">Final Score</span>
-                <span className="font-serif text-2xl font-bold text-[#a3ffb2] font-mono">
+                <span className="font-serif text-2xl font-bold text-status-completed font-mono">
                   <AnimatedNumber value={`${updatedResult?.score || 94.6}%`} />
                 </span>
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-2 text-center text-xs">
-              <div className="p-2 rounded-lg bg-base border border-white/5">
+              <div className="p-2 rounded-lg bg-base border border-border-hairline">
                 <span className="text-muted text-[10px] block">Confidence</span>
-                <span className="text-white font-mono font-medium">[92.8%, 96.4%]</span>
+                <span className="text-primary font-mono font-medium">[92.8%, 96.4%]</span>
               </div>
-              <div className="p-2 rounded-lg bg-base border border-white/5">
+              <div className="p-2 rounded-lg bg-base border border-border-hairline">
                 <span className="text-muted text-[10px] block">Airway Expansion</span>
-                <span className="text-[#a3ffb2] font-mono font-medium">+3.6 cm³</span>
+                <span className="text-status-completed font-mono font-medium">+3.6 cm³</span>
               </div>
-              <div className="p-2 rounded-lg bg-base border border-white/5">
+              <div className="p-2 rounded-lg bg-base border border-border-hairline">
                 <span className="text-muted text-[10px] block">Skeletal Symmetry</span>
-                <span className="text-white font-mono font-medium">0.2mm Dev</span>
+                <span className="text-primary font-mono font-medium">0.2mm Dev</span>
               </div>
             </div>
           </div>
@@ -319,7 +319,7 @@ export const RunAnalysisModal: React.FC<RunAnalysisModalProps> = ({
             variant="ghost"
             size="md"
             onClick={onClose}
-            className="text-secondary hover:text-white"
+            className="text-secondary hover:text-primary"
           >
             {isCompleted ? 'Close' : 'Cancel'}
           </Button>

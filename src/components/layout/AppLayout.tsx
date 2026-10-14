@@ -658,7 +658,7 @@ export const AppLayout: React.FC = () => {
               <NavLink
                 key={item.path}
                 to={item.path}
-                className={`min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-full transition-colors ${isActive ? 'text-white' : 'text-muted hover:text-secondary'}`}
+                className={`min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-full transition-colors ${isActive ? 'text-primary bg-elevated shadow-sm' : 'text-muted hover:text-secondary'}`}
                 title={item.label}
               >
                 <Icon className="w-5 h-5" />

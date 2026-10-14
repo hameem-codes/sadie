@@ -36,28 +36,28 @@ export const CaseComparisonModal: React.FC<CaseComparisonModalProps> = ({
       <div className="space-y-5">
         {/* Cases Header Comparison Card */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-          <div className="p-4 rounded-xl bg-surface/70 border border-white/10 space-y-1">
-            <span className="text-[10px] uppercase font-mono text-[#8EC5E8] tracking-wider block">
+          <div className="p-4 rounded-xl bg-surface border border-border-hairline shadow-sm space-y-1">
+            <span className="text-[10px] uppercase font-mono text-accent-blue tracking-wider block">
               Case A
             </span>
-            <h3 className="font-serif text-lg font-semibold text-white">{caseA.patientName}</h3>
+            <h3 className="font-serif text-lg font-semibold text-primary">{caseA.patientName}</h3>
             <p className="text-xs text-muted font-mono">{caseA.caseNumber} • {caseA.patientId}</p>
             <div className="pt-2 flex items-center gap-2">
-              <span className="font-mono text-xl font-bold text-[#a3ffb2]">
+              <span className="font-mono text-xl font-bold text-emerald-600 dark:text-[#a3ffb2]">
                 <AnimatedNumber value={`${caseA.score || 0}%`} />
               </span>
               <StatusPill status={caseA.status} size="sm" />
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-surface/70 border border-white/10 space-y-1">
-            <span className="text-[10px] uppercase font-mono text-[#a3ffb2] tracking-wider block">
+          <div className="p-4 rounded-xl bg-surface border border-border-hairline shadow-sm space-y-1">
+            <span className="text-[10px] uppercase font-mono text-emerald-600 dark:text-[#a3ffb2] tracking-wider block">
               Case B
             </span>
-            <h3 className="font-serif text-lg font-semibold text-white">{caseB.patientName}</h3>
+            <h3 className="font-serif text-lg font-semibold text-primary">{caseB.patientName}</h3>
             <p className="text-xs text-muted font-mono">{caseB.caseNumber} • {caseB.patientId}</p>
             <div className="pt-2 flex items-center gap-2">
-              <span className="font-mono text-xl font-bold text-[#a3ffb2]">
+              <span className="font-mono text-xl font-bold text-emerald-600 dark:text-[#a3ffb2]">
                 <AnimatedNumber value={`${caseB.score || 0}%`} />
               </span>
               <StatusPill status={caseB.status} size="sm" />
@@ -66,23 +66,23 @@ export const CaseComparisonModal: React.FC<CaseComparisonModalProps> = ({
         </div>
 
         {/* Metrics Differential Table */}
-        <div className="rounded-xl border border-white/10 bg-surface/40 overflow-x-auto custom-scrollbar">
+        <div className="rounded-xl border border-border-hairline bg-surface shadow-sm overflow-x-auto custom-scrollbar">
           <table className="w-full min-w-[380px] text-left text-xs">
-            <thead className="border-b border-white/10 bg-surface/80 text-muted uppercase font-mono text-[10px]">
+            <thead className="border-b border-border-hairline bg-elevated/70 text-secondary uppercase font-mono text-[10px]">
               <tr>
                 <th className="p-3 w-1/3">Clinical Metric / Dimension</th>
-                <th className="p-3 w-1/3 text-white font-semibold">Case A</th>
-                <th className="p-3 w-1/3 text-white font-semibold">Case B</th>
+                <th className="p-3 w-1/3 text-primary font-semibold">Case A</th>
+                <th className="p-3 w-1/3 text-primary font-semibold">Case B</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-border-hairline">
               {metrics.map((m, idx) => (
-                <tr key={idx} className="hover:bg-elevated/50 transition-colors">
+                <tr key={idx} className="hover:bg-elevated transition-colors">
                   <td className="p-3 text-secondary font-medium">{m.label}</td>
-                  <td className="p-3 text-white font-mono">
+                  <td className="p-3 text-primary font-mono">
                     {m.statusA ? <StatusPill status={m.statusA} size="sm" /> : m.valA}
                   </td>
-                  <td className="p-3 text-white font-mono">
+                  <td className="p-3 text-primary font-mono">
                     {m.statusB ? <StatusPill status={m.statusB} size="sm" /> : m.valB}
                   </td>
                 </tr>

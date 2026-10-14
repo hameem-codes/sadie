@@ -21,7 +21,7 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    ctx.strokeStyle = '#ffffff';
+    ctx.strokeStyle = '#0284c7';
     ctx.lineWidth = 2.5;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
@@ -87,21 +87,21 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
   };
 
   return (
-    <div className="space-y-3 p-4 rounded-xl bg-surface/60 border border-white/10">
+    <div className="space-y-3 p-4 rounded-xl bg-surface border border-border-hairline shadow-card">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <PenTool className="w-4 h-4 text-[#8EC5E8]" />
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-white">
+          <PenTool className="w-4 h-4 text-accent" />
+          <h4 className="text-xs font-semibold uppercase tracking-wider text-primary">
             Clinician Digital Sign-Off Pad
           </h4>
         </div>
         <span className="text-[10px] font-mono text-muted flex items-center gap-1">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#a3ffb2]" />
+          <ShieldCheck className="w-3.5 h-3.5 text-status-completed" />
           Cryptographically Verified
         </span>
       </div>
 
-      <div className="relative border border-white/15 rounded-lg bg-[#0a0a0c] overflow-hidden">
+      <div className="relative border border-border-hairline rounded-lg bg-elevated overflow-hidden">
         <canvas
           ref={canvasRef}
           width={440}
@@ -128,7 +128,7 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
           value={signerTitle}
           onChange={(e) => setSignerTitle(e.target.value)}
           placeholder="Clinician credentials..."
-          className="bg-base border border-white/10 rounded-pill px-3 py-1 text-xs text-white placeholder-muted focus:outline-none focus:border-white/30 w-60 font-mono"
+          className="bg-base border border-border-hairline rounded-pill px-3 py-1 text-xs text-primary placeholder-muted focus:outline-none focus:border-border-subtle w-60 font-mono"
         />
         <div className="flex items-center gap-2">
           <Button
@@ -137,7 +137,7 @@ export const DigitalSignaturePad: React.FC<DigitalSignaturePadProps> = ({
             size="sm"
             onClick={clearCanvas}
             disabled={!hasDrawn}
-            className="text-xs text-muted hover:text-white"
+            className="text-xs text-secondary hover:text-primary"
           >
             <Eraser className="w-3.5 h-3.5 mr-1" />
             Clear

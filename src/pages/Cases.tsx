@@ -332,10 +332,10 @@ export const Cases: React.FC = () => {
     return true;
   });
 
-  // Selected cases for comparison (take first two if multiple selected)
+  // Selected cases for comparison (take first two if multiple selected, or top two cases if fewer selected)
   const compareCasesList = cases.filter(c => selectedCaseIds.has(c.id));
-  const caseA = compareCasesList[0] || null;
-  const caseB = compareCasesList[1] || null;
+  const caseA = compareCasesList[0] || filteredCases[0] || cases[0] || null;
+  const caseB = compareCasesList[1] || filteredCases[1] || cases[1] || null;
 
   // Table Columns Definition
   const allColumns: Column<CaseItem>[] = [
@@ -629,17 +629,23 @@ export const Cases: React.FC = () => {
         </div>
 
         <div className="w-full sm:w-auto grid grid-cols-3 sm:flex items-center gap-2">
-          {/* Compare Button (enabled when 2 cases selected) */}
+          {/* Compare Button (opens comparison with selected or top 2 cases) */}
           <Button
             variant="outline"
             size="md"
-            disabled={selectedCaseIds.size !== 2}
-            onClick={() => setIsCompareModalOpen(true)}
+            onClick={() => {
+              if (selectedCaseIds.size < 2 && cases.length >= 2) {
+                const defaultTwo = (filteredCases.length >= 2 ? filteredCases : cases).slice(0, 2).map(c => c.id);
+                setSelectedCaseIds(new Set(defaultTwo));
+              }
+              setIsCompareModalOpen(true);
+            }}
             icon={<ArrowLeftRight className="w-4 h-4 text-accent" />}
             iconPosition="left"
-            className="border-border-hairline whitespace-nowrap justify-center text-xs sm:text-sm px-2.5 sm:px-4 text-primary"
+            className="border-border-hairline whitespace-nowrap justify-center text-xs sm:text-sm px-2.5 sm:px-4 text-primary cursor-pointer hover:bg-elevated"
+            title="Side-by-side comparison of surgical metrics and outcome scores"
           >
-            Compare (2)
+            {selectedCaseIds.size === 2 ? 'Compare (2)' : 'Compare'}
           </Button>
 
           {/* New from Template Button */}
@@ -675,7 +681,7 @@ export const Cases: React.FC = () => {
       <div className="space-y-3 p-4 rounded-xl bg-surface/60 border border-border-hairline animate-drop-down" style={{ animationDelay: '80ms' }}>
         <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
           {/* Search Box */}
-          <form onSubmit={handleSearchSubmit} className="relative flex-1 max-w-md">
+          <form onSubmit={handleSearchSubmit} className="relative flex-1 min-w-[240px] max-w-md">
             <Search className="w-4.5 h-4.5 text-muted absolute left-3.5 top-3 pointer-events-none" />
             <input
               type="text"
@@ -1086,7 +1092,7 @@ export const Cases: React.FC = () => {
                 className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-primary placeholder-muted focus:outline-none"
               />
             </div>
-            <div className="p-3 rounded-lg bg-surface border border-white/5 text-xs text-secondary">
+            <div className="p-3 rounded-lg bg-surface border border-border-hairline text-xs text-secondary">
               Shared collaborators receive read-only access to multiplanar CT reconstructions, cephalometric metrics, and SADIE outcome confidence scores.
             </div>
             <div className="pt-2 flex justify-end gap-2">
@@ -1116,7 +1122,7 @@ export const Cases: React.FC = () => {
           description="Are you sure you want to permanently delete this clinical case and all attached DICOM files?"
         >
           <div className="space-y-4 pt-2">
-            <div className="p-3 rounded-md bg-[#361515] border border-[#c8623c]/40 text-xs text-[#fca582]">
+            <div className="p-3 rounded-md bg-rose-500/10 border border-rose-500/30 text-xs text-rose-600 dark:text-rose-300">
               Warning: Case {deleteCaseTarget.caseNumber} ({deleteCaseTarget.patientName}) and all associated measurements, evidence chains, and 3D segmentation results will be permanently removed.
             </div>
             <div className="flex justify-end gap-2 pt-2">
