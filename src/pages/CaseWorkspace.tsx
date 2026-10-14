@@ -407,7 +407,7 @@ export const CaseWorkspace: React.FC = () => {
       </button>
 
       {/* Case Header Banner */}
-      <div className="p-6 rounded-2xl bg-surface/80 border border-border-hairline backdrop-blur-md shadow-card-subtle flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+      <div className="p-6 rounded-2xl bg-surface/80 border border-border-hairline backdrop-blur-md shadow-card-subtle flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6">
         <div>
           <div className="flex flex-wrap items-center gap-2.5 mb-2">
             <span className="font-mono text-xs text-white px-2 py-0.5 rounded bg-elevated border border-white/10">
@@ -454,104 +454,90 @@ export const CaseWorkspace: React.FC = () => {
           </div>
         </div>
 
-        {/* Action Controls in Header */}
-        <div className="flex flex-wrap items-center gap-2.5 shrink-0 w-full sm:w-auto">
-          {/* Real-Time Co-Viewing Presence */}
-          <CoViewingPresence />
+        {/* Action Controls in Header (Organized into 2 clean responsive rows) */}
+        <div className="flex flex-col gap-2.5 w-full xl:w-auto shrink-0">
+          {/* Row 1: Primary Clinical Evaluation & Report Actions */}
+          <div className="flex flex-wrap items-center gap-2 justify-start xl:justify-end">
+            <CoViewingPresence />
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setIsCopilotOpen(true)}
+              icon={<Sparkles className="w-3.5 h-3.5 text-white" />}
+              iconPosition="left"
+              className="text-xs whitespace-nowrap"
+            >
+              Copilot Assist
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsShareModalOpen(true)}
+              icon={<Share2 className="w-3.5 h-3.5" />}
+              className="border-white/15 text-xs whitespace-nowrap"
+            >
+              Share
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsReportOpen(true)}
+              icon={<FileText className="w-3.5 h-3.5" />}
+              className="border-white/15 text-xs whitespace-nowrap"
+            >
+              Report
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleRunAnalysis}
+              icon={<Play className="w-3.5 h-3.5 text-black fill-black" />}
+              iconPosition="left"
+              className="shadow-glow-subtle font-semibold text-xs whitespace-nowrap"
+            >
+              Run Analysis
+            </Button>
+          </div>
 
-          {/* Audit Trail Button */}
-          <Button
-            variant="outline"
-            size="md"
-            onClick={() => setIsAuditModalOpen(true)}
-            icon={<ShieldCheck className="w-4 h-4 text-[#a3ffb2]" />}
-            title="HIPAA Audit Trail"
-            className="border-white/15"
-          >
-            Audit
-          </Button>
-
-          {/* Mobile Suite Button */}
-          <Button
-            variant="outline"
-            size="md"
-            onClick={() => setIsMobileModalOpen(true)}
-            icon={<Smartphone className="w-4 h-4 text-[#8EC5E8]" />}
-            title="Mobile Suite: Voice & Camera"
-            className="border-white/15"
-          >
-            Mobile
-          </Button>
-
-          {/* Integrations Button */}
-          <Button
-            variant="outline"
-            size="md"
-            onClick={() => setIsIntegrationsModalOpen(true)}
-            icon={<Database className="w-4 h-4 text-[#8EC5E8]" />}
-            title="Hospital PACS & EHR Integrations"
-            className="border-white/15"
-          >
-            PACS/EHR
-          </Button>
-
-          {/* Security & 2FA Button */}
-          <Button
-            variant="outline"
-            size="md"
-            onClick={() => setIsSecurityModalOpen(true)}
-            icon={<KeyRound className="w-4 h-4 text-[#8EC5E8]" />}
-            title="Security & 2FA Controls"
-            className="border-white/15"
-          >
-            Security
-          </Button>
-
-          {/* Case Copilot Slide-over trigger */}
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={() => setIsCopilotOpen(true)}
-            icon={<Sparkles className="w-4 h-4 text-white" />}
-            iconPosition="left"
-            className="flex-1 sm:flex-initial"
-          >
-            Copilot Assist
-          </Button>
-
-          {/* Share Modal Trigger */}
-          <Button
-            variant="outline"
-            size="md"
-            onClick={() => setIsShareModalOpen(true)}
-            icon={<Share2 className="w-4 h-4" />}
-            aria-label="Share case"
-          >
-            Share
-          </Button>
-
-          {/* Report Drawer Trigger */}
-          <Button
-            variant="outline"
-            size="md"
-            onClick={() => setIsReportOpen(true)}
-            icon={<FileText className="w-4 h-4" />}
-            aria-label="View report"
-          >
-            Report
-          </Button>
-
-          {/* Primary Run Analysis Button */}
-          <Button
-            variant="primary"
-            size="md"
-            onClick={handleRunAnalysis}
-            icon={<Play className="w-3.5 h-3.5 text-black fill-black" />}
-            iconPosition="left"
-            className="flex-1 sm:flex-initial shadow-glow-subtle"
-          >
-            Run Analysis
-          </Button>
+          {/* Row 2: Clinical Tool Integrations */}
+          <div className="flex flex-wrap items-center gap-2 justify-start xl:justify-end">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsAuditModalOpen(true)}
+              icon={<ShieldCheck className="w-3.5 h-3.5 text-[#a3ffb2]" />}
+              className="border-white/10 text-xs text-secondary hover:text-white whitespace-nowrap"
+            >
+              Audit Trail
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsMobileModalOpen(true)}
+              icon={<Smartphone className="w-3.5 h-3.5 text-[#8EC5E8]" />}
+              className="border-white/10 text-xs text-secondary hover:text-white whitespace-nowrap"
+            >
+              Mobile Camera
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsIntegrationsModalOpen(true)}
+              icon={<Database className="w-3.5 h-3.5 text-[#8EC5E8]" />}
+              className="border-white/10 text-xs text-secondary hover:text-white whitespace-nowrap"
+            >
+              PACS / EHR
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsSecurityModalOpen(true)}
+              icon={<KeyRound className="w-3.5 h-3.5 text-[#8EC5E8]" />}
+              className="border-white/10 text-xs text-secondary hover:text-white whitespace-nowrap"
+            >
+              Security
+            </Button>
+          </div>
         </div>
       </div>
 

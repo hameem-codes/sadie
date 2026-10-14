@@ -17,7 +17,7 @@ export const Chip: React.FC<ChipProps> = ({
   onClick,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center gap-2 px-3.5 py-1.5 text-xs sm:text-[13px] font-medium rounded-pill transition-all duration-200 select-none hover-lift focus:outline-none focus-visible:ring-1 focus-visible:ring-white/40 cursor-pointer';
+  const baseStyles = 'inline-flex items-center gap-2 px-3.5 py-1.5 text-xs sm:text-[13px] font-medium rounded-pill whitespace-nowrap shrink-0 transition-all duration-200 select-none hover-lift focus:outline-none focus-visible:ring-1 focus-visible:ring-white/40 cursor-pointer';
 
   const stateStyles = active
     ? 'bg-white text-base font-semibold shadow-sm border border-transparent'

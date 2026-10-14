@@ -628,7 +628,7 @@ export const Cases: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="w-full sm:w-auto grid grid-cols-3 sm:flex items-center gap-2">
           {/* Compare Button (enabled when 2 cases selected) */}
           <Button
             variant="outline"
@@ -637,7 +637,7 @@ export const Cases: React.FC = () => {
             onClick={() => setIsCompareModalOpen(true)}
             icon={<ArrowLeftRight className="w-4 h-4 text-[#8EC5E8]" />}
             iconPosition="left"
-            className="border-white/15"
+            className="border-white/15 whitespace-nowrap justify-center text-xs sm:text-sm px-2.5 sm:px-4"
           >
             Compare (2)
           </Button>
@@ -649,9 +649,9 @@ export const Cases: React.FC = () => {
             onClick={() => setIsTemplateModalOpen(true)}
             icon={<Layers className="w-4 h-4 text-[#a3ffb2]" />}
             iconPosition="left"
-            className="border-white/15"
+            className="border-white/15 whitespace-nowrap justify-center text-xs sm:text-sm px-2.5 sm:px-4"
           >
-            From Template
+            Template
           </Button>
 
           {/* New Case Button */}
@@ -664,6 +664,7 @@ export const Cases: React.FC = () => {
             }}
             icon={<Plus className="w-4 h-4" />}
             iconPosition="left"
+            className="whitespace-nowrap justify-center text-xs sm:text-sm px-2.5 sm:px-4 shadow-sm"
           >
             New Case
           </Button>
@@ -686,7 +687,7 @@ export const Cases: React.FC = () => {
           </form>
 
           {/* Quick Filter Tabs & Presets */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 no-scrollbar">
             <Chip
               active={activeTab === 'all' && !showStarredOnly}
               onClick={() => {
@@ -718,7 +719,7 @@ export const Cases: React.FC = () => {
             <select
               value={activePreset}
               onChange={(e) => applyPreset(e.target.value)}
-              className="bg-elevated border border-white/10 rounded-pill px-3 py-1.5 text-xs text-secondary hover:text-white focus:outline-none cursor-pointer"
+              className="bg-elevated border border-white/10 rounded-pill px-3 py-1.5 text-xs text-secondary hover:text-white focus:outline-none cursor-pointer whitespace-nowrap shrink-0 h-[32px]"
               title="Filter Presets"
             >
               <option value="default">Presets: All / Custom</option>
@@ -730,11 +731,11 @@ export const Cases: React.FC = () => {
             </select>
 
             {/* Customizable Table Columns Toggle */}
-            <div className="relative">
+            <div className="relative shrink-0">
               <button
                 type="button"
                 onClick={() => setIsColumnsDropdownOpen(!isColumnsDropdownOpen)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-xs font-mono transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-xs font-mono transition-all cursor-pointer whitespace-nowrap h-[32px] ${
                   isColumnsDropdownOpen
                     ? 'bg-white/20 text-white border border-white/30'
                     : 'bg-elevated border border-white/10 text-secondary hover:text-white'
@@ -784,7 +785,7 @@ export const Cases: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsVirtualizedView(!isVirtualizedView)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-xs font-mono transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-xs font-mono transition-all cursor-pointer whitespace-nowrap shrink-0 h-[32px] ${
                 isVirtualizedView
                   ? 'bg-[#8EC5E8] text-black font-semibold'
                   : 'bg-elevated border border-white/10 text-secondary hover:text-white'
@@ -798,35 +799,37 @@ export const Cases: React.FC = () => {
         </div>
 
         {/* Filter Chips: Status, Procedure Multi-Select, Score & Advanced Toggle */}
-        <div className="pt-3 border-t border-white/5 flex flex-wrap items-center gap-2.5 text-sm">
-          <span className="text-muted flex items-center gap-1.5 font-medium mr-1 text-sm">
-            <Filter className="w-4 h-4" /> Filter by:
+        <div className="pt-3 border-t border-white/5 flex flex-wrap items-center gap-2 text-sm">
+          <span className="text-muted flex items-center gap-1.5 font-medium mr-1 text-xs sm:text-sm whitespace-nowrap shrink-0">
+            <Filter className="w-3.5 h-3.5 text-muted" /> Filter by:
           </span>
 
           {/* Status Chips */}
-          {['all', 'completed', 'processing', 'failed', 'draft'].map((st) => (
-            <button
-              key={st}
-              type="button"
-              onClick={() => setSelectedStatus(st)}
-              className={`px-2.5 py-1 rounded-pill transition-all capitalize font-medium text-xs ${
-                selectedStatus === st
-                  ? 'bg-white text-base shadow-sm'
-                  : 'bg-elevated text-secondary hover:text-white border border-border-hairline'
-              }`}
-            >
-              {st}
-            </button>
-          ))}
+          <div className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
+            {['all', 'completed', 'processing', 'failed', 'draft'].map((st) => (
+              <button
+                key={st}
+                type="button"
+                onClick={() => setSelectedStatus(st)}
+                className={`px-3 py-1 rounded-pill transition-all capitalize font-medium text-xs whitespace-nowrap shrink-0 h-[30px] flex items-center ${
+                  selectedStatus === st
+                    ? 'bg-white text-base shadow-sm font-semibold'
+                    : 'bg-elevated text-secondary hover:text-white border border-border-hairline'
+                }`}
+              >
+                {st}
+              </button>
+            ))}
+          </div>
 
-          <span className="text-white/20 mx-1">|</span>
+          <span className="text-white/20 mx-1 hidden sm:inline">|</span>
 
           {/* Multi-Select Procedure Filter Dropdown */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               type="button"
               onClick={() => setIsProcedureDropdownOpen(!isProcedureDropdownOpen)}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-pill text-xs font-medium transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-pill text-xs font-medium transition-all cursor-pointer whitespace-nowrap shrink-0 h-[30px] ${
                 selectedProcedures.length > 0
                   ? 'bg-[#8EC5E8] text-black font-semibold shadow-sm'
                   : 'bg-elevated text-secondary hover:text-white border border-border-hairline'
@@ -841,7 +844,7 @@ export const Cases: React.FC = () => {
             </button>
 
             {isProcedureDropdownOpen && (
-              <div className="absolute left-0 top-8 w-64 bg-[#16171d] rounded-xl shadow-2xl border border-white/20 p-3 z-50 animate-fade-up space-y-1.5 text-xs">
+              <div className="absolute left-0 top-9 w-64 bg-[#16171d] rounded-xl shadow-2xl border border-white/20 p-3 z-50 animate-fade-up space-y-1.5 text-xs">
                 <div className="flex items-center justify-between pb-1.5 border-b border-white/10">
                   <span className="text-[11px] font-semibold text-muted uppercase tracking-wider">Select Procedures</span>
                   <div className="flex gap-2">
@@ -898,7 +901,7 @@ export const Cases: React.FC = () => {
           </div>
 
           {/* Score Slider Filter */}
-          <div className="flex items-center gap-1.5 bg-elevated/80 border border-border-hairline rounded-pill px-3 py-1 text-xs">
+          <div className="flex items-center gap-1.5 bg-elevated/80 border border-border-hairline rounded-pill px-3 py-1 text-xs whitespace-nowrap shrink-0 h-[30px]">
             <span className="text-muted text-[11px] whitespace-nowrap">Min Score:</span>
             <input
               type="range"
@@ -916,8 +919,8 @@ export const Cases: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsAdvancedFiltersOpen(!isAdvancedFiltersOpen)}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-pill text-xs transition-colors cursor-pointer ${
-              isAdvancedFiltersOpen ? 'bg-white/10 text-white border border-white/20' : 'text-muted hover:text-white'
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-pill text-xs transition-colors cursor-pointer whitespace-nowrap shrink-0 h-[30px] ${
+              isAdvancedFiltersOpen ? 'bg-white/10 text-white border border-white/20' : 'text-muted hover:text-white border border-border-hairline/60 bg-elevated/50'
             }`}
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />

@@ -201,7 +201,7 @@ export const Copilot: React.FC = () => {
         </div>
 
         {/* Right: Context & Sources sub-tab sidebar trigger + Threads drawer trigger */}
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center gap-2 ml-auto pr-0 sm:pr-48">
           <button
             type="button"
             onClick={() => setIsContextPanelOpen(!isContextPanelOpen)}

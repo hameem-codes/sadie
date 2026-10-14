@@ -61,10 +61,10 @@ export const EducationTrainingModal: React.FC<EducationTrainingModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="SADIE Clinical Academy & Certification" size="lg">
+    <Modal isOpen={isOpen} onClose={onClose} title="SADIE Clinical Academy & Certification" maxWidth="xl">
       <div className="space-y-4 text-xs">
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-1 bg-[#161616] p-1 rounded-pill border border-white/10">
+        <div className="flex items-center gap-1 bg-[#161616] p-1 rounded-pill border border-white/10 overflow-x-auto no-scrollbar">
           {[
             { id: 'tutorial', label: 'Feature Tour', icon: Play },
             { id: 'caseStudies', label: 'Case Studies', icon: BookOpen },
@@ -77,13 +77,13 @@ export const EducationTrainingModal: React.FC<EducationTrainingModalProps> = ({
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-pill font-medium transition-all cursor-pointer ${
+                className={`flex-1 min-w-max flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-pill font-medium transition-all cursor-pointer whitespace-nowrap text-xs ${
                   activeTab === tab.id
                     ? 'bg-white text-black font-semibold shadow-sm'
-                    : 'text-secondary hover:text-white'
+                    : 'text-secondary hover:text-white hover:bg-white/5'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className="w-3.5 h-3.5 shrink-0" />
                 <span>{tab.label}</span>
               </button>
             );

@@ -270,7 +270,7 @@ export const Insights: React.FC = () => {
 
               <div className="h-64 min-h-[250px] w-full min-w-0">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={domainData} layout="vertical" margin={{ top: 10, right: 20, left: 20, bottom: 0 }}>
+                  <BarChart data={domainData} layout="vertical" margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                     <defs>
                       <linearGradient id="domainBarGrad" x1="0" y1="0" x2="1" y2="0">
                         <stop offset="0%" stopColor="#4A7C9B" stopOpacity={0.75} />
@@ -280,7 +280,7 @@ export const Insights: React.FC = () => {
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#222" horizontal={false} />
                     <XAxis type="number" domain={[80, 100]} stroke="#777" fontSize={11} />
-                    <YAxis dataKey="domain" type="category" stroke="#777" fontSize={11} width={80} />
+                    <YAxis dataKey="domain" type="category" stroke="#777" fontSize={11} width={95} tickLine={false} />
                     <Tooltip
                       content={<CustomTooltip />}
                       cursor={{ fill: 'rgba(255, 255, 255, 0.04)', radius: 6 }}

@@ -300,9 +300,40 @@ export const AppLayout: React.FC = () => {
           </button>
         </div>
 
-        {/* BOTTOM SECTION: New Case (Matches + New Case in Image 1) */}
-        <div className="flex flex-col items-center w-full space-y-1.5 pb-1">
+        {/* BOTTOM SECTION: Notifications, Preferences & New Case */}
+        <div className="flex flex-col items-center w-full space-y-2 pb-3.5">
+          {/* Notifications Button */}
+          <button
+            type="button"
+            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-white hover:bg-elevated/70 transition-all duration-200 cursor-pointer group relative"
+            title="Clinical Notifications"
+            aria-label="Notifications"
+          >
+            <Bell className="w-5 h-5" />
+            <span className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-status-processing" />
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+              Notifications
+            </div>
+          </button>
+
+          {/* Preferences Button */}
+          <button
+            type="button"
+            onClick={() => setIsPreferencesOpen(true)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-white hover:bg-elevated/70 transition-all duration-200 cursor-pointer group relative"
+            title="Settings & Display Density"
+            aria-label="Settings"
+          >
+            <Settings className="w-5 h-5" />
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+              Preferences
+            </div>
+          </button>
+
           <div className="w-7 h-px bg-white/10 my-1" />
+
+          {/* New Case Button */}
           <button
             type="button"
             onClick={() => setIsNewCaseOpen(true)}
@@ -550,7 +581,7 @@ export const AppLayout: React.FC = () => {
       {/* MAIN CONTAINER */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative md:pl-16">
         {/* PAGE CONTENT CONTAINER */}
-        <main className={`flex-1 overflow-y-auto bg-base custom-scrollbar ${isCopilotPage ? 'p-0 pt-20' : 'px-4 sm:px-6 lg:px-8 pb-8 pt-24 sm:pt-28'}`}>
+        <main className={`flex-1 overflow-y-auto bg-base custom-scrollbar ${isCopilotPage ? 'p-0 pt-20' : 'px-4 sm:px-6 lg:px-8 pb-24 md:pb-8 pt-20 sm:pt-28'}`}>
           <div key={location.pathname} className="w-full">
             <Outlet />
           </div>
@@ -749,42 +780,44 @@ export const AppLayout: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <div>
-              <label className="text-xs font-medium text-secondary block mb-1.5">Age</label>
-              <input
-                type="number"
-                min={1}
-                max={100}
-                value={newAge}
-                onChange={(e) => setNewAge(Number(e.target.value))}
-                className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-primary focus:outline-none focus:border-white/40"
-              />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs font-medium text-secondary block mb-1.5">Age</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={newAge}
+                  onChange={(e) => setNewAge(Number(e.target.value))}
+                  className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-primary focus:outline-none focus:border-white/40"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-secondary block mb-1.5">Gender</label>
+                <select
+                  value={newGender}
+                  onChange={(e) => setNewGender(e.target.value as any)}
+                  className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-primary focus:outline-none focus:border-white/40"
+                >
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
             </div>
             <div>
-              <label className="text-xs font-medium text-secondary block mb-1.5">Gender</label>
-              <select
-                value={newGender}
-                onChange={(e) => setNewGender(e.target.value as any)}
-                className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-primary focus:outline-none focus:border-white/40"
-              >
-                <option value="Female">Female</option>
-                <option value="Male">Male</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div className="col-span-2 sm:col-span-1">
-              <label className="text-xs font-medium text-secondary block mb-1.5">Stage</label>
+              <label className="text-xs font-medium text-secondary block mb-1.5">Surgical Stage</label>
               <select
                 value={newStage}
                 onChange={(e) => setNewStage(e.target.value as any)}
                 className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-primary focus:outline-none focus:border-white/40"
               >
-                <option value="Pre-Operative Planning">Pre-Op Planning</option>
-                <option value="Immediate Post-Op (24-48h)">Immediate Post-Op</option>
-                <option value="Early Follow-up (6 Weeks)">Early (6 Weeks)</option>
-                <option value="Intermediate (6 Months)">Intermediate (6 Mo)</option>
-                <option value="Final Review (12 Months)">Final (12 Months)</option>
+                <option value="Pre-Operative Planning">Pre-Operative Planning</option>
+                <option value="Immediate Post-Op (24-48h)">Immediate Post-Op (24-48h)</option>
+                <option value="Early Follow-up (6 Weeks)">Early Follow-up (6 Weeks)</option>
+                <option value="Intermediate (6 Months)">Intermediate (6 Months)</option>
+                <option value="Final Review (12 Months)">Final Review (12 Months)</option>
               </select>
             </div>
           </div>
