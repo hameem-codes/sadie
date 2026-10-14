@@ -55,19 +55,40 @@ export const AppLayout: React.FC = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('sadie-theme');
+    if (saved) return saved !== 'light';
+    return document.documentElement.classList.contains('dark');
+  });
   const [isComplianceOpen, setIsComplianceOpen] = useState(false);
   const [isIntegrationsOpen, setIsIntegrationsOpen] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('sadie-theme');
+    if (saved === 'light') {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    } else {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    }
+  }, []);
 
   const toggleTheme = () => {
     setIsDarkMode(prev => {
       const next = !prev;
       if (next) {
         document.documentElement.classList.add('dark');
-        toast({ type: 'info', title: 'Theme Updated', message: 'SADIE Clinical Dark Mode Active' });
+        document.documentElement.classList.remove('light');
+        localStorage.setItem('sadie-theme', 'dark');
+        toast({ type: 'info', title: 'Clinical Dark Mode', message: 'SADIE Radiographic Dark Theme active' });
       } else {
         document.documentElement.classList.remove('dark');
-        toast({ type: 'info', title: 'Theme Updated', message: 'High-Contrast Clinical Mode Active' });
+        document.documentElement.classList.add('light');
+        localStorage.setItem('sadie-theme', 'light');
+        toast({ type: 'info', title: 'Clinical Light Mode', message: 'High-Contrast Surgical Light Theme active' });
       }
       return next;
     });
@@ -166,36 +187,36 @@ export const AppLayout: React.FC = () => {
 
   return (
     <div className="flex h-screen h-[100dvh] w-full max-w-full overflow-hidden bg-base text-primary relative">
-      <aside className="hidden md:flex fixed top-0 left-0 bottom-0 z-40 w-16 bg-[#0c0d12]/98 backdrop-blur-xl border-r border-border-hairline flex-col items-center py-3.5 select-none justify-between shadow-lg">
+      <aside className="hidden md:flex fixed top-0 left-0 bottom-0 z-40 w-16 bg-surface/98 backdrop-blur-xl border-r border-border-hairline flex-col items-center py-3.5 select-none justify-between shadow-lg">
         {/* TOP SECTION: Toggle & Primary Nav Icons Matching Image 1 */}
         <div className="flex flex-col items-center w-full space-y-1.5">
           {/* Top Collapse/Expand Toggle (matches [>] in user image) */}
           <button
             type="button"
             onClick={() => setIsSidebarOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-white hover:bg-elevated/80 transition-all duration-200 cursor-pointer group relative"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-primary hover:bg-elevated transition-all duration-200 cursor-pointer group relative"
             title="Expand Navigation Menu"
             aria-label="Expand Navigation Menu"
           >
             <PanelLeftOpen className="w-5 h-5 text-[#8EC5E8] group-hover:scale-110 transition-transform" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               Expand Menu
             </div>
           </button>
 
           {/* Hairline Divider */}
-          <div className="w-7 h-px bg-white/10 my-1" />
+          <div className="w-7 h-px bg-border-hairline my-1" />
 
           {/* 1. Search... (⌘K) */}
           <button
             type="button"
             onClick={() => setIsCommandOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-white hover:bg-elevated/70 transition-all duration-200 cursor-pointer group relative"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-primary hover:bg-elevated transition-all duration-200 cursor-pointer group relative"
             title="Search (⌘K)"
             aria-label="Search"
           >
             <Search className="w-5 h-5" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               Search (⌘K)
             </div>
           </button>
@@ -206,13 +227,13 @@ export const AppLayout: React.FC = () => {
             className={({ isActive }) =>
               `w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 group relative ${
                 isActive
-                  ? 'bg-white/10 text-white border border-white/20 shadow-sm'
-                  : 'text-secondary hover:text-white hover:bg-elevated/70'
+                  ? 'bg-btn-primary-bg text-btn-primary-text border border-border-hairline shadow-sm'
+                  : 'text-secondary hover:text-primary hover:bg-elevated'
               }`
             }
           >
             <LayoutDashboard className="w-5 h-5" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               Home
             </div>
           </NavLink>
@@ -223,13 +244,13 @@ export const AppLayout: React.FC = () => {
             className={({ isActive }) =>
               `w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 group relative ${
                 isActive
-                  ? 'bg-white/10 text-[#8EC5E8] border border-white/20 shadow-sm'
-                  : 'text-secondary hover:text-white hover:bg-elevated/70'
+                  ? 'bg-btn-primary-bg text-btn-primary-text border border-border-hairline shadow-sm'
+                  : 'text-secondary hover:text-primary hover:bg-elevated'
               }`
             }
           >
             <Sparkles className="w-5 h-5" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               AI Copilot
             </div>
           </NavLink>
@@ -240,13 +261,13 @@ export const AppLayout: React.FC = () => {
             className={({ isActive }) =>
               `w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 group relative ${
                 isActive
-                  ? 'bg-white/10 text-white border border-white/20 shadow-sm'
-                  : 'text-secondary hover:text-white hover:bg-elevated/70'
+                  ? 'bg-btn-primary-bg text-btn-primary-text border border-border-hairline shadow-sm'
+                  : 'text-secondary hover:text-primary hover:bg-elevated'
               }`
             }
           >
             <FolderKanban className="w-5 h-5" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               Cases
             </div>
           </NavLink>
@@ -257,13 +278,13 @@ export const AppLayout: React.FC = () => {
             className={({ isActive }) =>
               `w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 group relative ${
                 isActive
-                  ? 'bg-white/10 text-white border border-white/20 shadow-sm'
-                  : 'text-secondary hover:text-white hover:bg-elevated/70'
+                  ? 'bg-btn-primary-bg text-btn-primary-text border border-border-hairline shadow-sm'
+                  : 'text-secondary hover:text-primary hover:bg-elevated'
               }`
             }
           >
             <BarChart3 className="w-5 h-5" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               Insights
             </div>
           </NavLink>
@@ -274,13 +295,13 @@ export const AppLayout: React.FC = () => {
             className={({ isActive }) =>
               `w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 group relative ${
                 isActive
-                  ? 'bg-white/10 text-white border border-white/20 shadow-sm'
-                  : 'text-secondary hover:text-white hover:bg-elevated/70'
+                  ? 'bg-btn-primary-bg text-btn-primary-text border border-border-hairline shadow-sm'
+                  : 'text-secondary hover:text-primary hover:bg-elevated'
               }`
             }
           >
             <BookOpen className="w-5 h-5" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               Knowledge
             </div>
           </NavLink>
@@ -289,12 +310,12 @@ export const AppLayout: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsEducationOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-white hover:bg-elevated/70 transition-all duration-200 cursor-pointer group relative"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-primary hover:bg-elevated transition-all duration-200 cursor-pointer group relative"
             title="Clinical Academy"
             aria-label="Clinical Academy"
           >
-            <GraduationCap className="w-5 h-5 text-[#a3ffb2]" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <GraduationCap className="w-5 h-5 text-emerald-600 dark:text-[#a3ffb2]" />
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               Clinical Academy
             </div>
           </button>
@@ -302,17 +323,35 @@ export const AppLayout: React.FC = () => {
 
         {/* BOTTOM SECTION: Notifications, Preferences & New Case */}
         <div className="flex flex-col items-center w-full space-y-2 pb-3.5">
+          {/* Quick Theme Toggle Icon (Sidebar) */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-primary hover:bg-elevated transition-all duration-200 cursor-pointer group relative"
+            title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            aria-label="Toggle Theme"
+          >
+            {isDarkMode ? (
+              <Sun className="w-5 h-5 text-amber-400 group-hover:rotate-45 transition-transform" />
+            ) : (
+              <Moon className="w-5 h-5 text-indigo-500 group-hover:-rotate-12 transition-transform" />
+            )}
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+              {isDarkMode ? "Light Mode" : "Dark Mode"}
+            </div>
+          </button>
+
           {/* Notifications Button */}
           <button
             type="button"
             onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-white hover:bg-elevated/70 transition-all duration-200 cursor-pointer group relative"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-primary hover:bg-elevated transition-all duration-200 cursor-pointer group relative"
             title="Clinical Notifications"
             aria-label="Notifications"
           >
             <Bell className="w-5 h-5" />
             <span className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-status-processing" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               Notifications
             </div>
           </button>
@@ -321,28 +360,28 @@ export const AppLayout: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsPreferencesOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-white hover:bg-elevated/70 transition-all duration-200 cursor-pointer group relative"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-secondary hover:text-primary hover:bg-elevated transition-all duration-200 cursor-pointer group relative"
             title="Settings & Display Density"
             aria-label="Settings"
           >
             <Settings className="w-5 h-5" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               Preferences
             </div>
           </button>
 
-          <div className="w-7 h-px bg-white/10 my-1" />
+          <div className="w-7 h-px bg-border-hairline my-1" />
 
           {/* New Case Button */}
           <button
             type="button"
             onClick={() => setIsNewCaseOpen(true)}
-            className="w-10 h-10 rounded-xl bg-white text-black hover:bg-white/90 flex items-center justify-center transition-all duration-200 cursor-pointer group relative shadow-md hover-lift"
+            className="w-10 h-10 rounded-xl bg-btn-primary-bg text-btn-primary-text hover:opacity-90 flex items-center justify-center transition-all duration-200 cursor-pointer group relative shadow-md hover-lift"
             title="New Case (⌘N)"
             aria-label="New Case"
           >
-            <Plus className="w-5 h-5 text-black group-hover:scale-110 transition-transform" />
-            <div className="absolute left-full ml-3 px-2.5 py-1 bg-[#16171d] border border-white/15 text-[11px] text-white rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
+            <Plus className="w-5 h-5 text-btn-primary-text group-hover:scale-110 transition-transform" />
+            <div className="absolute left-full ml-3 px-2.5 py-1 bg-surface border border-border-hairline text-[11px] text-primary rounded-md shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50 font-sans">
               New Case (⌘N)
             </div>
           </button>
@@ -355,7 +394,7 @@ export const AppLayout: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsSidebarOpen(true)}
-            className="flex items-center justify-center p-2 rounded-lg text-secondary hover:text-white bg-[#0d0e12]/80 hover:bg-elevated/90 backdrop-blur-md border border-white/10 shadow-md transition-all cursor-pointer"
+            className="flex items-center justify-center p-2 rounded-lg text-secondary hover:text-primary bg-surface/90 hover:bg-elevated backdrop-blur-md border border-border-hairline shadow-md transition-all cursor-pointer"
             title="Open navigation bar"
             aria-label="Open navigation bar"
           >
@@ -364,14 +403,35 @@ export const AppLayout: React.FC = () => {
         </div>
       )}
 
-      {/* Global Top-Right Quick Utilities: Recent Cases & Clinical Academy */}
+      {/* Global Top-Right Quick Utilities: Theme Toggle, Recent Cases & Clinical Academy */}
       <div className="fixed top-4 right-4 z-30 flex items-center gap-2 select-none pointer-events-auto">
+        {/* Quick Theme Mode Toggle Button */}
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-surface/90 hover:bg-elevated backdrop-blur-md border border-border-hairline hover:border-border-subtle text-xs text-secondary hover:text-primary transition-all cursor-pointer shadow-sm group"
+          title={isDarkMode ? "Switch to Clinical Light Mode" : "Switch to Radiographic Dark Mode"}
+          aria-label="Toggle Theme"
+        >
+          {isDarkMode ? (
+            <>
+              <Sun className="w-3.5 h-3.5 text-amber-400 group-hover:rotate-45 transition-transform duration-300" />
+              <span className="hidden sm:inline font-medium">Light</span>
+            </>
+          ) : (
+            <>
+              <Moon className="w-3.5 h-3.5 text-indigo-500 group-hover:-rotate-12 transition-transform duration-300" />
+              <span className="hidden sm:inline font-medium">Dark</span>
+            </>
+          )}
+        </button>
+
         {/* Recent Cases Dropdown */}
         <div className="relative">
           <button
             type="button"
             onClick={() => setIsRecentDropdownOpen(!isRecentDropdownOpen)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-[#0d0e12]/85 hover:bg-elevated backdrop-blur-md border border-white/10 hover:border-white/20 text-xs text-secondary hover:text-white transition-all cursor-pointer shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-surface/90 hover:bg-elevated backdrop-blur-md border border-border-hairline hover:border-border-subtle text-xs text-secondary hover:text-primary transition-all cursor-pointer shadow-sm"
             title="Recent Cases History"
           >
             <History className="w-3.5 h-3.5 text-[#8EC5E8]" />
@@ -380,7 +440,7 @@ export const AppLayout: React.FC = () => {
           </button>
 
           {isRecentDropdownOpen && (
-            <div className="absolute right-0 top-9 w-64 rounded-xl bg-[#16171d] border border-white/15 p-2 shadow-2xl z-50 animate-fade-up text-xs">
+            <div className="absolute right-0 top-9 w-64 rounded-xl bg-surface border border-border-hairline p-2 shadow-2xl z-50 animate-fade-up text-xs">
               <span className="text-[10px] uppercase font-mono text-muted px-2 py-1 block">Recently Visited</span>
               <div className="space-y-1">
                 {[
@@ -398,7 +458,7 @@ export const AppLayout: React.FC = () => {
                     className="w-full text-left p-2 rounded-lg hover:bg-elevated flex items-center justify-between transition-colors cursor-pointer"
                   >
                     <div>
-                      <span className="font-medium text-white block truncate">{rc.name}</span>
+                      <span className="font-medium text-primary block truncate">{rc.name}</span>
                       <span className="text-[10px] text-muted font-mono">{rc.mrn} • {rc.proc}</span>
                     </div>
                     <ChevronRight className="w-3.5 h-3.5 text-muted" />
@@ -413,10 +473,10 @@ export const AppLayout: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsEducationOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-[#0d0e12]/85 hover:bg-elevated backdrop-blur-md border border-white/10 hover:border-white/20 text-xs text-[#a3ffb2] hover:text-white transition-all cursor-pointer shadow-sm"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-surface/90 hover:bg-elevated backdrop-blur-md border border-border-hairline hover:border-border-subtle text-xs text-emerald-600 dark:text-[#a3ffb2] hover:text-primary transition-all cursor-pointer shadow-sm"
           title="SADIE Clinical Academy & CME Quiz"
         >
-          <GraduationCap className="w-4 h-4 text-[#a3ffb2]" />
+          <GraduationCap className="w-4 h-4 text-emerald-600 dark:text-[#a3ffb2]" />
           <span className="hidden sm:inline font-medium">Academy</span>
         </button>
       </div>
@@ -431,7 +491,7 @@ export const AppLayout: React.FC = () => {
 
       {/* OVERLAY NAVIGATION BAR: When opened, shows centered SADIE brand text and close tab */}
       <aside
-        className={`fixed top-0 left-0 bottom-0 z-50 w-64 bg-[#0d0e12]/98 backdrop-blur-2xl border-r border-border-hairline shadow-2xl flex flex-col transition-transform duration-300 ease-in-out select-none ${
+        className={`fixed top-0 left-0 bottom-0 z-50 w-64 bg-surface/98 backdrop-blur-2xl border-r border-border-hairline shadow-2xl flex flex-col transition-transform duration-300 ease-in-out select-none ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full pointer-events-none'
         }`}
       >
@@ -444,7 +504,7 @@ export const AppLayout: React.FC = () => {
               className="flex items-center justify-center group cursor-pointer select-none"
               title="SADIE AI Copilot"
             >
-              <span className="font-serif text-2xl font-semibold tracking-wider text-white group-hover:text-[#8EC5E8] transition-colors leading-none">
+              <span className="font-serif text-2xl font-semibold tracking-wider text-primary group-hover:text-[#8EC5E8] transition-colors leading-none">
                 SADIE
               </span>
             </NavLink>
@@ -453,7 +513,7 @@ export const AppLayout: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsSidebarOpen(false)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center p-2 rounded-lg text-muted hover:text-white hover:bg-elevated transition-colors cursor-pointer"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center p-2 rounded-lg text-muted hover:text-primary hover:bg-elevated transition-colors cursor-pointer"
               title="Close navigation"
               aria-label="Close navigation"
             >
@@ -470,11 +530,11 @@ export const AppLayout: React.FC = () => {
                 setIsCommandOpen(true);
                 setIsSidebarOpen(false);
               }}
-              className="w-full flex items-center gap-2.5 px-3.5 py-2 mb-3 rounded-pill bg-elevated/70 border border-border-hairline text-secondary hover:text-white hover:border-white/20 text-xs transition-all cursor-pointer group"
+              className="w-full flex items-center gap-2.5 px-3.5 py-2 mb-3 rounded-pill bg-elevated/70 border border-border-hairline text-secondary hover:text-primary hover:border-border-subtle text-xs transition-all cursor-pointer group"
             >
-              <Search className="w-3.5 h-3.5 text-muted group-hover:text-white shrink-0 transition-colors" />
+              <Search className="w-3.5 h-3.5 text-muted group-hover:text-primary shrink-0 transition-colors" />
               <span className="truncate text-left flex-1 font-medium">Search...</span>
-              <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-surface text-muted border border-white/10 shrink-0">
+              <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-surface text-muted border border-border-hairline shrink-0">
                 ⌘K
               </kbd>
             </button>
@@ -488,12 +548,12 @@ export const AppLayout: React.FC = () => {
                   onClick={() => setIsSidebarOpen(false)}
                   className={`flex items-center gap-3 px-3.5 py-2.5 rounded-pill text-sm font-medium transition-all group hover-lift ${
                     isActive
-                      ? 'bg-white text-base font-semibold shadow-sm'
-                      : 'text-secondary hover:text-white hover:bg-elevated'
+                      ? 'bg-btn-primary-bg text-btn-primary-text font-semibold shadow-sm'
+                      : 'text-secondary hover:text-primary hover:bg-elevated'
                   }`}
                   title={item.label}
                 >
-                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-black' : 'text-secondary group-hover:text-white'}`} />
+                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-btn-primary-text' : 'text-secondary group-hover:text-primary'}`} />
                   <span>{item.label}</span>
                 </NavLink>
               );
@@ -506,10 +566,10 @@ export const AppLayout: React.FC = () => {
                 setIsEducationOpen(true);
                 setIsSidebarOpen(false);
               }}
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-pill text-sm font-medium text-secondary hover:text-white hover:bg-elevated transition-all cursor-pointer group hover-lift"
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-pill text-sm font-medium text-secondary hover:text-primary hover:bg-elevated transition-all cursor-pointer group hover-lift"
               title="Clinical Academy, Case Studies & CME"
             >
-              <GraduationCap className="w-4 h-4 text-[#a3ffb2] shrink-0" />
+              <GraduationCap className="w-4 h-4 text-emerald-600 dark:text-[#a3ffb2] shrink-0" />
               <span>Clinical Academy</span>
             </button>
           </nav>
@@ -524,21 +584,21 @@ export const AppLayout: React.FC = () => {
                 setIsSidebarOpen(false);
               }}
               className="w-full justify-center inline-flex shadow-glow-subtle"
-              icon={<Plus className="w-4 h-4 text-black" />}
+              icon={<Plus className="w-4 h-4 text-btn-primary-text" />}
               iconPosition="left"
             >
               New Case
             </Button>
 
             {/* Bottom Nav Utilities: Notifications & Settings */}
-            <div className="pt-2 border-t border-white/5 flex items-center justify-between px-1">
+            <div className="pt-2 border-t border-border-hairline flex items-center justify-between px-1">
               {/* Notifications Toggle */}
               <button
                 type="button"
                 onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
                 aria-label="View notifications"
                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs cursor-pointer transition-colors ${
-                  isNotificationsOpen ? 'text-white bg-elevated' : 'text-secondary hover:text-white hover:bg-elevated'
+                  isNotificationsOpen ? 'text-primary bg-elevated' : 'text-secondary hover:text-primary hover:bg-elevated'
                 }`}
               >
                 <Bell className="w-4 h-4 text-muted" />
@@ -552,13 +612,13 @@ export const AppLayout: React.FC = () => {
                   type="button"
                   onClick={toggleTheme}
                   aria-label="Toggle Theme"
-                  title={isDarkMode ? "Switch to High-Contrast Mode" : "Switch to Dark Mode"}
-                  className="flex items-center justify-center p-2 rounded-lg text-secondary hover:text-white hover:bg-elevated transition-colors cursor-pointer"
+                  title={isDarkMode ? "Switch to Clinical Light Mode" : "Switch to Radiographic Dark Mode"}
+                  className="flex items-center justify-center p-2 rounded-lg text-secondary hover:text-primary hover:bg-elevated transition-colors cursor-pointer"
                 >
                   {isDarkMode ? (
-                    <Sun className="w-4 h-4 text-muted hover:text-white transition-colors" />
+                    <Sun className="w-4 h-4 text-amber-400 hover:rotate-45 transition-transform" />
                   ) : (
-                    <Moon className="w-4 h-4 text-muted hover:text-white transition-colors" />
+                    <Moon className="w-4 h-4 text-indigo-500 hover:-rotate-12 transition-transform" />
                   )}
                 </button>
 
@@ -568,9 +628,9 @@ export const AppLayout: React.FC = () => {
                   onClick={() => setIsPreferencesOpen(true)}
                   aria-label="Settings"
                   title="Settings"
-                  className="flex items-center justify-center p-2 rounded-lg text-secondary hover:text-white hover:bg-elevated transition-colors cursor-pointer"
+                  className="flex items-center justify-center p-2 rounded-lg text-secondary hover:text-primary hover:bg-elevated transition-colors cursor-pointer"
                 >
-                  <Settings className="w-4 h-4 text-muted hover:text-white transition-colors" />
+                  <Settings className="w-4 h-4 text-muted hover:text-primary transition-colors" />
                 </button>
               </div>
             </div>
@@ -880,7 +940,7 @@ export const AppLayout: React.FC = () => {
         maxWidth="md"
       >
         <div className="space-y-4 py-2">
-          <div className="flex items-center justify-between p-3 rounded-lg bg-surface border border-white/5">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-surface border border-border-hairline">
             <div>
               <p className="text-sm font-medium text-primary">Dense Clinical Layout</p>
               <p className="text-xs text-muted">Compact row heights and dense measurement charts.</p>
@@ -888,13 +948,13 @@ export const AppLayout: React.FC = () => {
             <button
               type="button"
               onClick={() => setPrefDenseMode(!prefDenseMode)}
-              className={`w-11 h-6 rounded-full transition-colors flex items-center px-1 ${prefDenseMode ? 'bg-white' : 'bg-elevated border border-white/20'}`}
+              className={`w-11 h-6 rounded-full transition-colors flex items-center px-1 ${prefDenseMode ? 'bg-btn-primary-bg' : 'bg-elevated border border-border-hairline'}`}
             >
-              <div className={`w-4 h-4 rounded-full transition-transform ${prefDenseMode ? 'bg-black translate-x-5' : 'bg-muted'}`} />
+              <div className={`w-4 h-4 rounded-full transition-transform ${prefDenseMode ? 'bg-btn-primary-text translate-x-5' : 'bg-muted'}`} />
             </button>
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg bg-surface border border-white/5">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-surface border border-border-hairline">
             <div>
               <p className="text-sm font-medium text-primary">Display 95% Confidence Intervals</p>
               <p className="text-xs text-muted">Show statistical uncertainty bounds on radiographic outcome scores.</p>
@@ -902,13 +962,13 @@ export const AppLayout: React.FC = () => {
             <button
               type="button"
               onClick={() => setPrefConfidenceIntervals(!prefConfidenceIntervals)}
-              className={`w-11 h-6 rounded-full transition-colors flex items-center px-1 ${prefConfidenceIntervals ? 'bg-white' : 'bg-elevated border border-white/20'}`}
+              className={`w-11 h-6 rounded-full transition-colors flex items-center px-1 ${prefConfidenceIntervals ? 'bg-btn-primary-bg' : 'bg-elevated border border-border-hairline'}`}
             >
-              <div className={`w-4 h-4 rounded-full transition-transform ${prefConfidenceIntervals ? 'bg-black translate-x-5' : 'bg-muted'}`} />
+              <div className={`w-4 h-4 rounded-full transition-transform ${prefConfidenceIntervals ? 'bg-btn-primary-text translate-x-5' : 'bg-muted'}`} />
             </button>
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg bg-surface border border-white/5">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-surface border border-border-hairline">
             <div>
               <p className="text-sm font-medium text-primary">Automated DICOM Segmentation</p>
               <p className="text-xs text-muted">Initiate 3D skull thresholding and landmark inference upon upload.</p>
@@ -916,39 +976,55 @@ export const AppLayout: React.FC = () => {
             <button
               type="button"
               onClick={() => setPrefAutoSegmentation(!prefAutoSegmentation)}
-              className={`w-11 h-6 rounded-full transition-colors flex items-center px-1 ${prefAutoSegmentation ? 'bg-white' : 'bg-elevated border border-white/20'}`}
+              className={`w-11 h-6 rounded-full transition-colors flex items-center px-1 ${prefAutoSegmentation ? 'bg-btn-primary-bg' : 'bg-elevated border border-border-hairline'}`}
             >
-              <div className={`w-4 h-4 rounded-full transition-transform ${prefAutoSegmentation ? 'bg-black translate-x-5' : 'bg-muted'}`} />
+              <div className={`w-4 h-4 rounded-full transition-transform ${prefAutoSegmentation ? 'bg-btn-primary-text translate-x-5' : 'bg-muted'}`} />
             </button>
           </div>
 
           {/* Color Themes */}
-          <div className="p-3 rounded-lg bg-surface border border-white/5 space-y-2">
+          <div className="p-3 rounded-lg bg-surface border border-border-hairline space-y-2">
             <p className="text-sm font-medium text-primary">Customizable Color Theme</p>
             <div className="grid grid-cols-3 gap-2">
               {[
-                { id: 'dark', label: 'SADIE Dark' },
-                { id: 'contrast', label: 'High Contrast' },
-                { id: 'titanium', label: 'Titanium Grey' }
-              ].map(th => (
-                <button
-                  key={th.id}
-                  type="button"
-                  onClick={() => setPrefTheme(th.id as any)}
-                  className={`py-1.5 px-2 rounded-pill text-xs font-medium transition-all ${
-                    prefTheme === th.id
-                      ? 'bg-white text-black font-semibold'
-                      : 'bg-elevated border border-white/10 text-secondary hover:text-white'
-                  }`}
-                >
-                  {th.label}
-                </button>
-              ))}
+                { id: 'dark', label: 'Clinical Dark' },
+                { id: 'light', label: 'Clinical Light' },
+                { id: 'contrast', label: 'High Contrast' }
+              ].map(th => {
+                const isSelected = (th.id === 'light' && !isDarkMode) || (th.id === 'dark' && isDarkMode) || prefTheme === th.id;
+                return (
+                  <button
+                    key={th.id}
+                    type="button"
+                    onClick={() => {
+                      setPrefTheme(th.id as any);
+                      if (th.id === 'light') {
+                        setIsDarkMode(false);
+                        document.documentElement.classList.remove('dark');
+                        document.documentElement.classList.add('light');
+                        localStorage.setItem('sadie-theme', 'light');
+                      } else {
+                        setIsDarkMode(true);
+                        document.documentElement.classList.add('dark');
+                        document.documentElement.classList.remove('light');
+                        localStorage.setItem('sadie-theme', 'dark');
+                      }
+                    }}
+                    className={`py-1.5 px-2 rounded-pill text-xs font-medium transition-all ${
+                      isSelected
+                        ? 'bg-btn-primary-bg text-btn-primary-text font-semibold shadow-sm'
+                        : 'bg-elevated border border-border-hairline text-secondary hover:text-primary'
+                    }`}
+                  >
+                    {th.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           {/* Font Size Adjustments */}
-          <div className="p-3 rounded-lg bg-surface border border-white/5 space-y-2">
+          <div className="p-3 rounded-lg bg-surface border border-border-hairline space-y-2">
             <p className="text-sm font-medium text-primary">Font Size Scale</p>
             <div className="grid grid-cols-4 gap-1.5">
               {[
@@ -963,8 +1039,8 @@ export const AppLayout: React.FC = () => {
                   onClick={() => setPrefFontSize(f.id as any)}
                   className={`py-1 rounded-pill text-xs font-mono transition-all ${
                     prefFontSize === f.id
-                      ? 'bg-white text-black font-semibold'
-                      : 'bg-elevated border border-white/10 text-secondary hover:text-white'
+                      ? 'bg-btn-primary-bg text-btn-primary-text font-semibold'
+                      : 'bg-elevated border border-border-hairline text-secondary hover:text-primary'
                   }`}
                 >
                   {f.label}
@@ -974,7 +1050,7 @@ export const AppLayout: React.FC = () => {
           </div>
 
           {/* Language Localization */}
-          <div className="flex items-center justify-between p-3 rounded-lg bg-surface border border-white/5">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-surface border border-border-hairline">
             <div>
               <p className="text-sm font-medium text-primary">Clinical Localization</p>
               <p className="text-xs text-muted">Language for anatomical rubrics and diagnostic dossiers.</p>
@@ -982,7 +1058,7 @@ export const AppLayout: React.FC = () => {
             <select
               value={prefLanguage}
               onChange={(e) => setPrefLanguage(e.target.value as any)}
-              className="bg-elevated border border-white/15 rounded-pill px-3 py-1 text-xs text-white"
+              className="bg-elevated border border-border-hairline rounded-pill px-3 py-1 text-xs text-primary"
             >
               <option value="en">English (US)</option>
               <option value="es">Español (ES)</option>

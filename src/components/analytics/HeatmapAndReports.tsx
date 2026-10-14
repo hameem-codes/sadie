@@ -34,18 +34,18 @@ export const OutcomeHeatmap: React.FC = () => {
   };
 
   const getHeatmapColor = (score: number) => {
-    if (score >= 96) return 'bg-[#122415] text-[#a3ffb2] border border-[#2f6b3a]';
-    if (score >= 93) return 'bg-[#15232d] text-[#8EC5E8] border border-[#8EC5E8]/30';
-    if (score >= 90) return 'bg-elevated text-secondary border border-white/10';
-    return 'bg-[#2b1717] text-[#fca582] border border-[#c8623c]/40';
+    if (score >= 96) return 'bg-emerald-50 dark:bg-[#122415] text-emerald-700 dark:text-[#a3ffb2] border border-emerald-300 dark:border-[#2f6b3a]';
+    if (score >= 93) return 'bg-sky-50 dark:bg-[#15232d] text-sky-700 dark:text-[#8EC5E8] border border-sky-300 dark:border-[#8EC5E8]/30';
+    if (score >= 90) return 'bg-elevated text-secondary border border-border-hairline';
+    return 'bg-rose-50 dark:bg-[#2b1717] text-rose-700 dark:text-[#fca582] border border-rose-300 dark:border-[#c8623c]/40';
   };
 
   return (
-    <div className="p-4 rounded-xl bg-surface/50 border border-border-hairline space-y-3">
-      <div className="flex items-center justify-between pb-2 border-b border-white/5">
+    <div className="p-4 rounded-xl bg-surface border border-border-hairline space-y-3">
+      <div className="flex items-center justify-between pb-2 border-b border-border-hairline">
         <div className="flex items-center gap-2">
           <Flame className="w-4 h-4 text-[#E58A3A]" />
-          <h3 className="font-serif text-sm font-semibold text-white">
+          <h3 className="font-serif text-sm font-semibold text-primary">
             Surgical Outcome Heatmap by Procedure & Anatomical Domain
           </h3>
         </div>
@@ -65,7 +65,7 @@ export const OutcomeHeatmap: React.FC = () => {
           <tbody className="divide-y divide-white/5">
             {procedures.map((proc) => (
               <tr key={proc} className="hover:bg-elevated/40 transition-colors">
-                <td className="p-2 font-medium text-white whitespace-nowrap">{proc}</td>
+                <td className="p-2 font-medium text-primary whitespace-nowrap">{proc}</td>
                 {domains.map((dom) => {
                   const score = matrix[proc][dom];
                   return (
@@ -84,9 +84,9 @@ export const OutcomeHeatmap: React.FC = () => {
 
       <div className="flex items-center justify-between text-[10px] text-muted font-mono pt-1">
         <span>Legend: High Adherence (≥96%)</span>
-        <span className="text-[#a3ffb2]">■ &gt;96% Optimal</span>
-        <span className="text-[#8EC5E8]">■ 93-95% Target</span>
-        <span className="text-[#fca582]">■ &lt;90% Review</span>
+        <span className="text-emerald-600 dark:text-[#a3ffb2]">■ &gt;96% Optimal</span>
+        <span className="text-sky-600 dark:text-[#8EC5E8]">■ 93-95% Target</span>
+        <span className="text-rose-600 dark:text-[#fca582]">■ &lt;90% Review</span>
       </div>
     </div>
   );
@@ -110,53 +110,53 @@ export const QuarterlyReportModal: React.FC<HeatmapAndReportsProps> = ({
   return (
     <Modal isOpen={isReportModalOpen} onClose={onCloseReportModal} title="Quarterly Maxillofacial Performance Audit" size="lg">
       <div className="space-y-4 text-xs">
-        <div className="p-3.5 rounded-xl bg-surface/70 border border-white/10 flex items-center justify-between">
+        <div className="p-3.5 rounded-xl bg-surface border border-border-hairline flex items-center justify-between">
           <div>
-            <span className="font-semibold text-white block">Quarterly Outcome Report (Q3 2026)</span>
+            <span className="font-semibold text-primary block">Quarterly Outcome Report (Q3 2026)</span>
             <span className="text-[11px] text-muted">National Maxillofacial Quality & Safety Benchmark</span>
           </div>
-          <span className="font-mono text-[10px] text-[#a3ffb2] bg-[#122415] px-2.5 py-1 rounded-pill border border-[#2f6b3a]/50">
+          <span className="font-mono text-[10px] text-emerald-700 dark:text-[#a3ffb2] bg-emerald-50 dark:bg-[#122415] px-2.5 py-1 rounded-pill border border-emerald-300 dark:border-[#2f6b3a]/50">
             Audit Complete
           </span>
         </div>
 
         {/* Stats Summary Grid */}
         <div className="grid grid-cols-3 gap-3">
-          <div className="p-3 rounded-lg bg-surface border border-white/5 space-y-1 text-center">
+          <div className="p-3 rounded-lg bg-surface border border-border-hairline space-y-1 text-center">
             <span className="text-[10px] text-muted font-mono uppercase block">Total Operations Evaluated</span>
-            <span className="text-xl font-bold text-white font-mono">148 Cases</span>
-            <span className="text-[10px] text-[#a3ffb2] font-mono block">+14% vs Q2</span>
+            <span className="text-xl font-bold text-primary font-mono">148 Cases</span>
+            <span className="text-[10px] text-emerald-600 dark:text-[#a3ffb2] font-mono block">+14% vs Q2</span>
           </div>
-          <div className="p-3 rounded-lg bg-surface border border-white/5 space-y-1 text-center">
+          <div className="p-3 rounded-lg bg-surface border border-border-hairline space-y-1 text-center">
             <span className="text-[10px] text-muted font-mono uppercase block">Hospital Consensus Score</span>
-            <span className="text-xl font-bold text-[#a3ffb2] font-mono">93.8%</span>
+            <span className="text-xl font-bold text-emerald-600 dark:text-[#a3ffb2] font-mono">93.8%</span>
             <span className="text-[10px] text-muted font-mono block">Top 5% Decile</span>
           </div>
-          <div className="p-3 rounded-lg bg-surface border border-white/5 space-y-1 text-center">
+          <div className="p-3 rounded-lg bg-surface border border-border-hairline space-y-1 text-center">
             <span className="text-[10px] text-muted font-mono uppercase block">Splint Fit Discrepancy</span>
-            <span className="text-xl font-bold text-white font-mono">&lt; 0.28 mm</span>
-            <span className="text-[10px] text-[#a3ffb2] font-mono block">Zero Complications</span>
+            <span className="text-xl font-bold text-primary font-mono">&lt; 0.28 mm</span>
+            <span className="text-[10px] text-emerald-600 dark:text-[#a3ffb2] font-mono block">Zero Complications</span>
           </div>
         </div>
 
         {/* Benchmark comparisons */}
-        <div className="space-y-2 p-3.5 rounded-xl bg-surface/50 border border-white/5">
-          <span className="font-semibold text-white block text-xs">National Registry Benchmarks</span>
+        <div className="space-y-2 p-3.5 rounded-xl bg-surface border border-border-hairline">
+          <span className="font-semibold text-primary block text-xs">National Registry Benchmarks</span>
           <div className="space-y-1.5 font-mono text-[11px]">
             <div className="flex justify-between text-muted">
               <span>National Academic Medical Center Average:</span>
-              <span className="text-white">88.4%</span>
+              <span className="text-primary">88.4%</span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-surface border border-white/5">
+            <div className="w-full h-1.5 rounded-full bg-elevated border border-border-hairline">
               <div className="h-full bg-secondary rounded-full" style={{ width: '88.4%' }} />
             </div>
 
             <div className="flex justify-between text-muted pt-1">
               <span>This Hospital (SADIE Tracked):</span>
-              <span className="text-[#a3ffb2] font-bold">93.8%</span>
+              <span className="text-emerald-600 dark:text-[#a3ffb2] font-bold">93.8%</span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-surface border border-white/5">
-              <div className="h-full bg-[#a3ffb2] rounded-full" style={{ width: '93.8%' }} />
+            <div className="w-full h-1.5 rounded-full bg-elevated border border-border-hairline">
+              <div className="h-full bg-emerald-500 rounded-full" style={{ width: '93.8%' }} />
             </div>
           </div>
         </div>

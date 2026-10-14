@@ -115,11 +115,11 @@ export const Users: React.FC = () => {
       header: 'Clinical Staff Member',
       render: (item) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-white text-base font-bold text-xs flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-full bg-elevated border border-border-hairline text-primary font-bold text-xs flex items-center justify-center shrink-0">
             {item.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
           </div>
           <div>
-            <span className="font-medium text-white block">{item.name}</span>
+            <span className="font-medium text-primary block">{item.name}</span>
             <span className="text-xs text-muted font-mono">{item.email}</span>
           </div>
         </div>
@@ -129,7 +129,7 @@ export const Users: React.FC = () => {
       key: 'role',
       header: 'Clinical Role',
       render: (item) => (
-        <span className="text-xs px-2.5 py-1 rounded-pill bg-elevated border border-white/10 text-white font-medium">
+        <span className="text-xs px-2.5 py-1 rounded-pill bg-elevated border border-border-hairline text-primary font-medium">
           {item.role}
         </span>
       )
@@ -148,11 +148,11 @@ export const Users: React.FC = () => {
         <span
           className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-0.5 rounded-pill font-medium ${
             item.status === 'Active'
-              ? 'bg-[#122415] text-[#a3ffb2] border border-[#2f6b3a]/70'
-              : 'bg-[#281313] text-[#ffd5c5] border border-[#9b3b3b]/70'
+              ? 'bg-status-completed/10 text-status-completed border border-status-completed/30'
+              : 'bg-status-failed/10 text-status-failed border border-status-failed/30'
           }`}
         >
-          <span className={`w-1.5 h-1.5 rounded-full ${item.status === 'Active' ? 'bg-[#52c41a]' : 'bg-[#e24a4a]'}`} />
+          <span className={`w-1.5 h-1.5 rounded-full ${item.status === 'Active' ? 'bg-status-completed' : 'bg-status-failed'}`} />
           {item.status}
         </span>
       )
@@ -162,7 +162,7 @@ export const Users: React.FC = () => {
       header: 'Evaluated Cases',
       align: 'center',
       render: (item) => (
-        <span className="font-mono text-xs text-white">
+        <span className="font-mono text-xs text-primary font-medium">
           {item.casesCount}
         </span>
       )
@@ -187,7 +187,7 @@ export const Users: React.FC = () => {
             variant="ghost"
             size="sm"
             onClick={() => setEditingUser(item)}
-            className="text-xs text-secondary hover:text-white"
+            className="text-xs text-secondary hover:text-primary"
           >
             Edit
           </Button>
@@ -229,7 +229,7 @@ export const Users: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="p-4 rounded-xl bg-surface/60 border border-border-hairline flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+      <div className="p-4 rounded-xl bg-surface border border-border-hairline shadow-card flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
         <div className="relative flex-1 max-w-md">
           <Search className="w-4 h-4 text-muted absolute left-3 top-2.5" />
           <input
@@ -237,7 +237,7 @@ export const Users: React.FC = () => {
             placeholder="Search by physician name or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#111111] border border-border-hairline rounded-pill pl-9 pr-3 py-1.5 text-xs sm:text-sm text-white placeholder-muted focus:outline-none"
+            className="w-full bg-elevated border border-border-hairline rounded-pill pl-9 pr-3 py-1.5 text-xs sm:text-sm text-primary placeholder-muted focus:outline-none focus:border-border-subtle"
           />
         </div>
 
@@ -245,7 +245,7 @@ export const Users: React.FC = () => {
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="bg-elevated border border-border-hairline rounded-pill px-3 py-1.5 text-secondary hover:text-white focus:outline-none"
+            className="bg-elevated border border-border-hairline rounded-pill px-3 py-1.5 text-secondary hover:text-primary focus:outline-none"
           >
             <option value="All">All Roles</option>
             <option value="Chief Surgeon">Chief Surgeon</option>
@@ -259,7 +259,7 @@ export const Users: React.FC = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-elevated border border-border-hairline rounded-pill px-3 py-1.5 text-secondary hover:text-white focus:outline-none"
+            className="bg-elevated border border-border-hairline rounded-pill px-3 py-1.5 text-secondary hover:text-primary focus:outline-none"
           >
             <option value="All">All Statuses</option>
             <option value="Active">Active</option>
@@ -293,7 +293,7 @@ export const Users: React.FC = () => {
               placeholder="e.g. Julian Vance, MD, DDS"
               value={inviteName}
               onChange={(e) => setInviteName(e.target.value)}
-              className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-white focus:outline-none"
+              className="w-full bg-elevated border border-border-hairline rounded-md p-2.5 text-sm text-primary placeholder-muted focus:outline-none focus:border-border-subtle"
             />
           </div>
 
@@ -305,7 +305,7 @@ export const Users: React.FC = () => {
               placeholder="e.g. j.vance@hospital-omfs.org"
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
-              className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-white focus:outline-none"
+              className="w-full bg-elevated border border-border-hairline rounded-md p-2.5 text-sm text-primary placeholder-muted focus:outline-none focus:border-border-subtle"
             />
           </div>
 
@@ -315,7 +315,7 @@ export const Users: React.FC = () => {
               <select
                 value={inviteRole}
                 onChange={(e) => setInviteRole(e.target.value as any)}
-                className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-white focus:outline-none"
+                className="w-full bg-elevated border border-border-hairline rounded-md p-2.5 text-sm text-primary focus:outline-none focus:border-border-subtle"
               >
                 <option value="Chief Surgeon">Chief Surgeon</option>
                 <option value="Attending Surgeon">Attending Surgeon</option>
@@ -332,12 +332,12 @@ export const Users: React.FC = () => {
                 type="text"
                 value={inviteDepartment}
                 onChange={(e) => setInviteDepartment(e.target.value)}
-                className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-white focus:outline-none"
+                className="w-full bg-elevated border border-border-hairline rounded-md p-2.5 text-sm text-primary focus:outline-none focus:border-border-subtle"
               />
             </div>
           </div>
 
-          <div className="pt-3 border-t border-white/10 flex justify-end gap-2">
+          <div className="pt-3 border-t border-border-hairline flex justify-end gap-2">
             <Button variant="ghost" type="button" onClick={() => setIsInviteModalOpen(false)}>
               Cancel
             </Button>
@@ -362,7 +362,7 @@ export const Users: React.FC = () => {
               <select
                 value={editingUser.role}
                 onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value as any })}
-                className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-white focus:outline-none"
+                className="w-full bg-elevated border border-border-hairline rounded-md p-2.5 text-sm text-primary focus:outline-none focus:border-border-subtle"
               >
                 <option value="Chief Surgeon">Chief Surgeon</option>
                 <option value="Attending Surgeon">Attending Surgeon</option>
@@ -379,11 +379,11 @@ export const Users: React.FC = () => {
                 type="text"
                 value={editingUser.department}
                 onChange={(e) => setEditingUser({ ...editingUser, department: e.target.value })}
-                className="w-full bg-surface border border-border-hairline rounded-md p-2.5 text-sm text-white focus:outline-none"
+                className="w-full bg-elevated border border-border-hairline rounded-md p-2.5 text-sm text-primary focus:outline-none focus:border-border-subtle"
               />
             </div>
 
-            <div className="pt-3 border-t border-white/10 flex justify-end gap-2">
+            <div className="pt-3 border-t border-border-hairline flex justify-end gap-2">
               <Button variant="ghost" onClick={() => setEditingUser(null)}>
                 Cancel
               </Button>

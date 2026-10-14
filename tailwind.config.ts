@@ -30,22 +30,22 @@ export default {
         'display-sm': ['clamp(1.35rem, 1rem + 1.2vw, 1.875rem)', { lineHeight: '1.15' }],
       },
       colors: {
-        base: '#0A0A0A',
-        surface: '#141414',
-        elevated: '#1C1C1C',
-        'elevated-hover': '#242424',
-        primary: '#FFFFFF',
-        secondary: '#B8B8B8', // Matches DESIGN_SYSTEM.md Section 2
-        muted: '#7A7A7A',     // Matches DESIGN_SYSTEM.md Section 2
-        'border-subtle': 'rgba(255, 255, 255, 0.25)',
-        'border-hairline': 'rgba(255, 255, 255, 0.12)',
-        'border-hover': 'rgba(255, 255, 255, 0.35)',
+        base: 'rgb(var(--color-base) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        elevated: 'rgb(var(--color-elevated) / <alpha-value>)',
+        'elevated-hover': 'rgb(var(--color-elevated-hover) / <alpha-value>)',
+        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+        muted: 'rgb(var(--color-muted) / <alpha-value>)',
+        'border-subtle': 'var(--border-subtle)',
+        'border-hairline': 'var(--border-hairline)',
+        'border-hover': 'var(--border-hover)',
 
-        'btn-primary-bg': '#FFFFFF',
-        'btn-primary-text': '#0A0A0A',
-        'chat-light-bg': '#FFFFFF',
-        'chat-user-bubble': '#111111',
-        'chip-gray': '#B5B5B5',
+        'btn-primary-bg': 'rgb(var(--btn-primary-bg) / <alpha-value>)',
+        'btn-primary-text': 'rgb(var(--btn-primary-text) / <alpha-value>)',
+        'chat-light-bg': 'var(--chat-light-bg)',
+        'chat-user-bubble': 'var(--chat-user-bubble)',
+        'chip-gray': 'var(--chip-gray)',
 
         // Illustration Palette
         illustration: {

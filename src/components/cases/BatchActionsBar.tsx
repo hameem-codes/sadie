@@ -22,9 +22,9 @@ export const BatchActionsBar: React.FC<BatchActionsBarProps> = ({
   if (selectedCount === 0) return null;
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-[#16171d]/95 backdrop-blur-xl border border-white/20 rounded-pill px-5 py-2.5 shadow-2xl flex items-center gap-3.5 animate-slide-up text-xs">
-      <div className="flex items-center gap-2 pr-2 border-r border-white/10 font-mono text-white">
-        <CheckSquare className="w-4 h-4 text-[#8EC5E8]" />
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-surface/95 backdrop-blur-xl border border-border-hairline rounded-pill px-5 py-2.5 shadow-2xl flex items-center gap-3.5 animate-slide-up text-xs">
+      <div className="flex items-center gap-2 pr-2 border-r border-border-hairline font-mono text-primary">
+        <CheckSquare className="w-4 h-4 text-accent" />
         <span className="font-semibold">{selectedCount}</span> cases selected
       </div>
 
@@ -34,9 +34,9 @@ export const BatchActionsBar: React.FC<BatchActionsBarProps> = ({
           size="sm"
           variant="outline"
           onClick={onBatchAnalyze}
-          className="text-xs py-1 px-3 border-white/20 hover:border-white/40"
+          className="text-xs py-1 px-3 border-border-hairline hover:border-border-subtle text-primary"
         >
-          <Play className="w-3.5 h-3.5 mr-1 text-[#a3ffb2]" />
+          <Play className="w-3.5 h-3.5 mr-1 text-status-completed" />
           Batch Analyze
         </Button>
 
@@ -45,9 +45,9 @@ export const BatchActionsBar: React.FC<BatchActionsBarProps> = ({
           size="sm"
           variant="outline"
           onClick={onBatchExport}
-          className="text-xs py-1 px-3 border-white/20 hover:border-white/40"
+          className="text-xs py-1 px-3 border-border-hairline hover:border-border-subtle text-primary"
         >
-          <Download className="w-3.5 h-3.5 mr-1 text-[#8EC5E8]" />
+          <Download className="w-3.5 h-3.5 mr-1 text-accent" />
           Batch Export
         </Button>
 
@@ -56,7 +56,7 @@ export const BatchActionsBar: React.FC<BatchActionsBarProps> = ({
           size="sm"
           variant="outline"
           onClick={onBatchArchive}
-          className="text-xs py-1 px-3 border-white/20 hover:border-white/40"
+          className="text-xs py-1 px-3 border-border-hairline hover:border-border-subtle text-primary"
         >
           <Archive className="w-3.5 h-3.5 mr-1" />
           Archive
@@ -67,7 +67,7 @@ export const BatchActionsBar: React.FC<BatchActionsBarProps> = ({
           size="sm"
           variant="danger"
           onClick={onBatchDelete}
-          className="text-xs py-1 px-3 bg-red-950/40 border border-red-500/40 text-red-300 hover:bg-red-900/60"
+          className="text-xs py-1 px-3"
         >
           <Trash2 className="w-3.5 h-3.5 mr-1" />
           Delete
@@ -77,7 +77,7 @@ export const BatchActionsBar: React.FC<BatchActionsBarProps> = ({
       <button
         type="button"
         onClick={onClearSelection}
-        className="p-1 rounded-full text-muted hover:text-white hover:bg-elevated transition-colors cursor-pointer"
+        className="p-1 rounded-full text-muted hover:text-primary hover:bg-elevated transition-colors cursor-pointer"
         title="Deselect all"
       >
         <X className="w-4 h-4" />

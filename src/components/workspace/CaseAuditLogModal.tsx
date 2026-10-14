@@ -72,13 +72,13 @@ export const CaseAuditLogModal: React.FC<CaseAuditLogModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose} title={`Case Audit Trail & HIPAA Compliance Log: ${caseNumber}`} size="lg">
       <div className="space-y-4">
         {/* Compliance Banner */}
-        <div className="p-3.5 rounded-xl bg-surface/80 border border-white/10 flex items-center justify-between">
+        <div className="p-3.5 rounded-xl bg-surface border border-border-hairline flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#122415] border border-[#2f6b3a] flex items-center justify-center text-[#a3ffb2]">
+            <div className="w-9 h-9 rounded-full bg-status-completed/10 border border-status-completed/30 flex items-center justify-center text-status-completed">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs font-semibold text-white flex items-center gap-2">
+              <div className="text-xs font-semibold text-primary flex items-center gap-2">
                 <span>HIPAA Title II & 45 CFR § 164.312 Compliant</span>
                 <Badge variant="forest" size="sm">Active</Badge>
               </div>
@@ -88,7 +88,7 @@ export const CaseAuditLogModal: React.FC<CaseAuditLogModalProps> = ({
             </div>
           </div>
           <div className="text-right font-mono text-[10px] text-muted">
-            Retention: <span className="text-white">7 Years</span>
+            Retention: <span className="text-primary font-medium">7 Years</span>
           </div>
         </div>
 
@@ -97,17 +97,17 @@ export const CaseAuditLogModal: React.FC<CaseAuditLogModalProps> = ({
           {auditEntries.map((entry) => (
             <div
               key={entry.id}
-              className="p-3 rounded-lg bg-surface/40 border border-white/5 hover:border-white/15 transition-all text-xs"
+              className="p-3 rounded-lg bg-elevated border border-border-hairline hover:border-border-subtle transition-all text-xs"
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-white">{entry.action}</span>
+                  <span className="font-semibold text-primary">{entry.action}</span>
                   <span className={`text-[10px] px-2 py-0.5 rounded-pill font-mono ${
                     entry.category === 'Security'
-                      ? 'bg-[#1b1c2b] text-[#8EC5E8] border border-[#8EC5E8]/30'
+                      ? 'bg-status-processing/10 text-status-processing border border-status-processing/30'
                       : entry.category === 'Clinical'
-                      ? 'bg-[#122415] text-[#a3ffb2] border border-[#2f6b3a]/40'
-                      : 'bg-elevated text-secondary border border-white/10'
+                      ? 'bg-status-completed/10 text-status-completed border border-status-completed/30'
+                      : 'bg-elevated text-secondary border border-border-hairline'
                   }`}>
                     {entry.category}
                   </span>
@@ -120,7 +120,7 @@ export const CaseAuditLogModal: React.FC<CaseAuditLogModalProps> = ({
 
               <p className="text-muted text-[11px] mb-2">{entry.details}</p>
 
-              <div className="flex items-center justify-between text-[10px] font-mono text-secondary pt-1.5 border-t border-white/5">
+              <div className="flex items-center justify-between text-[10px] font-mono text-secondary pt-1.5 border-t border-border-hairline">
                 <span className="flex items-center gap-1">
                   <User className="w-3 h-3 text-muted" />
                   {entry.user} ({entry.role})

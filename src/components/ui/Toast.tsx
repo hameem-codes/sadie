@@ -52,7 +52,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             <div
               key={t.id}
               role="alert"
-              className="pointer-events-auto flex items-start gap-3 p-3.5 rounded-lg bg-[#181818] border border-white/20 shadow-xl animate-fade-up"
+              className="pointer-events-auto flex items-start gap-3 p-3.5 rounded-lg bg-surface border border-border-hairline shadow-2xl animate-fade-up"
             >
               <div className="mt-0.5">{icons[t.type]}</div>
               <div className="flex-1 min-w-0">
@@ -61,7 +61,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               </div>
               <button
                 onClick={() => removeToast(t.id)}
-                className="text-muted hover:text-white p-1 rounded-md transition-colors -mr-1 -mt-1"
+                className="text-muted hover:text-primary p-1 rounded-md transition-colors -mr-1 -mt-1"
                 aria-label="Dismiss notification"
               >
                 <X className="w-3.5 h-3.5" />

@@ -36,12 +36,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   };
 
   const variantStyles = {
-    // Primary: white fill, dark text #0A0A0A per Design System Section 6 & 9
-    primary: 'bg-white text-black hover:bg-white/90 active:bg-white/80 shadow-sm font-medium',
-    // Secondary: dark elevated surface
-    secondary: 'bg-elevated text-primary border border-white/10 hover:bg-elevated-hover hover:border-white/20 active:bg-surface',
+    // Primary: high-contrast adaptive fill
+    primary: 'bg-btn-primary-bg text-btn-primary-text hover:opacity-90 active:opacity-80 shadow-sm font-medium',
+    // Secondary: elevated surface
+    secondary: 'bg-elevated text-primary border border-border-hairline hover:bg-elevated-hover hover:border-border-subtle active:bg-surface',
     // Outline: subtle border hairline
-    outline: 'bg-transparent text-primary border border-border-subtle hover:bg-elevated hover:border-white/40 active:bg-surface',
+    outline: 'bg-transparent text-primary border border-border-subtle hover:bg-elevated hover:border-border-hover active:bg-surface',
     // Ghost: transparent
     ghost: 'bg-transparent text-secondary hover:text-primary hover:bg-elevated/70 active:bg-elevated',
     // Danger

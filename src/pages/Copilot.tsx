@@ -192,7 +192,7 @@ export const Copilot: React.FC = () => {
             <button
               type="button"
               onClick={handleStartFresh}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-[#161616] border border-white/10 text-xs text-secondary hover:text-white hover:border-white/25 transition-all hover-lift cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-elevated border border-border-hairline text-xs text-secondary hover:text-primary transition-all hover-lift cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>New Query</span>
@@ -207,8 +207,8 @@ export const Copilot: React.FC = () => {
             onClick={() => setIsContextPanelOpen(!isContextPanelOpen)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-pill border text-xs transition-all hover-lift cursor-pointer ${
               isContextPanelOpen
-                ? 'bg-[#8EC5E8]/20 border-[#8EC5E8] text-white shadow-sm'
-                : 'bg-[#141414] border-white/10 text-secondary hover:text-white hover:border-white/30'
+                ? 'bg-[#8EC5E8]/20 border-[#8EC5E8] text-primary shadow-sm'
+                : 'bg-elevated border-border-hairline text-secondary hover:text-primary'
             }`}
             title="Toggle Context & Sources sidebar"
             aria-label="Toggle Context & Sources sidebar"
@@ -220,7 +220,7 @@ export const Copilot: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsHistoryOpen(!isHistoryOpen)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-[#141414] border border-white/10 text-xs text-secondary hover:text-white hover:border-white/30 transition-all hover-lift cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill bg-elevated border border-border-hairline text-xs text-secondary hover:text-primary transition-all hover-lift cursor-pointer"
           >
             <History className="w-3.5 h-3.5 text-muted" />
             <span>Threads ({conversations.length})</span>
@@ -233,31 +233,31 @@ export const Copilot: React.FC = () => {
         <div className="flex-1 flex flex-col items-center justify-center my-auto w-full max-w-4xl mx-auto py-8 px-4">
           {/* Eyebrow Pill Badge */}
           <div className="mb-7 flex justify-center animate-drop-down">
-            <div className="inline-flex items-center gap-2.5 px-4.5 py-1.5 rounded-pill bg-[#14151a]/80 border border-white/15 text-sm text-white/90 shadow-sm backdrop-blur-md">
-              <span className="text-white text-sm">✦</span>
+            <div className="inline-flex items-center gap-2.5 px-4.5 py-1.5 rounded-pill bg-elevated border border-border-hairline text-sm text-primary shadow-sm backdrop-blur-md">
+              <span className="text-primary text-sm">✦</span>
               <span className="font-medium tracking-wide">AI Clinical Evaluator</span>
             </div>
           </div>
 
           {/* Hero Editorial Heading (Lora serif) */}
           <div className="text-center max-w-3xl mx-auto mb-9 animate-drop-down" style={{ animationDelay: '60ms' }}>
-            <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-white leading-[1.25]">
+            <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-primary leading-[1.25]">
               Maxillofacial Surgical Evaluator
             </h1>
-            <h2 className="font-serif text-lg sm:text-xl font-medium tracking-tight text-[#c2c2c2] mt-1.5 leading-[1.25]">
+            <h2 className="font-serif text-lg sm:text-xl font-medium tracking-tight text-secondary mt-1.5 leading-[1.25]">
               Radiomics & 3D Cephalometrics
             </h2>
           </div>
 
           {/* Central Landing Input Card (SADIE Design System) */}
-          <div className="w-full max-w-3xl lg:max-w-4xl bg-[#15161b] border border-white/10 rounded-2xl p-5 sm:p-6 shadow-2xl transition-all duration-200 focus-within:border-white/30 focus-within:ring-1 focus-within:ring-white/20 animate-card-in" style={{ animationDelay: '120ms' }}>
+          <div className="w-full max-w-3xl lg:max-w-4xl bg-surface border border-border-hairline rounded-2xl p-5 sm:p-6 shadow-card transition-all duration-200 focus-within:ring-2 focus-within:ring-accent/40 animate-card-in" style={{ animationDelay: '120ms' }}>
             {/* Attached Files Pills (if any) */}
             {attachedFiles.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-3 pb-3 border-b border-white/10">
+              <div className="flex flex-wrap gap-2 mb-3 pb-3 border-b border-border-hairline">
                 {attachedFiles.map((f, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center gap-2 text-xs px-3 py-1 rounded-pill bg-[#1f2029] border border-white/15 text-white"
+                    className="inline-flex items-center gap-2 text-xs px-3 py-1 rounded-pill bg-elevated border border-border-hairline text-primary"
                   >
                     <Paperclip className="w-3.5 h-3.5 text-muted" />
                     <span>{f}</span>
@@ -284,17 +284,16 @@ export const Copilot: React.FC = () => {
                 }
               }}
               placeholder="Ask about cases, landmarks, or surgical stability..."
-              style={{ color: '#ffffff', caretColor: '#ffffff' }}
-              className="w-full bg-transparent text-base sm:text-lg text-white placeholder:text-white/45 focus:outline-none resize-none leading-relaxed min-h-[64px]"
+              className="w-full bg-transparent text-base sm:text-lg text-primary placeholder:text-muted focus:outline-none resize-none leading-relaxed min-h-[64px]"
             />
 
             {/* Bottom Row Inside Card */}
-            <div className="mt-3.5 pt-3 flex items-center justify-between gap-3 border-t border-white/5">
+            <div className="mt-3.5 pt-3 flex items-center justify-between gap-3 border-t border-border-hairline">
               <div className="flex items-center gap-2.5">
                 <button
                   type="button"
                   onClick={handleAttachClick}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-pill bg-[#1c1d24] hover:bg-[#252630] border border-white/5 hover:border-white/15 text-sm text-secondary hover:text-white transition-all cursor-pointer"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-pill bg-elevated hover:bg-elevated-hover border border-border-hairline text-sm text-secondary hover:text-primary transition-all cursor-pointer"
                   title="Attach CT, DICOM, or X-ray file"
                 >
                   <Paperclip className="w-4 h-4 text-secondary" />
@@ -304,7 +303,7 @@ export const Copilot: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleImportPlan}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-pill bg-[#1c1d24] hover:bg-[#252630] border border-white/5 hover:border-white/15 text-sm text-secondary hover:text-white transition-all cursor-pointer"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-pill bg-elevated hover:bg-elevated-hover border border-border-hairline text-sm text-secondary hover:text-primary transition-all cursor-pointer"
                   title="Import CAD/CAM surgical plan"
                 >
                   <FolderInput className="w-4 h-4 text-secondary" />
@@ -316,13 +315,13 @@ export const Copilot: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsConfidential(!isConfidential)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-pill text-sm text-secondary hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-pill text-sm text-secondary hover:text-primary transition-colors cursor-pointer"
                   title="Toggle privacy level"
                 >
                   {isConfidential ? (
                     <>
-                      <Lock className="w-4 h-4 text-[#a3ffb2]" />
-                      <span className="text-[#a3ffb2] text-sm font-medium">HIPAA Locked</span>
+                      <Lock className="w-4 h-4 text-status-completed" />
+                      <span className="text-status-completed text-sm font-medium">HIPAA Locked</span>
                     </>
                   ) : (
                     <>
@@ -336,10 +335,10 @@ export const Copilot: React.FC = () => {
                   type="button"
                   onClick={() => handleSendMessage()}
                   disabled={!inputMessage.trim() && attachedFiles.length === 0}
-                  className="w-10 h-10 rounded-full bg-white text-black hover:bg-white/90 active:scale-95 disabled:opacity-30 disabled:hover:scale-100 transition-all flex items-center justify-center shadow-md shrink-0 cursor-pointer"
+                  className="w-10 h-10 rounded-full bg-btn-primary-bg text-btn-primary-text hover:opacity-90 active:scale-95 disabled:opacity-30 disabled:hover:scale-100 transition-all flex items-center justify-center shadow-md shrink-0 cursor-pointer"
                   aria-label="Send prompt"
                 >
-                  <ArrowUp className="w-5 h-5 text-black stroke-[2.5]" />
+                  <ArrowUp className="w-5 h-5 text-btn-primary-text stroke-[2.5]" />
                 </button>
               </div>
             </div>
@@ -353,7 +352,7 @@ export const Copilot: React.FC = () => {
                 type="button"
                 style={{ animationDelay: `${180 + index * 35}ms` }}
                 onClick={() => handleSendMessage(chip.prompt)}
-                className="px-4 py-2 rounded-pill bg-[#14151a] hover:bg-[#1f2027] border border-white/10 hover:border-white/25 text-sm text-secondary hover:text-white transition-all hover-lift cursor-pointer font-medium animate-card-in"
+                className="px-4 py-2 rounded-pill bg-elevated hover:bg-elevated-hover border border-border-hairline text-sm text-secondary hover:text-primary transition-all hover-lift cursor-pointer font-medium animate-card-in"
               >
                 {chip.label}
               </button>
@@ -381,17 +380,17 @@ export const Copilot: React.FC = () => {
             {isSending && (
               <div className="py-3 space-y-3 animate-reply-in max-w-3xl">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-white text-black flex items-center justify-center text-xs font-bold shrink-0 animate-spin">
+                  <div className="w-5 h-5 rounded-full bg-btn-primary-bg text-btn-primary-text flex items-center justify-center text-xs font-bold shrink-0 animate-spin">
                     ✦
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-xs text-white">SADIE</span>
+                    <span className="font-semibold text-xs text-primary">SADIE</span>
                     <span className="text-[11px] text-muted font-mono animate-pulse">evaluating maxillofacial records...</span>
                   </div>
                 </div>
 
                 {/* Direct inline timeline with subtle border-l (No card wrapper) */}
-                <div className="border-l-2 border-white/10 pl-3.5 my-2 space-y-2.5 text-xs">
+                <div className="border-l-2 border-border-hairline pl-3.5 my-2 space-y-2.5 text-xs">
                   {/* Searched Sources chips */}
                   <div className="flex items-center gap-1.5 flex-wrap pb-1">
                     <span className="text-muted text-[11px] flex items-center gap-1">
@@ -400,7 +399,7 @@ export const Copilot: React.FC = () => {
                     {['Patient CBCT Archive', 'Operative Transcription', 'Cephalometric Norms v3.2', 'NSQIP Clinical Rubric'].map((s, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-secondary font-mono"
+                        className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-elevated border border-border-hairline text-secondary font-mono"
                       >
                         <span className="w-1.5 h-1.5 rounded-full bg-[#8EC5E8]" />
                         {s}
@@ -425,7 +424,7 @@ export const Copilot: React.FC = () => {
                         <div
                           key={idx}
                           className={`flex items-start gap-2 text-xs transition-all animate-reply-in ${
-                            isActive ? 'text-white font-medium' : 'text-secondary'
+                            isActive ? 'text-primary font-medium' : 'text-secondary'
                           }`}
                         >
                           {isDone ? (
@@ -448,13 +447,13 @@ export const Copilot: React.FC = () => {
           {/* Bottom-Pinned Input Card (SADIE Design System) */}
           {/* Bottom-Pinned Input Card (SADIE Design System - Stretched & Zoomed) */}
           <div className="pt-3 shrink-0">
-            <div className="w-full max-w-4xl lg:max-w-5xl mx-auto bg-[#15161b] border border-white/15 rounded-2xl p-4 sm:p-5 shadow-2xl transition-all focus-within:border-white/35 focus-within:ring-1 focus-within:ring-white/20">
+            <div className="w-full max-w-4xl lg:max-w-5xl mx-auto bg-surface border border-border-hairline rounded-2xl p-4 sm:p-5 shadow-card transition-all focus-within:ring-2 focus-within:ring-accent/40">
               {attachedFiles.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mb-2.5 pb-2.5 border-b border-white/10">
+                <div className="flex flex-wrap gap-1.5 mb-2.5 pb-2.5 border-b border-border-hairline">
                   {attachedFiles.map((f, i) => (
                     <span
                       key={i}
-                      className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-pill bg-[#1f2029] border border-white/15 text-white"
+                      className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-pill bg-elevated border border-border-hairline text-primary"
                     >
                       <Paperclip className="w-3.5 h-3.5 text-muted" />
                       <span>{f}</span>
@@ -480,16 +479,15 @@ export const Copilot: React.FC = () => {
                   }
                 }}
                 placeholder="Ask follow-up question or inspect next parameter..."
-                style={{ color: '#ffffff', caretColor: '#ffffff' }}
-                className="w-full bg-transparent text-base sm:text-lg text-white placeholder:text-white/45 focus:outline-none resize-none leading-relaxed"
+                className="w-full bg-transparent text-base sm:text-lg text-primary placeholder:text-muted focus:outline-none resize-none leading-relaxed"
               />
 
-              <div className="mt-3 pt-2.5 flex items-center justify-between gap-2 border-t border-white/5">
+              <div className="mt-3 pt-2.5 flex items-center justify-between gap-2 border-t border-border-hairline">
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={handleAttachClick}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill bg-[#1c1d24] hover:bg-[#252630] border border-white/5 hover:border-white/15 text-sm text-secondary hover:text-white transition-all cursor-pointer"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill bg-elevated hover:bg-elevated-hover border border-border-hairline text-sm text-secondary hover:text-primary transition-all cursor-pointer"
                     title="Attach CT, DICOM, or X-ray file"
                   >
                     <Paperclip className="w-4 h-4 text-secondary" />
@@ -499,7 +497,7 @@ export const Copilot: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleImportPlan}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill bg-[#1c1d24] hover:bg-[#252630] border border-white/5 hover:border-white/15 text-sm text-secondary hover:text-white transition-all cursor-pointer"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-pill bg-elevated hover:bg-elevated-hover border border-border-hairline text-sm text-secondary hover:text-primary transition-all cursor-pointer"
                     title="Import CAD/CAM surgical plan"
                   >
                     <FolderInput className="w-4 h-4 text-secondary" />
@@ -511,12 +509,12 @@ export const Copilot: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setIsConfidential(!isConfidential)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-sm text-secondary hover:text-white transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-sm text-secondary hover:text-primary transition-colors cursor-pointer"
                   >
                     {isConfidential ? (
                       <>
-                        <Lock className="w-4 h-4 text-[#a3ffb2]" />
-                        <span className="text-[#a3ffb2] text-sm font-medium">HIPAA Locked</span>
+                        <Lock className="w-4 h-4 text-status-completed" />
+                        <span className="text-status-completed text-sm font-medium">HIPAA Locked</span>
                       </>
                     ) : (
                       <>
@@ -530,10 +528,10 @@ export const Copilot: React.FC = () => {
                     type="button"
                     onClick={() => handleSendMessage()}
                     disabled={!inputMessage.trim() && attachedFiles.length === 0}
-                    className="w-9 h-9 rounded-full bg-white text-black hover:bg-white/90 active:scale-95 disabled:opacity-30 disabled:hover:scale-100 transition-all flex items-center justify-center shadow-md shrink-0 cursor-pointer"
+                    className="w-9 h-9 rounded-full bg-btn-primary-bg text-btn-primary-text hover:opacity-90 active:scale-95 disabled:opacity-30 disabled:hover:scale-100 transition-all flex items-center justify-center shadow-md shrink-0 cursor-pointer"
                     aria-label="Send prompt"
                   >
-                    <ArrowUp className="w-4.5 h-4.5 text-black stroke-[2.5]" />
+                    <ArrowUp className="w-4.5 h-4.5 text-btn-primary-text stroke-[2.5]" />
                   </button>
                 </div>
               </div>
@@ -550,20 +548,20 @@ export const Copilot: React.FC = () => {
       >
         {/* Backdrop Fade */}
         <div
-          className={`fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-300 ease-out ${
+          className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ease-out ${
             isHistoryOpen ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setIsHistoryOpen(false)}
         />
         <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 xs:pl-6 sm:pl-10 pointer-events-none">
           <div
-            className={`w-full max-w-sm sm:max-w-md bg-[#121215]/95 backdrop-blur-xl border-l border-white/15 p-6 shadow-2xl flex flex-col justify-between pointer-events-auto transition-transform duration-300 ease-out transform pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] ${
+            className={`w-full max-w-sm sm:max-w-md bg-surface border-l border-border-hairline p-6 shadow-2xl flex flex-col justify-between pointer-events-auto transition-transform duration-300 ease-out transform pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] ${
               isHistoryOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
             <div>
-              <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                <h3 className="font-serif text-xl font-medium text-white">
+              <div className="flex items-center justify-between pb-4 border-b border-border-hairline">
+                <h3 className="font-serif text-xl font-medium text-primary">
                   Thread History
                 </h3>
                 <button
@@ -571,7 +569,7 @@ export const Copilot: React.FC = () => {
                   onClick={() => setIsHistoryOpen(false)}
                   aria-label="Close Thread History"
                   title="Close Thread History"
-                  className="p-1.5 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-muted hover:text-primary hover:bg-elevated transition-colors cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -585,7 +583,7 @@ export const Copilot: React.FC = () => {
                   placeholder="Search past threads..."
                   value={searchHistoryQuery}
                   onChange={(e) => setSearchHistoryQuery(e.target.value)}
-                  className="w-full bg-[#18181c] border border-white/15 rounded-pill pl-9 pr-4 py-2 text-sm text-white placeholder-muted focus:outline-none focus:border-white/30"
+                  className="w-full bg-elevated border border-border-hairline rounded-pill pl-9 pr-4 py-2 text-sm text-primary placeholder:text-muted focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
 
@@ -602,11 +600,11 @@ export const Copilot: React.FC = () => {
                         setIsHistoryOpen(false);
                       }}
                       className={`p-3.5 rounded-xl cursor-pointer transition-all flex items-start justify-between group ${
-                        conv.id === activeConvoId ? 'bg-white/15 border border-white/25 shadow-sm' : 'hover:bg-white/5 border border-transparent'
+                        conv.id === activeConvoId ? 'bg-elevated border border-border-hairline shadow-sm' : 'hover:bg-elevated/50 border border-transparent'
                       }`}
                     >
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-white truncate">{conv.title}</p>
+                        <p className="text-sm font-medium text-primary truncate">{conv.title}</p>
                         <p className="text-xs text-muted mt-1">{conv.createdAt}</p>
                       </div>
                       <button
@@ -632,7 +630,7 @@ export const Copilot: React.FC = () => {
                 handleStartFresh();
                 setIsHistoryOpen(false);
               }}
-              className="w-full py-2.5 rounded-pill bg-white text-black font-semibold text-sm hover:bg-white/90 active:scale-98 transition-all text-center cursor-pointer shadow-md mt-4"
+              className="w-full py-2.5 rounded-pill bg-btn-primary-bg text-btn-primary-text font-semibold text-sm hover:opacity-90 active:scale-98 transition-all text-center cursor-pointer shadow-md mt-4"
             >
               + Start Fresh Query
             </button>

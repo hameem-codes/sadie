@@ -72,19 +72,19 @@ export const Insights: React.FC = () => {
     { month: 'Oct', avgScore: 94.6, volume: 15, confidence: 97.0 },
   ];
 
-  // Custom Dark Recharts Tooltip
+  // Custom Theme-Adaptive Recharts Tooltip
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#14151b]/95 backdrop-blur-md border border-white/20 p-3 rounded-xl shadow-2xl text-xs space-y-1.5 animate-fade-up">
-          <p className="font-serif font-medium text-white pb-1 border-b border-white/10">{label}</p>
+        <div className="bg-surface/95 backdrop-blur-md border border-border-hairline p-3 rounded-xl shadow-2xl text-xs space-y-1.5 animate-fade-up">
+          <p className="font-serif font-medium text-primary pb-1 border-b border-border-hairline">{label}</p>
           {payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center justify-between gap-4">
               <span className="text-secondary flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color || '#8EC5E8' }} />
                 {entry.name}:
               </span>
-              <span className="font-mono font-semibold text-white">
+              <span className="font-mono font-semibold text-primary">
                 {entry.value}{typeof entry.value === 'number' && entry.value > 10 ? '%' : ''}
               </span>
             </div>

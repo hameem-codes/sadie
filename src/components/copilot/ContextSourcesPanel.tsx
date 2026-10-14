@@ -191,15 +191,15 @@ Cephalometric Landmarks:
       {/* Slide-out Sidebar Panel with smooth transition */}
       <aside
         aria-label="Context and sources sidebar"
-        className={`fixed top-0 right-0 h-full w-full sm:w-[380px] bg-[#121318]/95 backdrop-blur-xl border-l border-white/10 shadow-2xl z-40 flex flex-col transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[380px] bg-surface border-l border-border-hairline shadow-2xl z-40 flex flex-col transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
         }`}
       >
         {/* PANEL HEADER */}
-        <div className="h-14 px-4 flex items-center justify-between border-b border-white/10 shrink-0 bg-[#16171d]/80">
+        <div className="h-14 px-4 flex items-center justify-between border-b border-border-hairline shrink-0 bg-surface">
           <div className="flex items-center gap-2">
-            <FileText className="w-4 h-4 text-[#8EC5E8]" />
-            <h2 className="font-serif text-sm font-semibold text-white tracking-wide">
+            <FileText className="w-4 h-4 text-accent" />
+            <h2 className="font-serif text-sm font-semibold text-primary tracking-wide">
               Context & Sources
             </h2>
           </div>
@@ -209,7 +209,7 @@ Cephalometric Landmarks:
               <button
                 type="button"
                 onClick={onToggleExtended}
-                className="p-1.5 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors cursor-pointer hidden sm:flex"
+                className="p-1.5 rounded-lg text-muted hover:text-primary hover:bg-elevated transition-colors cursor-pointer hidden sm:flex"
                 title={isExtended ? 'Standard Width' : 'Extend Width'}
               >
                 {isExtended ? (
@@ -223,7 +223,7 @@ Cephalometric Landmarks:
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 rounded-lg text-muted hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg text-muted hover:text-primary hover:bg-elevated transition-colors cursor-pointer"
               title="Close Context & Sources"
               aria-label="Close Context & Sources"
             >
@@ -235,7 +235,7 @@ Cephalometric Landmarks:
         {/* SCROLLABLE BODY */}
         <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-5 select-none">
           {/* SECTION 1: CURRENT CASE SELECTOR */}
-          <div className="pb-3 border-b border-white/5">
+          <div className="pb-3 border-b border-border-hairline">
             <label
               htmlFor="case-selector-dropdown"
               className="block text-[10px] font-mono uppercase tracking-widest text-muted font-medium mb-1.5"
@@ -247,10 +247,10 @@ Cephalometric Landmarks:
                 id="case-selector-dropdown"
                 value={currentCase.id}
                 onChange={(e) => onSelectCase(e.target.value)}
-                className="w-full bg-[#16171f] hover:bg-[#1a1b24] border border-white/10 hover:border-white/20 rounded-lg px-3 py-2 text-xs text-white appearance-none focus:outline-none focus:border-[#8EC5E8]/60 transition-colors pr-8 cursor-pointer font-medium"
+                className="w-full bg-elevated hover:bg-elevated-hover border border-border-hairline rounded-lg px-3 py-2 text-xs text-primary appearance-none focus:outline-none focus:ring-1 focus:ring-accent transition-colors pr-8 cursor-pointer font-medium"
               >
                 {mockCases.map((c) => (
-                  <option key={c.id} value={c.id} className="bg-[#181920] text-white">
+                  <option key={c.id} value={c.id} className="bg-surface text-primary">
                     {c.caseNumber}: {c.patientName} ({c.procedure.split(' ')[0]})
                   </option>
                 ))}
@@ -260,10 +260,10 @@ Cephalometric Landmarks:
           </div>
 
           {/* SECTION 2: CASE CLINICAL OVERVIEW (CARD-FREE EDITORIAL CANVAS) */}
-          <div className="pb-4 border-b border-white/5 space-y-3">
+          <div className="pb-4 border-b border-border-hairline space-y-3">
             <div className="flex items-center justify-between">
-              <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-[#8EC5E8]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#8EC5E8] animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-accent">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                 {currentCase.caseNumber}
               </span>
               <span className="text-[10px] text-muted font-mono tracking-wider uppercase">
@@ -272,7 +272,7 @@ Cephalometric Landmarks:
             </div>
 
             <div>
-              <h3 className="font-serif text-base font-medium text-white tracking-tight">
+              <h3 className="font-serif text-base font-medium text-primary tracking-tight">
                 {currentCase.patientName}
               </h3>
               <p className="text-xs text-secondary mt-0.5">
@@ -283,13 +283,13 @@ Cephalometric Landmarks:
             <div className="grid grid-cols-2 gap-x-3 gap-y-2 pt-1 text-xs">
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-wider text-muted block">Demographics</span>
-                <span className="text-white font-medium text-xs mt-0.5 block">
+                <span className="text-primary font-medium text-xs mt-0.5 block">
                   {currentCase.gender[0]}, {currentCase.age} yrs
                 </span>
               </div>
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-wider text-muted block">Quality Risk</span>
-                <span className="text-[#8EC5E8] font-medium text-xs mt-0.5 block">
+                <span className="text-accent font-medium text-xs mt-0.5 block">
                   Low (2.4%)
                 </span>
               </div>
@@ -297,28 +297,28 @@ Cephalometric Landmarks:
           </div>
 
           {/* SECTION 3: AVAILABLE SAMPLE DOSSIER FILES (CARD-FREE STREAM) */}
-          <div className="pb-4 border-b border-white/5 space-y-2">
+          <div className="pb-4 border-b border-border-hairline space-y-2">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] font-mono uppercase tracking-widest text-muted font-semibold">
                 Dossier Files
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono text-[#8EC5E8] bg-[#8EC5E8]/10 border border-[#8EC5E8]/20">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono text-accent bg-accent/10 border border-accent/20">
                 {dossierFiles.length} files
               </span>
             </div>
 
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-border-hairline">
               {dossierFiles.map((file) => {
                 const isAttached = attachedFiles.includes(file.name);
                 return (
                   <div
                     key={file.id}
-                    className="py-2.5 px-2 -mx-2 rounded-lg hover:bg-white/[0.03] transition-colors flex items-center justify-between gap-3 group"
+                    className="py-2.5 px-2 -mx-2 rounded-lg hover:bg-elevated transition-colors flex items-center justify-between gap-3 group"
                   >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">
-                        <FileText className="w-3.5 h-3.5 text-muted group-hover:text-[#8EC5E8] transition-colors shrink-0" />
-                        <p className="font-mono text-xs text-white truncate font-medium" title={file.name}>
+                        <FileText className="w-3.5 h-3.5 text-muted group-hover:text-accent transition-colors shrink-0" />
+                        <p className="font-mono text-xs text-primary truncate font-medium" title={file.name}>
                           {file.name}
                         </p>
                       </div>
@@ -331,7 +331,7 @@ Cephalometric Landmarks:
                       <button
                         type="button"
                         onClick={() => setInspectingFile(file)}
-                        className="px-2 py-1 rounded text-[11px] font-medium text-secondary hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                        className="px-2 py-1 rounded text-[11px] font-medium text-secondary hover:text-primary hover:bg-elevated-hover transition-colors cursor-pointer"
                         title={`Inspect ${file.name}`}
                       >
                         Inspect
@@ -341,8 +341,8 @@ Cephalometric Landmarks:
                         onClick={() => handleToggleAttach(file.name)}
                         className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-all cursor-pointer flex items-center gap-1 ${
                           isAttached
-                            ? 'bg-[#8EC5E8]/20 border border-[#8EC5E8]/50 text-[#8EC5E8]'
-                            : 'bg-white/5 hover:bg-white/10 text-secondary hover:text-white'
+                            ? 'bg-accent/20 border border-accent/50 text-accent'
+                            : 'bg-elevated hover:bg-elevated-hover text-secondary hover:text-primary border border-border-hairline'
                         }`}
                         title={isAttached ? 'Detach file' : 'Attach to query'}
                       >
@@ -368,33 +368,33 @@ Cephalometric Landmarks:
               <span className="text-[10px] font-mono uppercase tracking-widest text-muted font-semibold">
                 Evidence Checks
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono text-[#8EC5E8] bg-[#8EC5E8]/10 border border-[#8EC5E8]/20">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono text-accent bg-accent/10 border border-accent/20">
                 Audit Ready
               </span>
             </div>
 
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-border-hairline">
               {evidenceItems.map((item) => (
                 <div
                   key={item.id}
-                  className="py-3 px-2 -mx-2 rounded-lg hover:bg-white/[0.03] transition-colors space-y-1.5 group"
+                  className="py-3 px-2 -mx-2 rounded-lg hover:bg-elevated transition-colors space-y-1.5 group"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-white">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#8EC5E8] shrink-0" />
-                      <span className="group-hover:text-[#8EC5E8] transition-colors font-medium">{item.title}</span>
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-primary">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                      <span className="group-hover:text-accent transition-colors font-medium">{item.title}</span>
                     </div>
-                    <span className="text-[10px] font-mono text-[#8EC5E8] shrink-0">
+                    <span className="text-[10px] font-mono text-accent shrink-0">
                       {item.status}
                     </span>
                   </div>
 
-                  <p className="text-xs text-secondary/80 leading-relaxed pl-5">
+                  <p className="text-xs text-secondary leading-relaxed pl-5">
                     {item.description}
                   </p>
 
                   <div className="pl-5 pt-0.5">
-                    <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-mono text-muted bg-white/5 border border-white/5">
+                    <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-mono text-muted bg-elevated border border-border-hairline">
                       {item.tag}
                     </span>
                   </div>
@@ -424,11 +424,11 @@ Cephalometric Landmarks:
       >
         {inspectingFile && (
           <div className="space-y-4">
-            <div className="p-3.5 rounded-lg bg-[#0e0f14] border border-white/10 font-mono text-xs text-primary leading-relaxed whitespace-pre-line max-h-96 overflow-y-auto custom-scrollbar select-text">
+            <div className="p-3.5 rounded-lg bg-base border border-border-hairline font-mono text-xs text-primary leading-relaxed whitespace-pre-line max-h-96 overflow-y-auto custom-scrollbar select-text">
               {inspectingFile.previewContent}
             </div>
 
-            <div className="flex items-center justify-between pt-2 border-t border-white/10">
+            <div className="flex items-center justify-between pt-2 border-t border-border-hairline">
               <span className="text-xs text-muted font-mono">
                 Cryptographic SHA-256 Verified
               </span>
@@ -439,7 +439,7 @@ Cephalometric Landmarks:
                     handleToggleAttach(inspectingFile.name);
                     setInspectingFile(null);
                   }}
-                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[#8EC5E8] text-black hover:bg-[#8EC5E8]/90 transition-colors"
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-btn-primary-bg text-btn-primary-text hover:opacity-90 transition-colors"
                 >
                   {attachedFiles.includes(inspectingFile.name)
                     ? 'Detach from Inquiry'

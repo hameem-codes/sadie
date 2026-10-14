@@ -66,10 +66,10 @@ export const Drawer: React.FC<DrawerProps> = ({
       {/* Drawer Container */}
       <div className={`fixed inset-y-0 ${side === 'right' ? 'right-0 pl-0 xs:pl-6 sm:pl-10' : 'left-0 pr-0 xs:pr-6 sm:pr-10'} max-w-full flex`}>
         <div
-          className={`w-full max-w-full ${widthClasses[width]} bg-[#111111] border-l border-white/15 shadow-2xl flex flex-col transform transition-transform duration-300 ease-out pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]`}
+          className={`w-full max-w-full ${widthClasses[width]} bg-surface border-l border-border-hairline shadow-2xl flex flex-col transform transition-transform duration-300 ease-out pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]`}
         >
           {/* Header */}
-          <div className="p-5 border-b border-white/10 flex items-center justify-between bg-surface/50">
+          <div className="p-5 border-b border-border-hairline flex items-center justify-between bg-surface">
             <div>
               {title && (
                 <h3 className="font-serif text-lg font-medium text-primary">
@@ -85,7 +85,7 @@ export const Drawer: React.FC<DrawerProps> = ({
               size="icon"
               onClick={onClose}
               aria-label="Close drawer"
-              className="text-muted hover:text-white"
+              className="text-muted hover:text-primary"
             >
               <X className="w-4 h-4" />
             </Button>

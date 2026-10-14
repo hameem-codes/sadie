@@ -43,7 +43,7 @@ export const Tabs: React.FC<TabsProps> = ({
                 </span>
               )}
               {isActive && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-btn-primary-bg rounded-full" />
               )}
             </button>
           );
@@ -62,7 +62,7 @@ export const Tabs: React.FC<TabsProps> = ({
             onClick={() => onChange(tab.id)}
             className={`px-3 sm:px-3.5 py-1.5 rounded-pill text-xs font-medium transition-all flex items-center gap-1.5 sm:gap-2 select-none hover-lift whitespace-nowrap shrink-0 cursor-pointer ${
               isActive
-                ? 'bg-white text-base shadow-sm font-semibold'
+                ? 'bg-btn-primary-bg text-btn-primary-text shadow-sm font-semibold'
                 : 'text-secondary hover:text-primary hover:bg-elevated/60'
             }`}
           >
@@ -71,7 +71,7 @@ export const Tabs: React.FC<TabsProps> = ({
             {typeof tab.count === 'number' && (
               <span
                 className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono shrink-0 ${
-                  isActive ? 'bg-base text-white' : 'bg-elevated text-muted'
+                  isActive ? 'bg-surface text-primary' : 'bg-elevated text-muted'
                 }`}
               >
                 {tab.count}

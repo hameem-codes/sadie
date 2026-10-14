@@ -20,10 +20,10 @@ export const Chip: React.FC<ChipProps> = ({
   const baseStyles = 'inline-flex items-center gap-2 px-3.5 py-1.5 text-xs sm:text-[13px] font-medium rounded-pill whitespace-nowrap shrink-0 transition-all duration-200 select-none hover-lift focus:outline-none focus-visible:ring-1 focus-visible:ring-white/40 cursor-pointer';
 
   const stateStyles = active
-    ? 'bg-white text-base font-semibold shadow-sm border border-transparent'
-    : 'bg-elevated text-secondary border border-border-hairline hover:text-primary hover:border-white/30 hover:bg-elevated-hover';
+    ? 'bg-btn-primary-bg text-btn-primary-text font-semibold shadow-sm border border-transparent'
+    : 'bg-elevated text-secondary border border-border-hairline hover:text-primary hover:border-border-subtle hover:bg-elevated-hover';
 
-  const suggestionStyles = 'bg-surface text-secondary border border-white/10 hover:border-white/25 hover:text-primary text-sm py-1.5 px-3.5';
+  const suggestionStyles = 'bg-surface text-secondary border border-border-hairline hover:border-border-subtle hover:text-primary text-sm py-1.5 px-3.5';
 
   return (
     <button
@@ -37,7 +37,7 @@ export const Chip: React.FC<ChipProps> = ({
       {typeof count === 'number' && (
         <span
           className={`ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-mono leading-none ${
-            active ? 'bg-base text-white' : 'bg-surface text-muted'
+            active ? 'bg-base text-primary' : 'bg-surface text-muted'
           }`}
         >
           {count}

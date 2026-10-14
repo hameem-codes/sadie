@@ -438,7 +438,7 @@ export const Cases: React.FC = () => {
       width: '75px',
       align: 'center',
       render: (item) => item.score ? (
-        <span className="font-mono font-medium text-[13px] sm:text-sm text-[#a3ffb2] bg-[#122415] px-2.5 py-0.5 rounded-pill border border-[#2f6b3a]/70 whitespace-nowrap">
+        <span className="font-mono font-medium text-[13px] sm:text-sm text-status-completed bg-status-completed/10 px-2.5 py-0.5 rounded-pill border border-status-completed/30 whitespace-nowrap">
           <AnimatedNumber value={`${item.score}%`} />
         </span>
       ) : (
@@ -464,7 +464,7 @@ export const Cases: React.FC = () => {
             variant="ghost"
             size="sm"
             onClick={() => navigate(`/cases/${item.id}`)}
-            className="text-sm text-secondary hover:text-white px-2.5 py-1"
+            className="text-sm text-secondary hover:text-primary px-2.5 py-1"
           >
             Open
           </Button>
@@ -474,14 +474,14 @@ export const Cases: React.FC = () => {
             size="icon"
             onClick={() => setMenuOpenCaseId(menuOpenCaseId === item.id ? null : item.id)}
             aria-label="Case actions menu"
-            className="text-muted hover:text-white h-8 w-8"
+            className="text-muted hover:text-primary h-8 w-8"
           >
             <MoreVertical className="w-4 h-4" />
           </Button>
 
           {/* Row Actions Dropdown */}
           {menuOpenCaseId === item.id && (
-            <div className="absolute right-0 top-10 w-44 bg-[#16171d] rounded-lg shadow-2xl border border-white/20 p-1.5 z-50 animate-fade-up">
+            <div className="absolute right-0 top-10 w-44 bg-surface rounded-lg shadow-2xl border border-border-hairline p-1.5 z-50 animate-fade-up">
               <button
                 type="button"
                 onClick={() => {
@@ -682,7 +682,7 @@ export const Cases: React.FC = () => {
               placeholder={searchInNotesOnly ? "Full-text search in operative notes..." : "Search patient, MRN, procedure, or notes..."}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#111111] border border-border-hairline rounded-pill pl-10 pr-4 py-2.5 text-sm sm:text-base text-primary placeholder-muted focus:outline-none focus:border-white/40"
+              className="w-full bg-elevated border border-border-hairline rounded-pill pl-10 pr-4 py-2.5 text-sm sm:text-base text-primary placeholder-muted focus:outline-none focus:border-border-subtle"
             />
           </form>
 
@@ -719,7 +719,7 @@ export const Cases: React.FC = () => {
             <select
               value={activePreset}
               onChange={(e) => applyPreset(e.target.value)}
-              className="bg-elevated border border-white/10 rounded-pill px-3 py-1.5 text-xs text-secondary hover:text-white focus:outline-none cursor-pointer whitespace-nowrap shrink-0 h-[32px]"
+              className="bg-elevated border border-border-hairline rounded-pill px-3 py-1.5 text-xs text-secondary hover:text-primary focus:outline-none cursor-pointer whitespace-nowrap shrink-0 h-[32px]"
               title="Filter Presets"
             >
               <option value="default">Presets: All / Custom</option>
@@ -737,8 +737,8 @@ export const Cases: React.FC = () => {
                 onClick={() => setIsColumnsDropdownOpen(!isColumnsDropdownOpen)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-xs font-mono transition-all cursor-pointer whitespace-nowrap h-[32px] ${
                   isColumnsDropdownOpen
-                    ? 'bg-white/20 text-white border border-white/30'
-                    : 'bg-elevated border border-white/10 text-secondary hover:text-white'
+                    ? 'bg-elevated text-primary border border-border-subtle'
+                    : 'bg-elevated border border-border-hairline text-secondary hover:text-primary'
                 }`}
                 title="Customize visible table columns"
               >
@@ -747,7 +747,7 @@ export const Cases: React.FC = () => {
               </button>
 
               {isColumnsDropdownOpen && (
-                <div className="absolute right-0 top-9 w-52 bg-[#16171d] rounded-xl shadow-2xl border border-white/20 p-3 z-50 animate-fade-up space-y-2 text-xs">
+                <div className="absolute right-0 top-9 w-52 bg-surface rounded-xl shadow-2xl border border-border-hairline p-3 z-50 animate-fade-up space-y-2 text-xs">
                   <span className="text-[11px] font-semibold text-muted uppercase tracking-wider block">Visible Columns</span>
                   {[
                     { key: 'caseNumber' as const, label: 'Case ID' },
@@ -844,21 +844,21 @@ export const Cases: React.FC = () => {
             </button>
 
             {isProcedureDropdownOpen && (
-              <div className="absolute left-0 top-9 w-64 bg-[#16171d] rounded-xl shadow-2xl border border-white/20 p-3 z-50 animate-fade-up space-y-1.5 text-xs">
-                <div className="flex items-center justify-between pb-1.5 border-b border-white/10">
+              <div className="absolute left-0 top-9 w-64 bg-surface rounded-xl shadow-2xl border border-border-hairline p-3 z-50 animate-fade-up space-y-1.5 text-xs">
+                <div className="flex items-center justify-between pb-1.5 border-b border-border-hairline">
                   <span className="text-[11px] font-semibold text-muted uppercase tracking-wider">Select Procedures</span>
                   <div className="flex gap-2">
                     <button
                       type="button"
                       onClick={() => setSelectedProcedures(ALL_PROCEDURES)}
-                      className="text-[10px] text-[#8EC5E8] hover:underline"
+                      className="text-[10px] text-accent hover:underline"
                     >
                       All
                     </button>
                     <button
                       type="button"
                       onClick={() => setSelectedProcedures([])}
-                      className="text-[10px] text-muted hover:text-white hover:underline"
+                      className="text-[10px] text-muted hover:text-primary hover:underline"
                     >
                       Clear
                     </button>

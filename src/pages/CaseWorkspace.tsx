@@ -326,7 +326,7 @@ export const CaseWorkspace: React.FC = () => {
       header: 'Measurement / Parameter',
       render: (item) => (
         <div className="min-w-[150px]">
-          <span className="font-medium text-white block">{item.name}</span>
+          <span className="font-medium text-primary block">{item.name}</span>
           <span className="text-xs text-muted font-mono">{item.landmark}</span>
         </div>
       )
@@ -335,7 +335,7 @@ export const CaseWorkspace: React.FC = () => {
       key: 'category',
       header: 'Category',
       render: (item) => (
-        <span className="text-xs px-2 py-0.5 rounded-pill bg-elevated border border-white/10 text-secondary whitespace-nowrap">
+        <span className="text-xs px-2 py-0.5 rounded-pill bg-elevated border border-border-hairline text-secondary whitespace-nowrap">
           {item.category}
         </span>
       )
@@ -355,7 +355,7 @@ export const CaseWorkspace: React.FC = () => {
       header: 'Post-Op',
       align: 'right',
       render: (item) => (
-        <span className="font-mono text-[15px] text-white font-medium whitespace-nowrap">
+        <span className="font-mono text-[15px] text-primary font-medium whitespace-nowrap">
           {item.postOp} {item.unit}
         </span>
       )
@@ -365,7 +365,7 @@ export const CaseWorkspace: React.FC = () => {
       header: 'Change (Δ)',
       align: 'right',
       render: (item) => (
-        <span className={`font-mono text-[15px] font-semibold whitespace-nowrap ${item.change >= 0 ? 'text-[#a3ffb2]' : 'text-[#8ec5e8]'}`}>
+        <span className={`font-mono text-[15px] font-semibold whitespace-nowrap ${item.change >= 0 ? 'text-status-completed' : 'text-accent'}`}>
           {item.change > 0 ? `+${item.change}` : item.change} {item.unit}
         </span>
       )
@@ -385,7 +385,7 @@ export const CaseWorkspace: React.FC = () => {
       align: 'center',
       render: (item) => (
         <div className="whitespace-nowrap">
-          <span className="inline-flex items-center gap-1.5 text-xs text-[#a3ffb2] bg-[#122415] px-2.5 py-0.5 rounded-pill border border-[#2f6b3a]/70">
+          <span className="inline-flex items-center gap-1.5 text-xs text-status-completed bg-status-completed/10 px-2.5 py-0.5 rounded-pill border border-status-completed/30">
             <CheckCircle2 className="w-3.5 h-3.5" />
             Within Norm
           </span>
@@ -400,35 +400,35 @@ export const CaseWorkspace: React.FC = () => {
       <button
         type="button"
         onClick={() => navigate('/cases')}
-        className="inline-flex items-center gap-2 text-xs text-secondary hover:text-white transition-colors"
+        className="inline-flex items-center gap-2 text-xs text-secondary hover:text-primary transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Cases Directory
       </button>
 
       {/* Case Header Banner */}
-      <div className="p-6 rounded-2xl bg-surface/80 border border-border-hairline backdrop-blur-md shadow-card-subtle flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6">
+      <div className="p-6 rounded-2xl bg-surface border border-border-hairline shadow-card flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6">
         <div>
           <div className="flex flex-wrap items-center gap-2.5 mb-2">
-            <span className="font-mono text-xs text-white px-2 py-0.5 rounded bg-elevated border border-white/10">
+            <span className="font-mono text-xs text-primary px-2 py-0.5 rounded bg-elevated border border-border-hairline">
               {caseData.caseNumber}
             </span>
             <StatusPill status={caseData.status} size="sm" />
             <span className="text-xs text-muted">• {caseData.stage}</span>
           </div>
 
-          <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-white">
+          <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-primary">
             {caseData.patientName}
           </h1>
 
           <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-secondary">
-            <span>MRN: <strong className="text-white font-mono">{caseData.patientId}</strong></span>
+            <span>MRN: <strong className="text-primary font-mono">{caseData.patientId}</strong></span>
             <span>•</span>
-            <span>Age: <strong className="text-white">{caseData.age}y</strong> ({caseData.gender})</span>
+            <span>Age: <strong className="text-primary">{caseData.age}y</strong> ({caseData.gender})</span>
             <span>•</span>
-            <span>Procedure: <strong className="text-white">{caseData.procedure}</strong></span>
+            <span>Procedure: <strong className="text-primary">{caseData.procedure}</strong></span>
             <span>•</span>
-            <div className="inline-flex items-center gap-1.5 bg-elevated/80 border border-white/15 rounded-pill px-2.5 py-0.5">
+            <div className="inline-flex items-center gap-1.5 bg-elevated border border-border-hairline rounded-pill px-2.5 py-0.5">
               <span className="text-muted">Primary Surgeon:</span>
               <select
                 value={caseData.primarySurgeon || 'Dr. Evelyn Vance, MD, DDS'}
@@ -441,14 +441,14 @@ export const CaseWorkspace: React.FC = () => {
                     message: `Primary surgical responsibility assigned to ${newSurgeon}`
                   });
                 }}
-                className="bg-transparent text-white font-medium text-xs focus:outline-none cursor-pointer"
+                className="bg-transparent text-primary font-medium text-xs focus:outline-none cursor-pointer"
                 title="Assign case to specific surgeon"
               >
-                <option value="Dr. Evelyn Vance, MD, DDS" className="bg-[#16171d]">Dr. Evelyn Vance, MD, DDS</option>
-                <option value="Dr. Marcus Sterling, DMD" className="bg-[#16171d]">Dr. Marcus Sterling, DMD</option>
-                <option value="Dr. Soraya Chen, MD" className="bg-[#16171d]">Dr. Soraya Chen, MD</option>
-                <option value="Dr. Tariq Al-Mansoor, DDS" className="bg-[#16171d]">Dr. Tariq Al-Mansoor, DDS</option>
-                <option value="Maxillofacial Service Team A" className="bg-[#16171d]">Fellowship Service Team A</option>
+                <option value="Dr. Evelyn Vance, MD, DDS" className="bg-surface text-primary">Dr. Evelyn Vance, MD, DDS</option>
+                <option value="Dr. Marcus Sterling, DMD" className="bg-surface text-primary">Dr. Marcus Sterling, DMD</option>
+                <option value="Dr. Soraya Chen, MD" className="bg-surface text-primary">Dr. Soraya Chen, MD</option>
+                <option value="Dr. Tariq Al-Mansoor, DDS" className="bg-surface text-primary">Dr. Tariq Al-Mansoor, DDS</option>
+                <option value="Maxillofacial Service Team A" className="bg-surface text-primary">Fellowship Service Team A</option>
               </select>
             </div>
           </div>
@@ -463,7 +463,7 @@ export const CaseWorkspace: React.FC = () => {
               variant="secondary"
               size="sm"
               onClick={() => setIsCopilotOpen(true)}
-              icon={<Sparkles className="w-3.5 h-3.5 text-white" />}
+              icon={<Sparkles className="w-3.5 h-3.5 text-accent" />}
               iconPosition="left"
               className="text-xs whitespace-nowrap"
             >
@@ -474,7 +474,7 @@ export const CaseWorkspace: React.FC = () => {
               size="sm"
               onClick={() => setIsShareModalOpen(true)}
               icon={<Share2 className="w-3.5 h-3.5" />}
-              className="border-white/15 text-xs whitespace-nowrap"
+              className="border-border-hairline text-xs whitespace-nowrap"
             >
               Share
             </Button>
@@ -483,7 +483,7 @@ export const CaseWorkspace: React.FC = () => {
               size="sm"
               onClick={() => setIsReportOpen(true)}
               icon={<FileText className="w-3.5 h-3.5" />}
-              className="border-white/15 text-xs whitespace-nowrap"
+              className="border-border-hairline text-xs whitespace-nowrap"
             >
               Report
             </Button>
@@ -491,9 +491,9 @@ export const CaseWorkspace: React.FC = () => {
               variant="primary"
               size="sm"
               onClick={handleRunAnalysis}
-              icon={<Play className="w-3.5 h-3.5 text-black fill-black" />}
+              icon={<Play className="w-3.5 h-3.5 fill-current" />}
               iconPosition="left"
-              className="shadow-glow-subtle font-semibold text-xs whitespace-nowrap"
+              className="font-semibold text-xs whitespace-nowrap"
             >
               Run Analysis
             </Button>
@@ -505,8 +505,8 @@ export const CaseWorkspace: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => setIsAuditModalOpen(true)}
-              icon={<ShieldCheck className="w-3.5 h-3.5 text-[#a3ffb2]" />}
-              className="border-white/10 text-xs text-secondary hover:text-white whitespace-nowrap"
+              icon={<ShieldCheck className="w-3.5 h-3.5 text-status-completed" />}
+              className="border-border-hairline text-xs text-secondary hover:text-primary whitespace-nowrap"
             >
               Audit Trail
             </Button>
@@ -514,8 +514,8 @@ export const CaseWorkspace: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => setIsMobileModalOpen(true)}
-              icon={<Smartphone className="w-3.5 h-3.5 text-[#8EC5E8]" />}
-              className="border-white/10 text-xs text-secondary hover:text-white whitespace-nowrap"
+              icon={<Smartphone className="w-3.5 h-3.5 text-accent" />}
+              className="border-border-hairline text-xs text-secondary hover:text-primary whitespace-nowrap"
             >
               Mobile Camera
             </Button>
@@ -523,8 +523,8 @@ export const CaseWorkspace: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => setIsIntegrationsModalOpen(true)}
-              icon={<Database className="w-3.5 h-3.5 text-[#8EC5E8]" />}
-              className="border-white/10 text-xs text-secondary hover:text-white whitespace-nowrap"
+              icon={<Database className="w-3.5 h-3.5 text-accent" />}
+              className="border-border-hairline text-xs text-secondary hover:text-primary whitespace-nowrap"
             >
               PACS / EHR
             </Button>
@@ -532,8 +532,8 @@ export const CaseWorkspace: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={() => setIsSecurityModalOpen(true)}
-              icon={<KeyRound className="w-3.5 h-3.5 text-[#8EC5E8]" />}
-              className="border-white/10 text-xs text-secondary hover:text-white whitespace-nowrap"
+              icon={<KeyRound className="w-3.5 h-3.5 text-accent" />}
+              className="border-border-hairline text-xs text-secondary hover:text-primary whitespace-nowrap"
             >
               Security
             </Button>
@@ -560,13 +560,13 @@ export const CaseWorkspace: React.FC = () => {
         <div className="space-y-6 animate-fade-up">
           {/* Top Score Banner with Confidence Interval */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="p-6 bg-[#121212] border-white/15 flex flex-col justify-between">
+            <Card className="p-6 bg-surface border border-border-hairline shadow-card flex flex-col justify-between">
               <div>
                 <span className="text-xs uppercase tracking-wider font-semibold text-muted">
                   SADIE Final Outcome Score
                 </span>
                 <div className="mt-3 flex items-baseline gap-3">
-                  <span className="font-serif text-3xl sm:text-4xl font-medium text-white tracking-tight">
+                  <span className="font-serif text-3xl sm:text-4xl font-medium text-primary tracking-tight">
                     {caseData.score ? (
                       <AnimatedNumber value={`${caseData.score}%`} />
                     ) : (
@@ -574,7 +574,7 @@ export const CaseWorkspace: React.FC = () => {
                     )}
                   </span>
                   {caseData.score && (
-                    <span className="text-xs font-semibold text-[#a3ffb2] bg-[#122415] px-2.5 py-1 rounded-pill border border-[#2f6b3a]/70">
+                    <span className="text-xs font-semibold text-status-completed bg-status-completed/10 px-2.5 py-1 rounded-pill border border-status-completed/30">
                       Level 1 Passing
                     </span>
                   )}
@@ -582,9 +582,9 @@ export const CaseWorkspace: React.FC = () => {
               </div>
 
               {caseData.confidenceInterval && (
-                <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
+                <div className="mt-4 pt-4 border-t border-border-hairline flex items-center justify-between text-xs">
                   <span className="text-secondary">95% Confidence Interval:</span>
-                  <span className="font-mono text-white font-medium">
+                  <span className="font-mono text-primary font-medium">
                     [<AnimatedNumber value={`${caseData.confidenceInterval[0]}%`} /> – <AnimatedNumber value={`${caseData.confidenceInterval[1]}%`} />]
                   </span>
                 </div>
@@ -592,7 +592,7 @@ export const CaseWorkspace: React.FC = () => {
             </Card>
 
             {/* Quick Clinical Summary Notes */}
-            <Card className="p-6 col-span-1 md:col-span-2 flex flex-col justify-between">
+            <Card className="p-6 col-span-1 md:col-span-2 flex flex-col justify-between bg-surface border border-border-hairline shadow-card">
               <div>
                 <div className="flex items-center justify-between">
                   <span className="text-xs uppercase tracking-wider font-semibold text-muted">
@@ -605,12 +605,12 @@ export const CaseWorkspace: React.FC = () => {
                 </p>
               </div>
 
-              <div className="mt-4 pt-4 border-t border-white/5 flex flex-wrap items-center gap-4 text-xs text-muted">
-                <span>Surgery Date: <strong className="text-white">{caseData.surgeryDate}</strong></span>
+              <div className="mt-4 pt-4 border-t border-border-hairline flex flex-wrap items-center gap-4 text-xs text-muted">
+                <span>Surgery Date: <strong className="text-primary">{caseData.surgeryDate}</strong></span>
                 <span>•</span>
-                <span>Last Updated: <strong className="text-white">{caseData.lastUpdated}</strong></span>
+                <span>Last Updated: <strong className="text-primary">{caseData.lastUpdated}</strong></span>
                 <span>•</span>
-                <span className="text-[#a3ffb2] flex items-center gap-1">
+                <span className="text-status-completed flex items-center gap-1 font-medium">
                   <ShieldCheck className="w-3.5 h-3.5" /> High Precision Segmentation
                 </span>
               </div>
@@ -635,21 +635,21 @@ export const CaseWorkspace: React.FC = () => {
 
           {/* AI Clinical Anomaly Alert & Treatment Recommendation Banners */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-[#231515] border border-[#c8623c]/40 flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-[#fca582] shrink-0 mt-0.5" />
+            <div className="p-4 rounded-xl bg-status-failed/10 border border-status-failed/30 flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-status-failed shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <span className="font-semibold text-white text-xs block">AI Anomaly Alert: Scatter Cleansed</span>
-                <p className="text-[11px] text-[#fca582]/90 leading-relaxed">
+                <span className="font-semibold text-primary text-xs block">AI Anomaly Alert: Scatter Cleansed</span>
+                <p className="text-[11px] text-secondary leading-relaxed">
                   Titanium bracket scatter suppressed on right condyle. 3D landmark localization maintained ±0.18mm isotropic fidelity.
                 </p>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#122415] border border-[#2f6b3a]/50 flex items-start gap-3">
-              <Sparkles className="w-5 h-5 text-[#a3ffb2] shrink-0 mt-0.5" />
+            <div className="p-4 rounded-xl bg-status-completed/10 border border-status-completed/30 flex items-start gap-3">
+              <Sparkles className="w-5 h-5 text-status-completed shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <span className="font-semibold text-white text-xs block">Predictive Rubric Recommendation</span>
-                <p className="text-[11px] text-[#a3ffb2]/90 leading-relaxed">
+                <span className="font-semibold text-primary text-xs block">Predictive Rubric Recommendation</span>
+                <p className="text-[11px] text-secondary leading-relaxed">
                   Maxillary advancement of 4.5mm successfully addresses retrognathic airway obstruction (+32% volume). Recommended protocol: Guiding elastics for 14 days.
                 </p>
               </div>
@@ -667,17 +667,17 @@ export const CaseWorkspace: React.FC = () => {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {caseData.domainScores.map((ds, i) => (
-                  <Card key={i} className="p-5 flex flex-col justify-between">
+                  <Card key={i} className="p-5 flex flex-col justify-between bg-surface border border-border-hairline shadow-card">
                     <div>
                       <div className="flex items-center justify-between">
-                        <span className="font-medium text-sm text-white">{ds.domain}</span>
-                        <span className="font-mono font-medium text-sm text-[#a3ffb2]">
+                        <span className="font-medium text-sm text-primary">{ds.domain}</span>
+                        <span className="font-mono font-medium text-sm text-status-completed">
                           <AnimatedNumber value={ds.score} />/100
                         </span>
                       </div>
-                      <div className="w-full bg-[#1c1c1c] h-1.5 rounded-full overflow-hidden my-3">
+                      <div className="w-full bg-elevated h-1.5 rounded-full overflow-hidden my-3">
                         <div
-                          className="bg-white h-full rounded-full transition-all duration-500"
+                          className="bg-btn-primary-bg h-full rounded-full transition-all duration-500"
                           style={{ width: `${ds.score}%` }}
                         />
                       </div>
@@ -685,7 +685,7 @@ export const CaseWorkspace: React.FC = () => {
                         {ds.summary}
                       </p>
                     </div>
-                    <div className="mt-3 pt-3 border-t border-white/5 text-[11px] text-muted flex items-center justify-between">
+                    <div className="mt-3 pt-3 border-t border-border-hairline text-[11px] text-muted flex items-center justify-between">
                       <span>Rubric Weight: {ds.weight}%</span>
                       <span className="text-status-completed font-medium capitalize">{ds.status}</span>
                     </div>
@@ -702,7 +702,7 @@ export const CaseWorkspace: React.FC = () => {
         <div className="space-y-4 animate-fade-up">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl bg-surface/60 border border-border-hairline">
             <div>
-              <h3 className="font-serif text-lg font-medium text-white">
+              <h3 className="font-serif text-lg font-medium text-primary">
                 Cephalometric & 3D Skeletal Measurements
               </h3>
               <p className="text-xs text-muted">Automated computerized landmark tracking against normative ranges.</p>
@@ -717,8 +717,8 @@ export const CaseWorkspace: React.FC = () => {
                   onClick={() => setMeasurementCategory(cat)}
                   className={`px-3 py-1 text-xs rounded-pill transition-all font-medium ${
                     measurementCategory === cat
-                      ? 'bg-white text-base shadow-sm'
-                      : 'bg-elevated text-secondary hover:text-white border border-border-hairline'
+                      ? 'bg-btn-primary-bg text-btn-primary-text shadow-sm'
+                      : 'bg-elevated text-secondary hover:text-primary border border-border-hairline'
                   }`}
                 >
                   {cat}
@@ -739,8 +739,8 @@ export const CaseWorkspace: React.FC = () => {
       {/* TAB 3: EVIDENCE */}
       {activeTab === 'evidence' && (
         <div className="space-y-4 animate-fade-up">
-          <div className="p-4 rounded-xl bg-surface/60 border border-border-hairline">
-            <h3 className="font-serif text-lg font-medium text-white">
+          <div className="p-4 rounded-xl bg-surface border border-border-hairline shadow-card">
+            <h3 className="font-serif text-lg font-medium text-primary">
               Linked Clinical Evidence & Rubric Audit Trail
             </h3>
             <p className="text-xs text-muted">Auditable pipeline linking radiographic findings directly to consensus rubric criteria.</p>
@@ -753,17 +753,17 @@ export const CaseWorkspace: React.FC = () => {
               </Card>
             ) : (
               caseData.evidence.map((ev) => (
-                <Card key={ev.id} className="p-5 space-y-3">
+                <Card key={ev.id} className="p-5 space-y-3 bg-surface border border-border-hairline shadow-card">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2.5">
                       <div className="w-2.5 h-2.5 rounded-full bg-status-completed" />
-                      <h4 className="font-medium text-base text-white">{ev.findingTitle}</h4>
+                      <h4 className="font-medium text-base text-primary">{ev.findingTitle}</h4>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-elevated border border-white/10 text-secondary">
+                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-elevated border border-border-hairline text-secondary">
                         {ev.rubricCode}
                       </span>
-                      <span className="text-xs font-mono text-[#a3ffb2] bg-[#122415] px-2 py-0.5 rounded-pill border border-[#2f6b3a]/70">
+                      <span className="text-xs font-mono text-status-completed bg-status-completed/10 px-2 py-0.5 rounded-pill border border-status-completed/30">
                         {ev.confidence}% Confidence
                       </span>
                     </div>
@@ -773,14 +773,14 @@ export const CaseWorkspace: React.FC = () => {
                     {ev.findingDescription}
                   </p>
 
-                  <div className="p-3 rounded-lg bg-[#111111] border border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+                  <div className="p-3 rounded-lg bg-base border border-border-hairline flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
                     <div>
                       <span className="text-muted mr-1.5">Rubric Target:</span>
-                      <strong className="text-white">{ev.rubricRule}</strong>
+                      <strong className="text-primary">{ev.rubricRule}</strong>
                     </div>
                     <div>
                       <span className="text-muted mr-1.5">Radiographic Source:</span>
-                      <span className="text-[#8ec5e8] font-mono">{ev.radiographicSource}</span>
+                      <span className="text-accent font-mono">{ev.radiographicSource}</span>
                     </div>
                   </div>
                 </Card>
@@ -794,7 +794,7 @@ export const CaseWorkspace: React.FC = () => {
       {activeTab === 'files' && (
         <div className="space-y-6 animate-fade-up">
           {/* Upload Zone */}
-          <div className="p-8 rounded-xl border-2 border-dashed border-white/15 bg-surface/30 hover:border-white/30 transition-colors text-center relative">
+          <div className="p-8 rounded-xl border-2 border-dashed border-border-hairline bg-surface/50 hover:border-accent/40 transition-colors text-center relative shadow-card">
             <input
               type="file"
               disabled={isUploading}
@@ -804,15 +804,15 @@ export const CaseWorkspace: React.FC = () => {
             />
             {isUploading ? (
               <div className="max-w-md mx-auto space-y-3 py-2">
-                <div className="w-10 h-10 rounded-full bg-elevated border border-white/10 flex items-center justify-center mx-auto text-white">
-                  <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                <div className="w-10 h-10 rounded-full bg-elevated border border-border-hairline flex items-center justify-center mx-auto text-primary">
+                  <div className="w-5 h-5 border-2 border-border-hairline border-t-accent rounded-full animate-spin" />
                 </div>
-                <h4 className="font-serif text-base font-medium text-white">
+                <h4 className="font-serif text-base font-medium text-primary">
                   Uploading & Parsing DICOM Series...
                 </h4>
-                <div className="w-full bg-elevated rounded-full h-2 overflow-hidden border border-white/10">
+                <div className="w-full bg-elevated rounded-full h-2 overflow-hidden border border-border-hairline">
                   <div
-                    className="bg-white h-full transition-all duration-300 rounded-full"
+                    className="bg-btn-primary-bg h-full transition-all duration-300 rounded-full"
                     style={{ width: `${uploadProgress}%` }}
                   />
                 </div>
@@ -820,10 +820,10 @@ export const CaseWorkspace: React.FC = () => {
               </div>
             ) : (
               <div className="max-w-md mx-auto space-y-2 pointer-events-none">
-                <div className="w-10 h-10 rounded-full bg-elevated border border-white/10 flex items-center justify-center mx-auto text-secondary">
+                <div className="w-10 h-10 rounded-full bg-elevated border border-border-hairline flex items-center justify-center mx-auto text-secondary">
                   <Upload className="w-5 h-5" />
                 </div>
-                <h4 className="font-serif text-lg font-medium text-white">
+                <h4 className="font-serif text-lg font-medium text-primary">
                   Upload Radiographic Imaging (DICOM / STL / CBCT)
                 </h4>
                 <p className="text-xs text-muted">
@@ -835,14 +835,14 @@ export const CaseWorkspace: React.FC = () => {
 
           {/* Files List */}
           <div className="space-y-3">
-            <h3 className="font-serif text-lg font-medium text-white">
+            <h3 className="font-serif text-lg font-medium text-primary">
               Associated Case Files ({files.length})
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {files.map(f => (
-                <Card key={f.id} className="p-4 flex items-center justify-between gap-3">
+                <Card key={f.id} className="p-4 flex items-center justify-between gap-3 bg-surface border border-border-hairline shadow-card">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-lg bg-elevated border border-white/10 flex items-center justify-center shrink-0 text-white font-mono text-xs font-bold">
+                    <div className="w-10 h-10 rounded-lg bg-elevated border border-border-hairline flex items-center justify-center shrink-0 text-primary font-mono text-xs font-bold">
                       {f.type === 'CBCT' ? 'CBCT' : f.type === 'CT 3D' ? '3D' : 'RAD'}
                     </div>
                     <div className="min-w-0">
@@ -852,7 +852,7 @@ export const CaseWorkspace: React.FC = () => {
                             type="text"
                             value={newFileName}
                             onChange={(e) => setNewFileName(e.target.value)}
-                            className="bg-base border border-white/30 rounded px-2 py-0.5 text-xs text-white"
+                            className="bg-base border border-border-hairline rounded px-2 py-0.5 text-xs text-primary"
                           />
                           <button
                             onClick={() => handleSaveRename(f.id)}
@@ -862,7 +862,7 @@ export const CaseWorkspace: React.FC = () => {
                           </button>
                         </div>
                       ) : (
-                        <h4 className="text-xs font-medium text-white truncate max-w-xs">{f.name}</h4>
+                        <h4 className="text-xs font-medium text-primary truncate max-w-xs">{f.name}</h4>
                       )}
                       <p className="text-[11px] text-muted">{f.type} • {f.size} • Uploaded {f.uploadDate}</p>
                     </div>
@@ -875,7 +875,7 @@ export const CaseWorkspace: React.FC = () => {
                         setRenameFileId(f.id);
                         setNewFileName(f.name);
                       }}
-                      className="p-1.5 rounded text-muted hover:text-white"
+                      className="p-1.5 rounded text-muted hover:text-primary transition-colors"
                       title="Rename"
                     >
                       <Edit2 className="w-3.5 h-3.5" />
@@ -910,14 +910,14 @@ export const CaseWorkspace: React.FC = () => {
           <div
             role="dialog"
             aria-modal="true"
-            className="fixed right-2 sm:right-6 bottom-2 sm:bottom-6 z-50 w-[min(calc(100vw-1rem),460px)] h-[min(580px,calc(100vh-2rem))] h-[min(580px,calc(100dvh-2rem))] max-h-[calc(100vh-2rem)] max-h-[calc(100dvh-2rem)] bg-[#121318] border border-white/15 rounded-xl shadow-2xl flex flex-col overflow-hidden animate-genie-window select-none"
+            className="fixed right-2 sm:right-6 bottom-2 sm:bottom-6 z-50 w-[min(calc(100vw-1rem),460px)] h-[min(580px,calc(100vh-2rem))] h-[min(580px,calc(100dvh-2rem))] max-h-[calc(100vh-2rem)] max-h-[calc(100dvh-2rem)] bg-surface border border-border-hairline rounded-xl shadow-2xl flex flex-col overflow-hidden animate-genie-window select-none"
           >
             {/* Header */}
-            <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between bg-surface/80 shrink-0">
+            <div className="px-4 py-3 border-b border-border-hairline flex items-center justify-between bg-surface shrink-0">
               <div className="min-w-0 pr-2">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-3.5 h-3.5 text-[#8EC5E8] shrink-0" />
-                  <h3 className="font-serif text-base font-medium text-white truncate">
+                  <Sparkles className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <h3 className="font-serif text-base font-medium text-primary truncate">
                     SADIE Copilot — {caseData.patientName}
                   </h3>
                 </div>
@@ -930,14 +930,14 @@ export const CaseWorkspace: React.FC = () => {
                 size="icon"
                 onClick={() => setIsCopilotOpen(false)}
                 aria-label="Close copilot chat"
-                className="text-muted hover:text-white h-7 w-7 shrink-0 -mr-1"
+                className="text-muted hover:text-primary h-7 w-7 shrink-0 -mr-1"
               >
                 <X className="w-4 h-4" />
               </Button>
             </div>
 
             {/* Chat Messages Body */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3.5 custom-scrollbar bg-[#0e0f14]/80">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3.5 custom-scrollbar bg-base/60">
               {copilotMessages.map((msg) => (
                 <ChatBubble
                   key={msg.id}
@@ -947,7 +947,7 @@ export const CaseWorkspace: React.FC = () => {
               ))}
               {isSendingCopilot && (
                 <div className="flex items-center gap-2 text-xs text-muted p-2 animate-fade-in">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#8EC5E8] animate-ping" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-accent animate-ping" />
                   Analyzing multiplanar slices...
                 </div>
               )}
@@ -955,7 +955,7 @@ export const CaseWorkspace: React.FC = () => {
             </div>
 
             {/* Fixed Bottom Input Area */}
-            <div className="p-3 border-t border-white/10 bg-[#14151b] shrink-0">
+            <div className="p-3 border-t border-border-hairline bg-surface shrink-0">
               <div className="relative">
                 <textarea
                   rows={2}
@@ -968,13 +968,13 @@ export const CaseWorkspace: React.FC = () => {
                       handleSendMessage();
                     }
                   }}
-                  className="w-full bg-[#1c1d24] border border-border-hairline rounded-xl p-2.5 pr-10 text-xs text-primary placeholder-muted focus:outline-none focus:border-white/40 resize-none leading-relaxed"
+                  className="w-full bg-elevated border border-border-hairline rounded-xl p-2.5 pr-10 text-xs text-primary placeholder-muted focus:outline-none focus:ring-1 focus:ring-accent resize-none leading-relaxed"
                 />
                 <button
                   type="button"
                   onClick={() => handleSendMessage()}
                   disabled={!inputMessage.trim() || isSendingCopilot}
-                  className="absolute right-2.5 bottom-2.5 p-1.5 rounded-full bg-white text-black hover:opacity-90 disabled:opacity-30 transition-opacity cursor-pointer shrink-0"
+                  className="absolute right-2.5 bottom-2.5 p-1.5 rounded-full bg-btn-primary-bg text-btn-primary-text hover:opacity-90 disabled:opacity-30 transition-opacity cursor-pointer shrink-0"
                   aria-label="Send query"
                 >
                   <Send className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -1006,8 +1006,8 @@ export const CaseWorkspace: React.FC = () => {
                   onClick={() => setReportTemplate(t)}
                   className={`px-2.5 py-1 rounded-pill capitalize font-medium transition-all cursor-pointer ${
                     reportTemplate === t
-                      ? 'bg-white text-black font-semibold'
-                      : 'bg-elevated text-secondary hover:text-white border border-white/10'
+                      ? 'bg-btn-primary-bg text-btn-primary-text font-semibold'
+                      : 'bg-elevated text-secondary hover:text-primary border border-border-hairline'
                   }`}
                 >
                   {t === 'full' ? 'Operative Dossier' : t === 'executive' ? 'Executive' : t === 'radiologist' ? 'Radiologist DICOM' : 'Patient Brief'}
@@ -1017,7 +1017,7 @@ export const CaseWorkspace: React.FC = () => {
 
             {/* Versioning & Shareable Link */}
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1 bg-elevated px-2 py-0.5 rounded-pill border border-white/10 text-[11px] font-mono">
+              <div className="flex items-center gap-1 bg-elevated px-2 py-0.5 rounded-pill border border-border-hairline text-[11px] font-mono">
                 <span className="text-muted">Rev:</span>
                 <button
                   type="button"
@@ -1106,11 +1106,11 @@ export const CaseWorkspace: React.FC = () => {
           </div>
 
           {/* Printable Report Document Card */}
-          <div className="p-8 rounded-lg bg-surface border border-white/15 space-y-6 text-primary">
+          <div className="p-8 rounded-lg bg-surface border border-border-hairline shadow-card space-y-6 text-primary">
             {/* Report Header */}
-            <div className="flex items-start justify-between pb-6 border-b border-white/10">
+            <div className="flex items-start justify-between pb-6 border-b border-border-hairline">
               <div>
-                <h2 className="font-serif text-2xl font-medium text-white">
+                <h2 className="font-serif text-2xl font-medium text-primary">
                   SADIE Maxillofacial Outcome Evaluation
                 </h2>
                 <p className="text-xs text-muted mt-1">
@@ -1118,7 +1118,7 @@ export const CaseWorkspace: React.FC = () => {
                 </p>
               </div>
               <div className="text-right">
-                <span className="font-mono text-xs font-semibold text-white block">{caseData.caseNumber}</span>
+                <span className="font-mono text-xs font-semibold text-primary block">{caseData.caseNumber}</span>
                 <span className="text-[11px] text-muted">Date: {new Date().toLocaleDateString()}</span>
               </div>
             </div>
@@ -1127,19 +1127,19 @@ export const CaseWorkspace: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-lg bg-elevated text-xs">
               <div>
                 <span className="text-muted block">Patient Name</span>
-                <strong className="text-white">{caseData.patientName}</strong>
+                <strong className="text-primary">{caseData.patientName}</strong>
               </div>
               <div>
                 <span className="text-muted block">MRN</span>
-                <strong className="text-white font-mono">{caseData.patientId}</strong>
+                <strong className="text-primary font-mono">{caseData.patientId}</strong>
               </div>
               <div>
                 <span className="text-muted block">Procedure</span>
-                <strong className="text-white">{caseData.procedure}</strong>
+                <strong className="text-primary">{caseData.procedure}</strong>
               </div>
               <div>
                 <span className="text-muted block">Score / CI</span>
-                <strong className="text-[#a3ffb2] font-mono">{caseData.score}% (95% CI)</strong>
+                <strong className="text-status-completed font-mono">{caseData.score}% (95% CI)</strong>
               </div>
             </div>
 
@@ -1150,12 +1150,12 @@ export const CaseWorkspace: React.FC = () => {
               </h4>
               <div className="space-y-2">
                 {caseData.domainScores.map((ds, idx) => (
-                  <div key={idx} className="p-3 rounded bg-base border border-white/5 flex items-center justify-between text-xs">
+                  <div key={idx} className="p-3 rounded bg-base border border-border-hairline flex items-center justify-between text-xs">
                     <div>
-                      <span className="font-medium text-white block">{ds.domain}</span>
+                      <span className="font-medium text-primary block">{ds.domain}</span>
                       <span className="text-muted">{ds.summary}</span>
                     </div>
-                    <span className="font-mono font-medium text-white text-sm">{ds.score}/100</span>
+                    <span className="font-mono font-medium text-primary text-sm">{ds.score}/100</span>
                   </div>
                 ))}
               </div>
@@ -1166,21 +1166,21 @@ export const CaseWorkspace: React.FC = () => {
               <h4 className="text-xs font-semibold uppercase tracking-wider text-muted mb-2">
                 Evaluated Anatomical Parameters
               </h4>
-              <div className="divide-y divide-white/5 text-sm">
+              <div className="divide-y divide-border-hairline text-sm">
                 {caseData.measurements.slice(0, 5).map((m) => (
                   <div key={m.id} className="py-2 flex items-center justify-between">
                     <span>{m.name} ({m.landmark})</span>
-                    <span className="font-mono text-white text-sm">Pre: {m.preOp}{m.unit} → Post: {m.postOp}{m.unit} (Δ {m.change > 0 ? `+${m.change}` : m.change}{m.unit})</span>
+                    <span className="font-mono text-primary text-sm">Pre: {m.preOp}{m.unit} → Post: {m.postOp}{m.unit} (Δ {m.change > 0 ? `+${m.change}` : m.change}{m.unit})</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Signoff */}
-            <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
+            <div className="pt-6 border-t border-border-hairline flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
               <div>
                 <span className="text-muted block">Protocol Verification:</span>
-                <div className="font-mono text-xs text-white mt-0.5">
+                <div className="font-mono text-xs text-primary mt-0.5">
                   SADIE Consensus Protocol ID: #MX-SEC-920184
                 </div>
               </div>
@@ -1188,16 +1188,16 @@ export const CaseWorkspace: React.FC = () => {
               <div>
                 {isReportSigned ? (
                   <div className="space-y-1.5">
-                    <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-[#122415] border border-[#2f6b3a]/70 text-[#a3ffb2] shadow-sm">
-                      <ShieldCheck className="w-4 h-4 text-[#a3ffb2]" />
+                    <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-status-completed/10 border border-status-completed/30 text-status-completed shadow-sm">
+                      <ShieldCheck className="w-4 h-4 text-status-completed" />
                       <div>
                         <span className="font-semibold block text-xs">Cryptographically Signed & Locked</span>
-                        <span className="text-[10px] text-[#a3ffb2]/80 font-mono">{signedTimestamp}</span>
+                        <span className="text-[10px] text-status-completed/80 font-mono">{signedTimestamp}</span>
                       </div>
                     </div>
                     {savedSignatureUrl && (
-                      <div className="p-2 rounded bg-black/60 border border-white/10 mt-1 max-w-[200px]">
-                        <img src={savedSignatureUrl} alt="Clinician Signature" className="h-10 object-contain invert brightness-200" />
+                      <div className="p-2 rounded bg-elevated border border-border-hairline mt-1 max-w-[200px]">
+                        <img src={savedSignatureUrl} alt="Clinician Signature" className="h-10 object-contain dark:invert dark:brightness-200" />
                       </div>
                     )}
                   </div>
@@ -1278,8 +1278,8 @@ export const CaseWorkspace: React.FC = () => {
           description={`Are you sure you want to remove ${deleteFileTarget.name}? This file will be unlinked from the patient workspace.`}
         >
           <div className="space-y-4 pt-2">
-            <div className="p-3.5 rounded-md bg-elevated border border-white/10 text-xs text-secondary">
-              File: <strong className="text-white font-mono">{deleteFileTarget.name}</strong> ({deleteFileTarget.type} • {deleteFileTarget.size})
+            <div className="p-3.5 rounded-md bg-elevated border border-border-hairline text-xs text-secondary">
+              File: <strong className="text-primary font-mono">{deleteFileTarget.name}</strong> ({deleteFileTarget.type} • {deleteFileTarget.size})
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="ghost" onClick={() => setDeleteFileTarget(null)}>

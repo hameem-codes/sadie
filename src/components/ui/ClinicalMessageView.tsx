@@ -53,7 +53,7 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
         <div className="text-xs text-muted mb-1.5 px-1 flex items-center gap-1.5">
           <span>{message.timestamp || 'Just now'}</span>
         </div>
-        <div className="bg-[#1a1b22] text-white border border-white/15 rounded-2xl rounded-tr-sm px-5 py-3.5 text-base sm:text-[17px] shadow-sm max-w-[85%] leading-relaxed font-sans">
+        <div className="bg-btn-primary-bg text-btn-primary-text border border-border-hairline rounded-2xl rounded-tr-sm px-5 py-3.5 text-base sm:text-[17px] shadow-sm max-w-[85%] leading-relaxed font-sans">
           {message.content}
         </div>
       </div>
@@ -129,37 +129,37 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
   };
 
   return (
-    <div className="py-5 space-y-5 text-white">
+    <div className="py-5 space-y-5 text-primary">
       {/* 1. ASSISTANT HEADER: Direct on canvas (No card) */}
       <div
         className="flex items-center justify-between animate-reply-in"
         style={{ animationDelay: '50ms' }}
       >
         <div className="flex items-center gap-3">
-          <div className="w-7 h-7 rounded-full bg-white text-black flex items-center justify-center font-serif text-sm font-bold shrink-0 shadow-sm">
+          <div className="w-7 h-7 rounded-full bg-btn-primary-bg text-btn-primary-text flex items-center justify-center font-serif text-sm font-bold shrink-0 shadow-sm">
             ✦
           </div>
-          <span className="font-semibold text-sm text-white">SADIE</span>
+          <span className="font-semibold text-sm text-primary">SADIE</span>
           <span className="text-xs text-muted">• {message.timestamp || '12:04 AM'}</span>
         </div>
       </div>
 
       {/* 2. THINKING TRACE: Minimal hairline accordion in flow (No card) */}
       <div
-        className="animate-reply-in border-l-2 border-white/10 pl-4 my-2.5"
+        className="animate-reply-in border-l-2 border-border-hairline pl-4 my-2.5"
         style={{ animationDelay: '120ms' }}
       >
         <button
           type="button"
           onClick={() => setIsThinkingExpanded(!isThinkingExpanded)}
-          className="flex items-center gap-2 text-sm text-muted hover:text-white transition-colors cursor-pointer group"
+          className="flex items-center gap-2 text-sm text-muted hover:text-primary transition-colors cursor-pointer group"
         >
           {isThinkingExpanded ? (
-            <ChevronUp className="w-4 h-4 group-hover:text-white" />
+            <ChevronUp className="w-4 h-4 group-hover:text-primary" />
           ) : (
-            <ChevronDown className="w-4 h-4 group-hover:text-white" />
+            <ChevronDown className="w-4 h-4 group-hover:text-primary" />
           )}
-          <span className="font-mono text-sm text-secondary group-hover:text-white">
+          <span className="font-mono text-sm text-secondary group-hover:text-primary">
             Worked for {trace.duration || '2.4s'}
           </span>
           <span className="text-xs text-muted ml-1">
@@ -177,7 +177,7 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
               {trace.searched.map((s, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-secondary font-mono"
+                  className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-elevated border border-border-hairline text-secondary font-mono"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#8EC5E8]" />
                   {s.label}
@@ -218,27 +218,27 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
             const badgeClasses = isOp
               ? 'bg-[#8EC5E8]/15 text-[#8EC5E8] border-[#8EC5E8]/30'
               : isPath
-              ? 'bg-[#F2E6C8]/15 text-[#F2E6C8] border-[#F2E6C8]/30'
-              : 'bg-[#C8623C]/15 text-[#E08A68] border-[#C8623C]/30';
+              ? 'bg-[#F2E6C8]/15 text-[#c29d38] dark:text-[#F2E6C8] border-[#F2E6C8]/30'
+              : 'bg-[#C8623C]/15 text-[#C8623C] dark:text-[#E08A68] border-[#C8623C]/30';
 
             return (
               <button
                 key={i}
                 type="button"
                 onClick={() => setViewingSource(src)}
-                className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-pill bg-[#14151a] border border-white/10 hover:border-[#8EC5E8]/40 hover:bg-[#1a1b24] text-sm text-white transition-all hover-lift cursor-pointer group"
+                className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-pill bg-elevated border border-border-hairline hover:border-accent/40 hover:bg-elevated-hover text-sm text-primary transition-all hover-lift cursor-pointer group"
                 title="Click to view document with genie animation"
               >
                 <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full border ${badgeClasses}`}>
                   {src.badge}
                 </span>
-                <span className="font-medium text-sm text-white truncate max-w-[240px] group-hover:text-[#8EC5E8] transition-colors">
+                <span className="font-medium text-sm text-primary truncate max-w-[240px] group-hover:text-accent transition-colors">
                   {src.title}
                 </span>
                 <span className="text-xs text-muted hidden md:inline truncate max-w-[160px]">
                   • {src.category}
                 </span>
-                <span className="text-xs text-[#8EC5E8] opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-xs text-accent opacity-0 group-hover:opacity-100 transition-opacity">
                   ↗
                 </span>
               </button>
@@ -252,11 +252,11 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
         className="animate-reply-in pt-2.5 space-y-1.5"
         style={{ animationDelay: '280ms' }}
       >
-        <h3 className="font-serif text-3xl sm:text-4xl font-medium text-white tracking-tight leading-tight">
+        <h3 className="font-serif text-3xl sm:text-4xl font-medium text-primary tracking-tight leading-tight">
           {dossier.title}
         </h3>
         <p className="text-sm sm:text-base text-secondary leading-relaxed">
-          Clinical evaluation analysis for query: <strong className="text-white font-semibold">"{queryTitle}"</strong>
+          Clinical evaluation analysis for query: <strong className="text-primary font-semibold">"{queryTitle}"</strong>
         </p>
       </div>
 
@@ -265,7 +265,7 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
         className="animate-reply-in space-y-2.5 pt-2"
         style={{ animationDelay: '360ms' }}
       >
-        <h4 className="text-sm font-semibold text-white/95 uppercase tracking-wider">
+        <h4 className="text-sm font-semibold text-primary uppercase tracking-wider">
           1. Case Findings Analysis
         </h4>
         <ul className="space-y-3 text-base sm:text-[17px] text-secondary pl-1">
@@ -275,8 +275,8 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
             const badgeClasses = isOp
               ? 'bg-[#8EC5E8]/15 text-[#8EC5E8] border-[#8EC5E8]/30'
               : isPath
-              ? 'bg-[#F2E6C8]/15 text-[#F2E6C8] border-[#F2E6C8]/30'
-              : 'bg-[#C8623C]/15 text-[#E08A68] border-[#C8623C]/30';
+              ? 'bg-[#F2E6C8]/15 text-[#c29d38] dark:text-[#F2E6C8] border-[#F2E6C8]/30'
+              : 'bg-[#C8623C]/15 text-[#C8623C] dark:text-[#E08A68] border-[#C8623C]/30';
 
             return (
               <li key={i} className="flex items-start gap-3">
@@ -298,7 +298,7 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
         className="animate-reply-in space-y-2 pt-2"
         style={{ animationDelay: '440ms' }}
       >
-        <h4 className="text-sm font-semibold text-white/95 uppercase tracking-wider">
+        <h4 className="text-sm font-semibold text-primary uppercase tracking-wider">
           2. Attached Context Consideration
         </h4>
         <p className="text-base sm:text-[17px] text-secondary leading-relaxed pl-1">
@@ -308,29 +308,29 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
 
       {/* 7. SYNTHESIZED RECOMMENDATION: Editorial Sky Blue accent line (No green) */}
       <div
-        className="animate-reply-in border-l-3 border-[#8EC5E8] bg-[#8EC5E8]/[0.04] pl-5 py-3.5 my-3.5 rounded-r-lg text-base sm:text-[17px] text-secondary leading-relaxed"
+        className="animate-reply-in border-l-3 border-[#8EC5E8] bg-[#8EC5E8]/[0.08] dark:bg-[#8EC5E8]/[0.04] pl-5 py-3.5 my-3.5 rounded-r-lg text-base sm:text-[17px] text-secondary leading-relaxed"
         style={{ animationDelay: '520ms' }}
       >
-        <strong className="text-[#8EC5E8] font-semibold block mb-1 text-xs sm:text-sm uppercase tracking-wider">
+        <strong className="text-accent dark:text-[#8EC5E8] font-semibold block mb-1 text-xs sm:text-sm uppercase tracking-wider">
           Synthesized Recommendation:
         </strong>
-        <p className="text-white/95 text-base sm:text-[17px] leading-relaxed">
+        <p className="text-primary text-base sm:text-[17px] leading-relaxed">
           {dossier.recommendation}
         </p>
       </div>
 
       {/* 8. ACTION TOOLBAR: Minimal inline pills */}
       <div
-        className="animate-reply-in pt-3.5 border-t border-white/5 flex flex-wrap items-center justify-between gap-3 text-sm"
+        className="animate-reply-in pt-3.5 border-t border-border-hairline flex flex-wrap items-center justify-between gap-3 text-sm"
         style={{ animationDelay: '600ms' }}
       >
         <div className="flex items-center gap-2.5">
           <button
             type="button"
             onClick={handleCopy}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-pill border border-white/10 bg-[#16171d] hover:bg-[#20222b] text-secondary hover:text-white transition-all text-sm cursor-pointer hover-lift"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-pill border border-border-hairline bg-elevated hover:bg-elevated-hover text-secondary hover:text-primary transition-all text-sm cursor-pointer hover-lift"
           >
-            {copied ? <Check className="w-4 h-4 text-[#8EC5E8]" /> : <Copy className="w-4 h-4 text-muted" />}
+            {copied ? <Check className="w-4 h-4 text-accent" /> : <Copy className="w-4 h-4 text-muted" />}
             <span>{copied ? 'Copied' : 'Copy'}</span>
           </button>
 
@@ -342,8 +342,8 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
             }}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-pill border transition-all text-sm cursor-pointer hover-lift ${
               feedback === 'up'
-                ? 'bg-[#8EC5E8]/15 text-[#8EC5E8] border-[#8EC5E8]/40'
-                : 'bg-[#16171d] hover:bg-[#20222b] border-white/10 text-secondary hover:text-white'
+                ? 'bg-accent/15 text-accent border-accent/40'
+                : 'bg-elevated hover:bg-elevated-hover border-border-hairline text-secondary hover:text-primary'
             }`}
           >
             <ThumbsUp className="w-4 h-4" />
@@ -358,8 +358,8 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
             }}
             className={`p-2 rounded-pill border transition-all text-sm cursor-pointer hover-lift ${
               feedback === 'down'
-                ? 'bg-[#2b1919] text-status-failed border-status-failed/60'
-                : 'bg-[#16171d] hover:bg-[#20222b] border-white/10 text-secondary hover:text-white'
+                ? 'bg-status-failed/15 text-status-failed border-status-failed/60'
+                : 'bg-elevated hover:bg-elevated-hover border-border-hairline text-secondary hover:text-primary'
             }`}
             title="Dislike"
           >
@@ -372,7 +372,7 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
               navigator.clipboard.writeText(window.location.href);
               toast({ type: 'success', title: 'Link copied to clipboard' });
             }}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-pill border border-white/10 bg-[#16171d] hover:bg-[#20222b] text-secondary hover:text-white transition-all text-sm cursor-pointer hover-lift"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-pill border border-border-hairline bg-elevated hover:bg-elevated-hover text-secondary hover:text-primary transition-all text-sm cursor-pointer hover-lift"
           >
             <Share2 className="w-4 h-4 text-muted" />
             <span>Share</span>
@@ -391,7 +391,7 @@ export const ClinicalMessageView: React.FC<ClinicalMessageViewProps> = ({
       >
         {viewingSource && (
           <div className="space-y-4">
-            <div className="p-4 rounded-lg bg-[#0e0f14] border border-white/10 font-mono text-xs text-primary leading-relaxed whitespace-pre-line max-h-96 overflow-y-auto custom-scrollbar select-text">
+            <div className="p-4 rounded-lg bg-base border border-border-hairline font-mono text-xs text-primary leading-relaxed whitespace-pre-line max-h-96 overflow-y-auto custom-scrollbar select-text">
               {viewingSource.badge.toLowerCase().includes('op') && `OPERATIVE TRANSCRIPTION RECORD
 Patient: ${scopedCaseName} (${scopedCaseId})
 Procedure: Bimaxillary Orthognathic Surgery with Mandibular Angle Contour
@@ -426,9 +426,9 @@ BENCHMARK COMPARISONS:
 - Overall Risk Stratification: Compliant with benchmark standard.`}
             </div>
 
-            <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
+            <div className="flex items-center justify-between pt-2 border-t border-border-hairline text-xs">
               <span className="text-muted font-mono flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#8EC5E8]" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-accent" />
                 Cryptographically Authenticated Source
               </span>
               <button
@@ -436,7 +436,7 @@ BENCHMARK COMPARISONS:
                 onClick={() => {
                   toast({ type: 'success', title: 'Exporting Document', message: `Exported ${viewingSource.title}` });
                 }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#8EC5E8] text-black font-medium hover:bg-[#8EC5E8]/90 transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-btn-primary-bg text-btn-primary-text font-medium hover:opacity-90 transition-colors cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Export PDF</span>

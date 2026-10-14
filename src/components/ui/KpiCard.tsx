@@ -41,28 +41,28 @@ export const KpiCard: React.FC<KpiCardProps> = memo(({
       <div className="flex items-start justify-between">
         <p className="text-[11px] font-medium text-secondary uppercase tracking-wider">{title}</p>
         {icon && (
-          <div className="p-1.5 rounded-full bg-elevated text-secondary border border-white/5">
+          <div className="p-1.5 rounded-full bg-elevated text-secondary border border-border-hairline">
             {icon}
           </div>
         )}
       </div>
 
       <div className="mt-2.5 flex items-baseline gap-2">
-        <h3 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-white leading-none">
+        <h3 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-primary leading-none">
           <AnimatedNumber value={value} />
         </h3>
         {badge && (
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-pill bg-white/5 text-secondary border border-white/10 font-medium">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-pill bg-elevated text-secondary border border-border-hairline font-medium">
             {badge}
           </span>
         )}
       </div>
 
       {(subtitle || change) && (
-        <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between gap-2 text-xs">
+        <div className="mt-3 pt-2.5 border-t border-border-hairline flex items-center justify-between gap-2 text-xs">
           {change && (
             <span
-              className={`font-mono text-xs font-medium whitespace-nowrap ${isPositive ? 'text-[#a3ffb2]' : 'text-[#ffcfa8]'
+              className={`font-mono text-xs font-medium whitespace-nowrap ${isPositive ? 'text-emerald-600 dark:text-[#a3ffb2]' : 'text-amber-600 dark:text-[#ffcfa8]'
                 }`}
             >
               {change}

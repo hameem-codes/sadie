@@ -119,7 +119,7 @@ export const Home: React.FC = () => {
       header: 'Case ID',
       width: '125px',
       render: (item) => (
-        <span className="font-mono text-sm text-white/90 font-medium whitespace-nowrap">
+        <span className="font-mono text-sm text-primary font-medium whitespace-nowrap">
           {item.caseNumber}
         </span>
       )
@@ -129,7 +129,7 @@ export const Home: React.FC = () => {
       header: 'Patient',
       render: (item) => (
         <div className="min-w-[140px]">
-          <div className="text-[15px] font-medium text-white truncate" title={item.patientName}>{item.patientName}</div>
+          <div className="text-[15px] font-medium text-primary truncate" title={item.patientName}>{item.patientName}</div>
           <div className="text-[13px] text-muted font-mono whitespace-nowrap">{item.patientId} • {item.age}y {item.gender[0]}</div>
         </div>
       )
@@ -162,7 +162,7 @@ export const Home: React.FC = () => {
       header: 'Outcome Score',
       align: 'right',
       render: (item) => item.score ? (
-        <span className="font-mono font-medium text-[15px] text-[#a3ffb2] bg-[#122415] px-3 py-1 rounded-pill border border-[#2f6b3a]/70 whitespace-nowrap">
+        <span className="font-mono font-medium text-[15px] text-emerald-700 dark:text-[#a3ffb2] bg-emerald-50 dark:bg-[#122415] px-3 py-1 rounded-pill border border-emerald-200 dark:border-[#2f6b3a]/70 whitespace-nowrap">
           <AnimatedNumber value={`${item.score}%`} />
         </span>
       ) : (
@@ -313,7 +313,7 @@ export const Home: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                <span className="font-mono text-xs text-[#a3ffb2] bg-[#122415] px-2.5 py-1 rounded-pill border border-[#2f6b3a]/70">
+                <span className="font-mono text-xs text-emerald-700 dark:text-[#a3ffb2] bg-emerald-50 dark:bg-[#122415] px-2.5 py-1 rounded-pill border border-emerald-200 dark:border-[#2f6b3a]/70">
                   <AnimatedNumber value="+6.2%" /> 6-Mo Gain
                 </span>
               </div>
@@ -324,7 +324,7 @@ export const Home: React.FC = () => {
                   <span>Cohort May</span>
                   <span>Cohort Jul</span>
                   <span>Cohort Sep</span>
-                  <span className="text-[#a3ffb2] font-semibold">Active Cohort (Oct)</span>
+                  <span className="text-emerald-700 dark:text-[#a3ffb2] font-semibold">Active Cohort (Oct)</span>
                 </div>
                 <div className="h-28 w-full relative">
                   <svg className="w-full h-full overflow-visible" viewBox="0 0 400 90" preserveAspectRatio="none">
@@ -357,28 +357,28 @@ export const Home: React.FC = () => {
 
               {/* Procedure Success Rates Quick Breakdown */}
               {visibleWidgets.procedureStats && (
-                <div className="pt-3 border-t border-white/5 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                  <div className="p-2.5 rounded-lg bg-elevated/70 border border-white/5">
+                <div className="pt-3 border-t border-border-hairline grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                  <div className="p-2.5 rounded-lg bg-elevated/70 border border-border-hairline">
                     <span className="text-muted block text-[11px] truncate">Bimaxillary</span>
-                    <span className="text-white font-mono font-medium text-sm">
+                    <span className="text-primary font-mono font-medium text-sm">
                       <AnimatedNumber value="94.2%" />
                     </span>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-elevated/70 border border-white/5">
+                  <div className="p-2.5 rounded-lg bg-elevated/70 border border-border-hairline">
                     <span className="text-muted block text-[11px] truncate">Le Fort I</span>
-                    <span className="text-white font-mono font-medium text-sm">
+                    <span className="text-primary font-mono font-medium text-sm">
                       <AnimatedNumber value="92.8%" />
                     </span>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-elevated/70 border border-white/5">
+                  <div className="p-2.5 rounded-lg bg-elevated/70 border border-border-hairline">
                     <span className="text-muted block text-[11px] truncate">BSSO Split</span>
-                    <span className="text-white font-mono font-medium text-sm">
+                    <span className="text-primary font-mono font-medium text-sm">
                       <AnimatedNumber value="96.1%" />
                     </span>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-elevated/70 border border-white/5">
+                  <div className="p-2.5 rounded-lg bg-elevated/70 border border-border-hairline">
                     <span className="text-muted block text-[11px] truncate">Genioplasty</span>
-                    <span className="text-white font-mono font-medium text-sm">
+                    <span className="text-primary font-mono font-medium text-sm">
                       <AnimatedNumber value="97.1%" />
                     </span>
                   </div>
@@ -389,11 +389,11 @@ export const Home: React.FC = () => {
 
           {/* Recent Activity Feed (1 col or full if trajectory hidden) */}
           {visibleWidgets.activityFeed && (
-            <div className={`${visibleWidgets.trajectoryChart ? 'lg:col-span-1' : 'lg:col-span-3'} p-5 rounded-xl bg-surface/40 border border-border-hairline flex flex-col justify-between space-y-3`}>
-              <div className="flex items-center justify-between pb-2 border-b border-white/5">
+            <div className={`${visibleWidgets.trajectoryChart ? 'lg:col-span-1' : 'lg:col-span-3'} p-5 rounded-xl bg-surface border border-border-hairline flex flex-col justify-between space-y-3`}>
+              <div className="flex items-center justify-between pb-2 border-b border-border-hairline">
                 <div className="flex items-center gap-2">
                   <Activity className="w-4 h-4 text-[#8EC5E8]" />
-                  <h3 className="font-serif text-base font-medium text-white">
+                  <h3 className="font-serif text-base font-medium text-primary">
                     Clinical Activity Feed
                   </h3>
                 </div>
@@ -427,10 +427,10 @@ export const Home: React.FC = () => {
                     user: 'Biomechanical Model'
                   }
                 ].map((act, i) => (
-                  <div key={i} className="flex items-start gap-2.5 pb-2 border-b border-white/5 last:border-0 last:pb-0">
+                  <div key={i} className="flex items-start gap-2.5 pb-2 border-b border-border-hairline last:border-0 last:pb-0">
                     <div className="w-2 h-2 rounded-full bg-[#8EC5E8] mt-1.5 shrink-0" />
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-medium text-white truncate">{act.title}</p>
+                      <p className="text-xs font-medium text-primary truncate">{act.title}</p>
                       <p className="text-[11px] text-muted truncate">{act.detail}</p>
                     </div>
                     <span className="text-[10px] font-mono text-muted shrink-0">{act.time}</span>
@@ -448,10 +448,10 @@ export const Home: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <ShieldAlert className="w-3.5 h-3.5 text-status-failed" />
-              <h2 className="font-serif text-lg font-medium text-white">
+              <h2 className="font-serif text-lg font-medium text-primary">
                 Needs Clinical Attention
               </h2>
-              <span className="text-[11px] px-2 py-0.5 rounded-pill bg-[#361515] text-[#fca582] border border-[#c8623c]/40 font-mono font-medium">
+              <span className="text-[11px] px-2 py-0.5 rounded-pill bg-rose-50 dark:bg-[#361515] text-rose-700 dark:text-[#fca582] border border-rose-200 dark:border-[#c8623c]/40 font-mono font-medium">
                 {needsAttentionCases.length} Cases
               </span>
             </div>
@@ -463,7 +463,7 @@ export const Home: React.FC = () => {
                 key={c.id}
                 style={{ animationDelay: `${340 + idx * 60}ms` }}
                 onClick={() => navigate(`/cases/${c.id}`)}
-                className="p-3.5 rounded-xl border-l-2 border-l-[#C8623C] border border-white/5 hover:border-white/15 bg-white/[0.02] hover:bg-white/[0.04] transition-all flex flex-col justify-between cursor-pointer group animate-card-in"
+                className="p-3.5 rounded-xl border-l-2 border-l-[#C8623C] border border-border-hairline hover:border-border-subtle bg-surface hover:bg-elevated transition-all flex flex-col justify-between cursor-pointer group animate-card-in"
               >
                 <div>
                   <div className="flex items-center justify-between gap-1">
@@ -472,24 +472,24 @@ export const Home: React.FC = () => {
                   </div>
                   <h3
                     title={c.patientName}
-                    className="font-serif text-sm font-medium text-white mt-1 group-hover:text-[#8EC5E8] transition-colors truncate"
+                    className="font-serif text-sm font-medium text-primary mt-1 group-hover:text-[#8EC5E8] transition-colors truncate"
                   >
                     {c.patientName}
                   </h3>
                   <p
                     title={`${c.procedure} • ${c.stage}`}
-                    className="text-[11px] text-secondary/70 truncate mt-0.5"
+                    className="text-[11px] text-secondary truncate mt-0.5"
                   >
                     {c.procedure} • {c.stage}
                   </p>
 
-                  <div className="mt-2.5 p-2 rounded-lg bg-black/40 border border-white/5 text-[11px] text-secondary/90 leading-snug line-clamp-2">
-                    <span className="text-[#fca582] font-medium mr-1 font-mono text-[10px]">Notice:</span>
+                  <div className="mt-2.5 p-2 rounded-lg bg-elevated border border-border-hairline text-[11px] text-secondary leading-snug line-clamp-2">
+                    <span className="text-rose-600 dark:text-[#fca582] font-medium mr-1 font-mono text-[10px]">Notice:</span>
                     {c.attentionReason || 'Processing radiomic segmentation across CT volume.'}
                   </div>
                 </div>
 
-                <div className="mt-3 pt-2 border-t border-white/5 flex items-center justify-between text-[11px]">
+                <div className="mt-3 pt-2 border-t border-border-hairline flex items-center justify-between text-[11px]">
                   <span className="text-[10px] text-muted font-mono">
                     {c.caseNumber}
                   </span>
@@ -498,14 +498,14 @@ export const Home: React.FC = () => {
                       <button
                         type="button"
                         onClick={(e) => handleRetryAnalysis(e, c.id)}
-                        className="px-2 py-0.5 rounded text-[10px] font-medium bg-white/10 hover:bg-white/20 text-white flex items-center gap-1 transition-colors cursor-pointer"
+                        className="px-2 py-0.5 rounded text-[10px] font-medium bg-elevated hover:bg-elevated-hover text-primary flex items-center gap-1 transition-colors cursor-pointer border border-border-hairline"
                         title="Retry Analysis"
                       >
                         <RefreshCw className="w-2.5 h-2.5" />
                         Retry
                       </button>
                     )}
-                    <span className="text-[10px] text-secondary group-hover:text-white flex items-center gap-0.5">
+                    <span className="text-[10px] text-secondary group-hover:text-primary flex items-center gap-0.5">
                       Inspect <ChevronRight className="w-3 h-3" />
                     </span>
                   </div>
@@ -528,7 +528,7 @@ export const Home: React.FC = () => {
         <div className="space-y-4 animate-slide-up" style={{ animationDelay: '420ms' }}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-serif text-lg sm:text-xl font-medium text-white">
+              <h2 className="font-serif text-lg sm:text-xl font-medium text-primary">
                 Recent Evaluations
               </h2>
             </div>
@@ -536,7 +536,7 @@ export const Home: React.FC = () => {
               variant="ghost"
               size="sm"
               onClick={() => navigate('/cases')}
-              className="text-sm text-secondary hover:text-white"
+              className="text-sm text-secondary hover:text-primary"
               icon={<ArrowUpRight className="w-4 h-4" />}
             >
               View All ({cases.length})
@@ -574,10 +574,10 @@ export const Home: React.FC = () => {
           ].map((item) => (
             <label
               key={item.key}
-              className="flex items-start justify-between p-3 rounded-xl bg-elevated/70 border border-white/5 hover:border-white/15 cursor-pointer transition-all"
+              className="flex items-start justify-between p-3 rounded-xl bg-elevated/70 border border-border-hairline hover:border-border-subtle cursor-pointer transition-all"
             >
               <div className="pr-3">
-                <span className="text-sm font-medium text-white block">{item.label}</span>
+                <span className="text-sm font-medium text-primary block">{item.label}</span>
                 <span className="text-xs text-muted block mt-0.5">{item.desc}</span>
               </div>
               <input
@@ -589,7 +589,7 @@ export const Home: React.FC = () => {
             </label>
           ))}
 
-          <div className="flex items-center justify-between pt-3 border-t border-white/10">
+          <div className="flex items-center justify-between pt-3 border-t border-border-hairline">
             <button
               type="button"
               onClick={() => {
@@ -606,7 +606,7 @@ export const Home: React.FC = () => {
                 localStorage.setItem('sadie_home_widgets', JSON.stringify(allOn));
                 toast({ type: 'info', title: 'Widgets Reset', message: 'All dashboard widgets restored to visible.' });
               }}
-              className="text-xs text-secondary hover:text-white underline cursor-pointer"
+              className="text-xs text-secondary hover:text-primary underline cursor-pointer"
             >
               Reset to Defaults
             </button>
