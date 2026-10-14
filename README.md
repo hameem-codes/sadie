@@ -28,6 +28,15 @@ npm run build
 npm run preview
 ```
 
+### Deploy to Vercel
+This repository is configured for instantaneous deployment on Vercel:
+1. Import the repository `https://github.com/hameem-codes/sadie` into your [Vercel Dashboard](https://vercel.com/new).
+2. Framework Preset will be automatically detected as **Vite**.
+3. Build Command: `npm run build`
+4. Output Directory: `dist`
+5. Root Directory: `./`
+6. Click **Deploy**. Single-page routing and caching are handled via `vercel.json`.
+
 ---
 
 ## 2. Design System Tokens Used (`DESIGN_SYSTEM.md`)

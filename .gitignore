@@ -23,3 +23,14 @@ dist-ssr
 *.sln
 *.sw?
 .playwright-mcp
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel
+
+# TypeScript build info cache
+*.tsbuildinfo
