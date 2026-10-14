@@ -1,0 +1,382 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg-base: #0a0a0a;
+    --bg-surface: #141414;
+    --bg-elevated: #1c1c1c;
+    --text-primary: #ffffff;
+    --text-secondary: #b8b8b8;
+    --text-muted: #7a7a7a;
+    --border-subtle: rgba(255, 255, 255, 0.25);
+    --border-hairline: rgba(255, 255, 255, 0.12);
+
+    --font-serif: "Lora", Georgia, "Times New Roman", serif;
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    --radius-pill: 999px;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-frame: 12px;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --space-24: 96px;
+
+    /* Safe Area Insets for Mobile / Notched Screens */
+    --sat: env(safe-area-inset-top, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    color-scheme: dark;
+    background-color: var(--bg-base);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    color-scheme: dark;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.875rem; /* 14px body floor standard */
+    line-height: 1.5;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  img, video, svg, canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  button, input, select, textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  input, textarea, select {
+    color-scheme: dark;
+    color: #ffffff !important;
+    caret-color: #ffffff !important;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+
+  /* Custom scrollbar for dark aesthetic */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #242424;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333333;
+  }
+}
+
+/* Typography styles per Design System Section 3 */
+.font-serif {
+  font-family: var(--font-serif);
+  line-height: 1.1 !important;
+  letter-spacing: -0.02em;
+}
+
+/* Motion and hover interactions according to Design System Section 8 */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-lift:hover {
+    transform: translateY(-1.5px);
+  }
+}
+@media (hover: none) or (pointer: coarse) {
+  .hover-lift:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hover-lift:hover {
+    transform: none !important;
+  }
+}
+
+/* Glass and card surface utilities */
+.glass-panel {
+  background: rgba(20, 20, 20, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-modal {
+  background: rgba(18, 18, 18, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Fluid conversational reply animations */
+@keyframes replyFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes streamGlow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes nodePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(142, 197, 232, 0.5);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 10px 3px rgba(142, 197, 232, 0.35);
+  }
+}
+
+.animate-reply-in {
+  animation: replyFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-stream-glow {
+  animation: streamGlow 1.4s ease-in-out infinite;
+}
+
+.animate-node-pulse {
+  animation: nodePulse 1.6s ease-in-out infinite;
+}
+
+/* macOS-style Genie Unfold Animation */
+@keyframes genieUnfold {
+  0% {
+    opacity: 0;
+    transform: scale(0.18, 0.08) translate3d(-30px, 40px, 0) skew(-5deg, 2deg);
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 0.92;
+    transform: scale(1.025, 1.02) translate3d(2px, -3px, 0) skew(0.8deg, -0.4deg);
+    filter: blur(0.5px);
+  }
+  78% {
+    opacity: 1;
+    transform: scale(0.995, 0.998) translate3d(-1px, 1px, 0) skew(-0.2deg, 0.1deg);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1) translate3d(0, 0, 0) skew(0, 0);
+    filter: blur(0px);
+  }
+}
+
+@keyframes genieUnfoldCenter {
+  0% {
+    opacity: 0;
+    transform: scale(0.2, 0.1) translate3d(0, 50px, 0) skew(0, 3deg);
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 0.92;
+    transform: scale(1.025, 1.02) translate3d(0, -5px, 0) skew(0, -0.5deg);
+    filter: blur(0.5px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(0.995, 0.998) translate3d(0, 1px, 0) skew(0, 0);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1) translate3d(0, 0, 0) skew(0, 0);
+    filter: blur(0px);
+  }
+}
+
+.animate-genie {
+  animation: genieUnfold 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: left 30%;
+  will-change: transform, opacity, filter;
+}
+
+.animate-genie-modal {
+  animation: genieUnfoldCenter 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: center bottom;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes genieUnfoldBottomRight {
+  0% {
+    opacity: 0;
+    transform: scale(0.18, 0.1) translate3d(60px, 60px, 0) skew(2.5deg, -2deg);
+    filter: blur(8px);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.025, 1.02) translate3d(-2px, -3px, 0) skew(-0.5deg, 0.4deg);
+    filter: blur(0.5px);
+  }
+  78% {
+    opacity: 1;
+    transform: scale(0.995, 0.998) translate3d(1px, 1px, 0) skew(0.1deg, -0.1deg);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1) translate3d(0, 0, 0) skew(0, 0);
+    filter: blur(0px);
+  }
+}
+
+.animate-genie-window {
+  animation: genieUnfoldBottomRight 0.46s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: bottom right;
+  will-change: transform, opacity, filter;
+}
+
+/* Fluid Recharts animations & smooth hover transitions */
+.recharts-surface {
+  overflow: visible !important;
+}
+
+.recharts-bar-rectangle path {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease, fill 0.3s ease;
+  transform-origin: bottom center;
+}
+
+.recharts-bar-rectangle:hover path {
+  filter: brightness(1.15) drop-shadow(0 0 10px rgba(142, 197, 232, 0.5));
+}
+
+.recharts-tooltip-wrapper {
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  pointer-events: none;
+}
+
+.recharts-active-dot circle {
+  transition: r 0.25s cubic-bezier(0.16, 1, 0.3, 1), fill 0.2s ease, filter 0.2s ease;
+  filter: drop-shadow(0 0 10px rgba(142, 197, 232, 0.8));
+}
+
+/* Staggered Tab & Element Entrance Animations */
+@keyframes dropDownFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeInAnim {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInAnim 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-drop-down {
+  animation: dropDownFade 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-slide-up {
+  animation: slideUpFade 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-card-in {
+  animation: cardScaleIn 0.58s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.delay-50 { animation-delay: 50ms; }
+.delay-75 { animation-delay: 75ms; }
+.delay-100 { animation-delay: 100ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-250 { animation-delay: 250ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-350 { animation-delay: 350ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-450 { animation-delay: 450ms; }
+.delay-500 { animation-delay: 500ms; }
+
