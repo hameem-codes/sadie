@@ -78,17 +78,17 @@ export const IntegrationsModal: React.FC<IntegrationsModalProps> = ({
         {/* Integrations Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* DICOM PACS Integration */}
-          <div className="p-3.5 rounded-xl bg-surface/60 border border-white/10 flex flex-col justify-between space-y-2.5">
+          <div className="p-3.5 rounded-xl bg-surface border border-border-hairline shadow-sm flex flex-col justify-between space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Database className="w-4 h-4 text-[#8EC5E8]" />
-                <span className="font-semibold text-white">DICOM PACS Network</span>
+                <Database className="w-4 h-4 text-accent-blue" />
+                <span className="font-semibold text-primary">DICOM PACS Network</span>
               </div>
-              <span className="text-[10px] font-mono text-[#a3ffb2] bg-[#122415] px-2 py-0.5 rounded-pill border border-[#2f6b3a]/50">
+              <span className="text-[10px] font-mono text-emerald-600 dark:text-[#a3ffb2] bg-emerald-500/10 px-2 py-0.5 rounded-pill border border-emerald-500/20">
                 Connected
               </span>
             </div>
-            <p className="text-[11px] text-muted leading-relaxed">
+            <p className="text-[11px] text-secondary leading-relaxed">
               Automated C-FIND and C-MOVE over DICOM port 11112. Directly stream high-bitrate CBCTs without manual export.
             </p>
             <Button
@@ -104,17 +104,17 @@ export const IntegrationsModal: React.FC<IntegrationsModalProps> = ({
           </div>
 
           {/* Epic & Cerner FHIR Sync */}
-          <div className="p-3.5 rounded-xl bg-surface/60 border border-white/10 flex flex-col justify-between space-y-2.5">
+          <div className="p-3.5 rounded-xl bg-surface border border-border-hairline shadow-sm flex flex-col justify-between space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Server className="w-4 h-4 text-[#8EC5E8]" />
-                <span className="font-semibold text-white">Epic / Cerner EHR (FHIR R4)</span>
+                <Server className="w-4 h-4 text-accent-blue" />
+                <span className="font-semibold text-primary">Epic / Cerner EHR (FHIR R4)</span>
               </div>
-              <span className="text-[10px] font-mono text-[#a3ffb2] bg-[#122415] px-2 py-0.5 rounded-pill border border-[#2f6b3a]/50">
+              <span className="text-[10px] font-mono text-emerald-600 dark:text-[#a3ffb2] bg-emerald-500/10 px-2 py-0.5 rounded-pill border border-emerald-500/20">
                 Active
               </span>
             </div>
-            <p className="text-[11px] text-muted leading-relaxed">
+            <p className="text-[11px] text-secondary leading-relaxed">
               Bi-directional HL7 FHIR sync with Epic Hyperspace. Operative scores automatically populate inpatient charts.
             </p>
             <Button
@@ -130,15 +130,15 @@ export const IntegrationsModal: React.FC<IntegrationsModalProps> = ({
           </div>
 
           {/* Calendar Integration */}
-          <div className="p-3.5 rounded-xl bg-surface/60 border border-white/10 flex flex-col justify-between space-y-2.5">
+          <div className="p-3.5 rounded-xl bg-surface border border-border-hairline shadow-sm flex flex-col justify-between space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-[#8EC5E8]" />
-                <span className="font-semibold text-white">Surgery Calendar Sync</span>
+                <Calendar className="w-4 h-4 text-accent-blue" />
+                <span className="font-semibold text-primary">Surgery Calendar Sync</span>
               </div>
               <span className="text-[10px] font-mono text-muted">.ics Format</span>
             </div>
-            <p className="text-[11px] text-muted leading-relaxed">
+            <p className="text-[11px] text-secondary leading-relaxed">
               Export surgery date, patient MRN, and operative checklist directly to your clinical or OR calendar.
             </p>
             <Button
@@ -147,28 +147,28 @@ export const IntegrationsModal: React.FC<IntegrationsModalProps> = ({
               onClick={handleExportCalendar}
               className="text-xs w-full"
             >
-              <CalendarPlus className="w-3.5 h-3.5 mr-1.5 text-[#8EC5E8]" />
+              <CalendarPlus className="w-3.5 h-3.5 mr-1.5 text-accent-blue" />
               Add Surgery to Calendar (.ics)
             </Button>
           </div>
 
           {/* Cloud Storage & Webhooks */}
-          <div className="p-3.5 rounded-xl bg-surface/60 border border-white/10 flex flex-col justify-between space-y-2.5">
+          <div className="p-3.5 rounded-xl bg-surface border border-border-hairline shadow-sm flex flex-col justify-between space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Cloud className="w-4 h-4 text-[#8EC5E8]" />
-                <span className="font-semibold text-white">Cloud Archive & Webhooks</span>
+                <Cloud className="w-4 h-4 text-accent-blue" />
+                <span className="font-semibold text-primary">Cloud Archive & Webhooks</span>
               </div>
-              <span className="text-[10px] font-mono text-[#a3ffb2] bg-[#122415] px-2 py-0.5 rounded-pill border border-[#2f6b3a]/50">
+              <span className="text-[10px] font-mono text-emerald-600 dark:text-[#a3ffb2] bg-emerald-500/10 px-2 py-0.5 rounded-pill border border-emerald-500/20">
                 Encrypted
               </span>
             </div>
-            <p className="text-[11px] text-muted leading-relaxed">
+            <p className="text-[11px] text-secondary leading-relaxed">
               Instant webhooks fired on analysis completion. Mirror DICOM datasets to AWS S3 / GCP Healthcare bucket.
             </p>
             <div className="flex items-center gap-2 font-mono text-[10px] text-muted">
               <span>Endpoint:</span>
-              <span className="text-white truncate">https://api.hospital.org/sadie/webhook</span>
+              <span className="text-primary truncate">https://api.hospital.org/sadie/webhook</span>
             </div>
           </div>
         </div>

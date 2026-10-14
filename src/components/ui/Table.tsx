@@ -71,7 +71,7 @@ export function Table<T>({
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-white/5">
+        <tbody className="divide-y divide-border-hairline">
           {data.length === 0 ? (
             <tr>
               <td
@@ -79,11 +79,11 @@ export function Table<T>({
                 className="py-16 text-center"
               >
                 <div className="flex flex-col items-center justify-center space-y-2">
-                  <div className="p-3 rounded-full bg-elevated/80 border border-white/10 text-muted">
+                  <div className="p-3 rounded-full bg-elevated/80 border border-border-hairline text-muted">
                     <FolderSearch className="w-5 h-5 text-muted" />
                   </div>
-                  <p className="text-base font-medium text-white">{emptyMessage}</p>
-                  <p className="text-sm text-muted max-w-sm">{emptySubtitle}</p>
+                  <p className="text-base font-medium text-primary">{emptyMessage}</p>
+                  <p className="text-sm text-secondary max-w-sm">{emptySubtitle}</p>
                 </div>
               </td>
             </tr>

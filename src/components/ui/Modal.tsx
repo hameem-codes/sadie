@@ -108,7 +108,7 @@ export const Modal: React.FC<ModalProps> = ({
       <div
         ref={modalRef}
         tabIndex={-1}
-        className={`relative w-full ${widthClass} glass-modal rounded-xl p-4 sm:p-6 shadow-modal border border-white/15 z-10 ${animClass} max-h-[90vh] max-h-[90dvh] flex flex-col focus:outline-none`}
+        className={`relative w-full ${widthClass} glass-modal rounded-xl p-4 sm:p-6 shadow-modal border border-border-hairline z-10 ${animClass} max-h-[90vh] max-h-[90dvh] flex flex-col focus:outline-none`}
       >
         <div className={`flex items-start justify-between ${headerBorder ? 'pb-4 border-b border-border-hairline mb-0' : 'mb-4'}`}>
           <div>
@@ -129,7 +129,7 @@ export const Modal: React.FC<ModalProps> = ({
               size="icon"
               onClick={onClose}
               aria-label="Close dialog"
-              className="text-muted hover:text-white -mr-2 -mt-2 shrink-0"
+              className="text-muted hover:text-primary -mr-2 -mt-2 shrink-0"
             >
               <X className="w-4 h-4" />
             </Button>

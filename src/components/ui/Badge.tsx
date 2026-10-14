@@ -27,10 +27,10 @@ export const Badge: React.FC<BadgeProps> = memo(({
     // Design System Section 6: Transparent fill, 1px border-subtle, white text
     subtle: 'bg-transparent text-primary border border-border-subtle/80 backdrop-blur-sm',
     solid: 'bg-elevated text-secondary border border-border-hairline',
-    accent: 'bg-white/10 text-white border border-white/30',
-    forest: 'bg-illustration-forest/20 text-[#a3ffb2] border border-illustration-forest/40',
-    terracotta: 'bg-illustration-terracotta/20 text-[#ffd5c5] border border-illustration-terracotta/40',
-    indigo: 'bg-illustration-indigo/50 text-[#b5b4f8] border border-[#484672]'
+    accent: 'bg-accent-blue/15 text-accent-blue border border-accent-blue/30',
+    forest: 'bg-emerald-500/10 text-emerald-600 dark:text-[#a3ffb2] border border-emerald-500/30',
+    terracotta: 'bg-rose-500/10 text-rose-600 dark:text-[#ffd5c5] border border-rose-500/30',
+    indigo: 'bg-indigo-500/10 text-indigo-600 dark:text-[#b5b4f8] border border-indigo-500/30'
   };
 
   return (

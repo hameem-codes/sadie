@@ -382,7 +382,7 @@ export const Cases: React.FC = () => {
       header: 'Case ID',
       width: '125px',
       render: (item) => (
-        <span className="font-mono text-sm text-white font-medium whitespace-nowrap">
+        <span className="font-mono text-sm text-primary font-medium whitespace-nowrap">
           {item.caseNumber}
         </span>
       )
@@ -393,7 +393,7 @@ export const Cases: React.FC = () => {
       width: '185px',
       render: (item) => (
         <div className="max-w-[185px]">
-          <span className="text-[15px] font-medium text-white block truncate" title={item.patientName}>
+          <span className="text-[15px] font-medium text-primary block truncate" title={item.patientName}>
             {item.patientName}
           </span>
           <span className="text-[13px] text-muted font-mono whitespace-nowrap">
@@ -488,17 +488,17 @@ export const Cases: React.FC = () => {
                   setMenuOpenCaseId(null);
                   setInspectExecutionCase(item);
                 }}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-white hover:bg-elevated rounded cursor-pointer"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-primary hover:bg-elevated rounded cursor-pointer"
               >
-                <Eye className="w-3.5 h-3.5 text-[#8EC5E8]" />
+                <Eye className="w-3.5 h-3.5 text-accent-blue" />
                 Inspect
               </button>
               <button
                 type="button"
                 onClick={() => handleRunAnalysis(item)}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-white hover:bg-elevated rounded"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-primary hover:bg-elevated rounded"
               >
-                <Play className="w-3.5 h-3.5 text-status-completed" />
+                <Play className="w-3.5 h-3.5 text-emerald-600 dark:text-status-completed" />
                 Run Analysis
               </button>
               <button
@@ -507,7 +507,7 @@ export const Cases: React.FC = () => {
                   setMenuOpenCaseId(null);
                   setShareCase(item);
                 }}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-white hover:bg-elevated rounded"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-primary hover:bg-elevated rounded"
               >
                 <Share2 className="w-3.5 h-3.5" />
                 Share
@@ -515,7 +515,7 @@ export const Cases: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleExport(item)}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-white hover:bg-elevated rounded"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-primary hover:bg-elevated rounded"
               >
                 <Download className="w-3.5 h-3.5" />
                 Export JSON
@@ -523,7 +523,7 @@ export const Cases: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleDuplicate(item)}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-white hover:bg-elevated rounded"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-primary hover:bg-elevated rounded"
               >
                 <Copy className="w-3.5 h-3.5" />
                 Duplicate
@@ -531,12 +531,12 @@ export const Cases: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleArchive(item)}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-white hover:bg-elevated rounded"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs text-secondary hover:text-primary hover:bg-elevated rounded"
               >
                 <Archive className="w-3.5 h-3.5" />
                 Archive
               </button>
-              <div className="pt-1 mt-1 border-t border-white/10">
+              <div className="pt-1 mt-1 border-t border-border-hairline">
                 <button
                   type="button"
                   onClick={() => {
@@ -620,10 +620,10 @@ export const Cases: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-drop-down">
         <div>
-          <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-white">
+          <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-primary">
             Cases Directory
           </h1>
-          <p className="text-xs text-muted mt-1">
+          <p className="text-xs text-secondary mt-1">
             Maxillofacial surgical outcome records, multiplanar DICOM series & CAD/CAM models
           </p>
         </div>
@@ -635,9 +635,9 @@ export const Cases: React.FC = () => {
             size="md"
             disabled={selectedCaseIds.size !== 2}
             onClick={() => setIsCompareModalOpen(true)}
-            icon={<ArrowLeftRight className="w-4 h-4 text-[#8EC5E8]" />}
+            icon={<ArrowLeftRight className="w-4 h-4 text-accent" />}
             iconPosition="left"
-            className="border-white/15 whitespace-nowrap justify-center text-xs sm:text-sm px-2.5 sm:px-4"
+            className="border-border-hairline whitespace-nowrap justify-center text-xs sm:text-sm px-2.5 sm:px-4 text-primary"
           >
             Compare (2)
           </Button>
@@ -647,9 +647,9 @@ export const Cases: React.FC = () => {
             variant="outline"
             size="md"
             onClick={() => setIsTemplateModalOpen(true)}
-            icon={<Layers className="w-4 h-4 text-[#a3ffb2]" />}
+            icon={<Layers className="w-4 h-4 text-status-completed" />}
             iconPosition="left"
-            className="border-white/15 whitespace-nowrap justify-center text-xs sm:text-sm px-2.5 sm:px-4"
+            className="border-border-hairline whitespace-nowrap justify-center text-xs sm:text-sm px-2.5 sm:px-4 text-primary"
           >
             Template
           </Button>
@@ -758,21 +758,21 @@ export const Cases: React.FC = () => {
                     { key: 'score' as const, label: 'Outcome Score' },
                     { key: 'lastUpdated' as const, label: 'Last Updated' },
                   ].map((col) => (
-                    <label key={col.key} className="flex items-center justify-between text-secondary hover:text-white cursor-pointer py-0.5">
+                    <label key={col.key} className="flex items-center justify-between text-secondary hover:text-primary cursor-pointer py-0.5">
                       <span>{col.label}</span>
                       <input
                         type="checkbox"
                         checked={visibleColumns[col.key]}
                         onChange={() => setVisibleColumns(prev => ({ ...prev, [col.key]: !prev[col.key] }))}
-                        className="rounded accent-[#8EC5E8] cursor-pointer"
+                        className="rounded accent-primary cursor-pointer"
                       />
                     </label>
                   ))}
-                  <div className="pt-2 border-t border-white/10 flex justify-end">
+                  <div className="pt-2 border-t border-border-hairline flex justify-end">
                     <button
                       type="button"
                       onClick={() => setIsColumnsDropdownOpen(false)}
-                      className="text-[11px] text-[#8EC5E8] hover:underline"
+                      className="text-[11px] text-accent-blue hover:underline"
                     >
                       Done
                     </button>
@@ -787,8 +787,8 @@ export const Cases: React.FC = () => {
               onClick={() => setIsVirtualizedView(!isVirtualizedView)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-xs font-mono transition-all cursor-pointer whitespace-nowrap shrink-0 h-[32px] ${
                 isVirtualizedView
-                  ? 'bg-[#8EC5E8] text-black font-semibold'
-                  : 'bg-elevated border border-white/10 text-secondary hover:text-white'
+                  ? 'bg-btn-primary-bg text-btn-primary-text font-semibold shadow-sm'
+                  : 'bg-elevated border border-border-hairline text-secondary hover:text-primary hover:bg-surface'
               }`}
               title="Toggle virtualized table rendering for 100+ cases"
             >
@@ -799,7 +799,7 @@ export const Cases: React.FC = () => {
         </div>
 
         {/* Filter Chips: Status, Procedure Multi-Select, Score & Advanced Toggle */}
-        <div className="pt-3 border-t border-white/5 flex flex-wrap items-center gap-2 text-sm">
+        <div className="pt-3 border-t border-border-hairline flex flex-wrap items-center gap-2 text-sm">
           <span className="text-muted flex items-center gap-1.5 font-medium mr-1 text-xs sm:text-sm whitespace-nowrap shrink-0">
             <Filter className="w-3.5 h-3.5 text-muted" /> Filter by:
           </span>
@@ -813,8 +813,8 @@ export const Cases: React.FC = () => {
                 onClick={() => setSelectedStatus(st)}
                 className={`px-3 py-1 rounded-pill transition-all capitalize font-medium text-xs whitespace-nowrap shrink-0 h-[30px] flex items-center ${
                   selectedStatus === st
-                    ? 'bg-white text-base shadow-sm font-semibold'
-                    : 'bg-elevated text-secondary hover:text-white border border-border-hairline'
+                    ? 'bg-btn-primary-bg text-btn-primary-text shadow-sm font-semibold'
+                    : 'bg-elevated text-secondary hover:text-primary border border-border-hairline'
                 }`}
               >
                 {st}
@@ -822,7 +822,7 @@ export const Cases: React.FC = () => {
             ))}
           </div>
 
-          <span className="text-white/20 mx-1 hidden sm:inline">|</span>
+          <span className="text-muted/30 mx-1 hidden sm:inline">|</span>
 
           {/* Multi-Select Procedure Filter Dropdown */}
           <div className="relative shrink-0">
@@ -831,8 +831,8 @@ export const Cases: React.FC = () => {
               onClick={() => setIsProcedureDropdownOpen(!isProcedureDropdownOpen)}
               className={`flex items-center gap-1.5 px-3 py-1 rounded-pill text-xs font-medium transition-all cursor-pointer whitespace-nowrap shrink-0 h-[30px] ${
                 selectedProcedures.length > 0
-                  ? 'bg-[#8EC5E8] text-black font-semibold shadow-sm'
-                  : 'bg-elevated text-secondary hover:text-white border border-border-hairline'
+                  ? 'bg-accent/20 text-accent font-semibold border border-accent/40 shadow-sm'
+                  : 'bg-elevated text-secondary hover:text-primary border border-border-hairline'
               }`}
             >
               <span>
@@ -871,27 +871,27 @@ export const Cases: React.FC = () => {
                     return (
                       <label
                         key={proc}
-                        className="flex items-center justify-between p-1.5 rounded hover:bg-white/5 cursor-pointer text-xs"
+                        className="flex items-center justify-between p-1.5 rounded hover:bg-elevated cursor-pointer text-xs"
                       >
-                        <span className={`truncate mr-2 ${isSelected ? 'text-white font-medium' : 'text-secondary'}`}>
+                        <span className={`truncate mr-2 ${isSelected ? 'text-primary font-medium' : 'text-secondary'}`}>
                           {proc}
                         </span>
                         <input
                           type="checkbox"
                           checked={isSelected}
                           onChange={() => toggleProcedure(proc)}
-                          className="rounded accent-[#8EC5E8] cursor-pointer"
+                          className="rounded accent-accent cursor-pointer"
                         />
                       </label>
                     );
                   })}
                 </div>
 
-                <div className="pt-2 border-t border-white/10 flex justify-end">
+                <div className="pt-2 border-t border-border-hairline flex justify-end">
                   <button
                     type="button"
                     onClick={() => setIsProcedureDropdownOpen(false)}
-                    className="text-[11px] text-[#8EC5E8] hover:underline"
+                    className="text-[11px] text-accent hover:underline cursor-pointer"
                   >
                     Close
                   </button>
@@ -901,7 +901,7 @@ export const Cases: React.FC = () => {
           </div>
 
           {/* Score Slider Filter */}
-          <div className="flex items-center gap-1.5 bg-elevated/80 border border-border-hairline rounded-pill px-3 py-1 text-xs whitespace-nowrap shrink-0 h-[30px]">
+          <div className="flex items-center gap-1.5 bg-elevated border border-border-hairline rounded-pill px-3 py-1 text-xs whitespace-nowrap shrink-0 h-[30px]">
             <span className="text-muted text-[11px] whitespace-nowrap">Min Score:</span>
             <input
               type="range"
@@ -910,9 +910,9 @@ export const Cases: React.FC = () => {
               step="5"
               value={minScore}
               onChange={(e) => setMinScore(Number(e.target.value))}
-              className="accent-[#8EC5E8] w-16 cursor-pointer"
+              className="accent-accent w-16 cursor-pointer"
             />
-            <span className="font-mono text-[11px] text-white w-7 text-right">{minScore ? `${minScore}%` : 'Any'}</span>
+            <span className="font-mono text-[11px] text-primary w-7 text-right font-medium">{minScore ? `${minScore}%` : 'Any'}</span>
           </div>
 
           {/* Advanced Filter Expansion Toggle */}
@@ -920,7 +920,7 @@ export const Cases: React.FC = () => {
             type="button"
             onClick={() => setIsAdvancedFiltersOpen(!isAdvancedFiltersOpen)}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-pill text-xs transition-colors cursor-pointer whitespace-nowrap shrink-0 h-[30px] ${
-              isAdvancedFiltersOpen ? 'bg-white/10 text-white border border-white/20' : 'text-muted hover:text-white border border-border-hairline/60 bg-elevated/50'
+              isAdvancedFiltersOpen ? 'bg-elevated text-primary border border-border-subtle' : 'text-muted hover:text-primary border border-border-hairline bg-surface'
             }`}
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
@@ -941,7 +941,7 @@ export const Cases: React.FC = () => {
                 setEndDate('');
                 setActivePreset('default');
               }}
-              className="text-muted hover:text-white text-xs underline ml-auto cursor-pointer"
+              className="text-muted hover:text-primary text-xs underline ml-auto cursor-pointer"
             >
               Clear filters
             </button>
@@ -950,7 +950,7 @@ export const Cases: React.FC = () => {
 
         {/* Expandable Advanced Filters: Date Range, Surgeon, Notes Search, Save Preset */}
         {isAdvancedFiltersOpen && (
-          <div className="pt-3 border-t border-white/5 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs animate-fade-up">
+          <div className="pt-3 border-t border-border-hairline grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs animate-fade-up">
             {/* Date Range Picker */}
             <div className="space-y-1">
               <span className="text-muted text-[11px] block">Date Range (Case Ingestion):</span>
@@ -959,14 +959,14 @@ export const Cases: React.FC = () => {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="bg-base border border-white/15 rounded-md px-2 py-1 text-xs text-white"
+                  className="bg-elevated border border-border-hairline rounded-md px-2 py-1 text-xs text-primary"
                 />
                 <span className="text-muted">to</span>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="bg-base border border-white/15 rounded-md px-2 py-1 text-xs text-white"
+                  className="bg-elevated border border-border-hairline rounded-md px-2 py-1 text-xs text-primary"
                 />
               </div>
             </div>
@@ -977,7 +977,7 @@ export const Cases: React.FC = () => {
               <select
                 value={selectedSurgeon}
                 onChange={(e) => setSelectedSurgeon(e.target.value)}
-                className="w-full bg-base border border-white/15 rounded-md px-2.5 py-1 text-xs text-white"
+                className="w-full bg-elevated border border-border-hairline rounded-md px-2.5 py-1 text-xs text-primary"
               >
                 <option value="all">All Surgical Teams</option>
                 <option value="vance">Dr. Evelyn Vance, MD, DDS</option>
@@ -1020,7 +1020,7 @@ export const Cases: React.FC = () => {
                       message: 'Current filter configuration stored to local presets.'
                     });
                   }}
-                  className="text-xs text-[#8EC5E8] hover:text-white underline cursor-pointer"
+                  className="text-xs text-accent hover:text-primary underline cursor-pointer"
                 >
                   Save Current Filter Preset
                 </button>
@@ -1140,8 +1140,8 @@ export const Cases: React.FC = () => {
           description="Moving this case to the archive will remove it from the active registry while preserving all surgical rubrics and radiographic scans."
         >
           <div className="space-y-4 pt-2">
-            <div className="p-3.5 rounded-md bg-elevated border border-white/10 text-xs text-secondary">
-              Case <strong className="text-white">{archiveCaseTarget.caseNumber}</strong> ({archiveCaseTarget.patientName}) will be marked as archived. You can restore it anytime from archived filters.
+            <div className="p-3.5 rounded-md bg-elevated border border-border-hairline text-xs text-secondary">
+              Case <strong className="text-primary">{archiveCaseTarget.caseNumber}</strong> ({archiveCaseTarget.patientName}) will be marked as archived. You can restore it anytime from archived filters.
             </div>
             <div className="flex justify-end gap-2 pt-2">
               <Button variant="ghost" onClick={() => setArchiveCaseTarget(null)}>

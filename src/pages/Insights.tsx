@@ -100,7 +100,7 @@ export const Insights: React.FC = () => {
       {/* Page Header */}
       <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 animate-drop-down">
         <div>
-          <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-white">
+          <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-primary">
             Surgical Analytics & Outcome Insights
           </h1>
         </div>
@@ -120,7 +120,7 @@ export const Insights: React.FC = () => {
       </div>
 
       {/* Filter Bar */}
-      <div className="p-4 rounded-xl bg-surface/60 border border-border-hairline flex flex-wrap items-center justify-between gap-3 text-xs animate-drop-down" style={{ animationDelay: '60ms' }}>
+      <div className="p-4 rounded-xl bg-surface border border-border-hairline shadow-card flex flex-wrap items-center justify-between gap-3 text-xs animate-drop-down" style={{ animationDelay: '60ms' }}>
         <div className="flex flex-wrap items-center gap-3">
           <span className="text-muted flex items-center gap-1 font-medium">
             <Filter className="w-3.5 h-3.5" /> Filter Cohort:
@@ -129,7 +129,7 @@ export const Insights: React.FC = () => {
           <select
             value={procedureFilter}
             onChange={(e) => setProcedureFilter(e.target.value)}
-            className="bg-elevated border border-border-hairline rounded-pill px-3 py-1.5 text-secondary hover:text-white focus:outline-none"
+            className="bg-elevated border border-border-hairline rounded-pill px-3 py-1.5 text-secondary hover:text-primary focus:outline-none"
           >
             <option value="all">All Procedures</option>
             <option value="bimax">Bimaxillary Osteotomy</option>
@@ -141,7 +141,7 @@ export const Insights: React.FC = () => {
           <select
             value={stageFilter}
             onChange={(e) => setStageFilter(e.target.value)}
-            className="bg-elevated border border-border-hairline rounded-pill px-3 py-1.5 text-secondary hover:text-white focus:outline-none"
+            className="bg-elevated border border-border-hairline rounded-pill px-3 py-1.5 text-secondary hover:text-primary focus:outline-none"
           >
             <option value="all">All Stages</option>
             <option value="6w">Early (6 Weeks)</option>
@@ -199,16 +199,16 @@ export const Insights: React.FC = () => {
           {/* Charts Row */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Score Distribution Chart */}
-            <Card hoverable className="p-6 transition-all duration-300 hover:border-white/20 animate-slide-up" style={{ animationDelay: '240ms' }}>
+            <Card hoverable className="p-6 transition-all duration-300 border-border-hairline hover:border-border-subtle shadow-card animate-slide-up" style={{ animationDelay: '240ms' }}>
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="font-serif text-lg font-medium text-white">
+                  <h3 className="font-serif text-lg font-medium text-primary">
                     Score Distribution Histogram
                   </h3>
                   <p className="text-xs text-muted">Frequency count of surgical outcome scores across registry</p>
                 </div>
-                <span className="text-xs font-mono text-[#8EC5E8] bg-[#8EC5E8]/10 border border-[#8EC5E8]/20 px-2.5 py-0.5 rounded-pill flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#8EC5E8] animate-pulse" />
+                <span className="text-xs font-mono text-accent bg-accent/10 border border-accent/20 px-2.5 py-0.5 rounded-pill flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                   Normal Curve
                 </span>
               </div>
@@ -254,16 +254,16 @@ export const Insights: React.FC = () => {
             </Card>
 
             {/* Domain Performance Breakdown */}
-            <Card hoverable className="p-6 transition-all duration-300 hover:border-white/20 animate-slide-up" style={{ animationDelay: '300ms' }}>
+            <Card hoverable className="p-6 transition-all duration-300 border-border-hairline hover:border-border-subtle shadow-card animate-slide-up" style={{ animationDelay: '300ms' }}>
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="font-serif text-lg font-medium text-white">
+                  <h3 className="font-serif text-lg font-medium text-primary">
                     Clinical Domain Performance
                   </h3>
                   <p className="text-xs text-muted">Sub-score averages compared to benchmark thresholds</p>
                 </div>
-                <span className="text-xs font-mono text-[#F2E6C8] bg-[#F2E6C8]/10 border border-[#F2E6C8]/25 px-2.5 py-0.5 rounded-pill flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#F2E6C8]" />
+                <span className="text-xs font-mono text-amber-600 dark:text-[#F2E6C8] bg-amber-50 dark:bg-[#F2E6C8]/10 border border-amber-200 dark:border-[#F2E6C8]/25 px-2.5 py-0.5 rounded-pill flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-[#F2E6C8]" />
                   Target: 90.0%
                 </span>
               </div>
@@ -318,17 +318,17 @@ export const Insights: React.FC = () => {
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="font-serif text-lg font-medium text-white">
+                <h3 className="font-serif text-lg font-medium text-primary">
                   Outcome Scores & Statistical Confidence Over Time
                 </h3>
                 <p className="text-xs text-muted">Monthly trajectory of average outcome scores vs algorithm confidence</p>
               </div>
               <div className="flex items-center gap-4 text-xs font-mono">
-                <span className="flex items-center gap-1.5 text-white">
-                  <span className="w-2.5 h-2.5 rounded-full bg-white" /> Avg Score (%)
+                <span className="flex items-center gap-1.5 text-primary">
+                  <span className="w-2.5 h-2.5 rounded-full bg-primary" /> Avg Score (%)
                 </span>
-                <span className="flex items-center gap-1.5 text-[#8ec5e8]">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#8ec5e8]" /> Confidence (%)
+                <span className="flex items-center gap-1.5 text-accent">
+                  <span className="w-2.5 h-2.5 rounded-full bg-accent" /> Confidence (%)
                 </span>
               </div>
             </div>
@@ -336,11 +336,11 @@ export const Insights: React.FC = () => {
             <div className="h-80 min-h-[300px] w-full min-w-0">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={trendsData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#222" vertical={false} />
-                  <XAxis dataKey="month" stroke="#777" fontSize={12} />
-                  <YAxis domain={[85, 100]} stroke="#777" fontSize={12} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-border-hairline" vertical={false} />
+                  <XAxis dataKey="month" stroke="currentColor" className="text-muted" fontSize={12} />
+                  <YAxis domain={[85, 100]} stroke="currentColor" className="text-muted" fontSize={12} />
                   <Tooltip content={<CustomTooltip />} />
-                  <Line type="monotone" dataKey="avgScore" name="Avg Score" stroke="#ffffff" strokeWidth={2.5} dot={{ r: 4, fill: '#fff' }} />
+                  <Line type="monotone" dataKey="avgScore" name="Avg Score" stroke="currentColor" className="text-primary" strokeWidth={2.5} dot={{ r: 4 }} />
                   <Line type="monotone" dataKey="confidence" name="Confidence" stroke="#8ec5e8" strokeWidth={2} strokeDasharray="4 4" dot={{ r: 3 }} />
                 </LineChart>
               </ResponsiveContainer>
@@ -353,13 +353,13 @@ export const Insights: React.FC = () => {
       {selectedSection === 'compare' && (
         <div className="space-y-6 animate-fade-up">
           {/* Case Selectors Bar */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-xl bg-surface/60 border border-border-hairline">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-xl bg-surface border border-border-hairline shadow-card">
             <div>
               <label className="text-xs text-muted block mb-1.5 font-medium">Select Primary Case (A)</label>
               <select
                 value={compareCaseId1}
                 onChange={(e) => setCompareCaseId1(e.target.value)}
-                className="w-full bg-elevated border border-border-hairline rounded-md p-2 text-sm text-white focus:outline-none"
+                className="w-full bg-elevated border border-border-hairline rounded-md p-2 text-sm text-primary focus:outline-none"
               >
                 {mockCases.map(c => (
                   <option key={c.id} value={c.id}>
@@ -374,7 +374,7 @@ export const Insights: React.FC = () => {
               <select
                 value={compareCaseId2}
                 onChange={(e) => setCompareCaseId2(e.target.value)}
-                className="w-full bg-elevated border border-border-hairline rounded-md p-2 text-sm text-white focus:outline-none"
+                className="w-full bg-elevated border border-border-hairline rounded-md p-2 text-sm text-primary focus:outline-none"
               >
                 {mockCases.map(c => (
                   <option key={c.id} value={c.id}>
@@ -388,30 +388,30 @@ export const Insights: React.FC = () => {
           {/* Comparison Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Case 1 Profile */}
-            <Card className="p-6 border-white/20 space-y-4">
-              <div className="flex items-start justify-between pb-4 border-b border-white/10">
+            <Card className="p-6 border-border-hairline shadow-card space-y-4">
+              <div className="flex items-start justify-between pb-4 border-b border-border-hairline">
                 <div>
                   <span className="font-mono text-xs text-muted">{case1.caseNumber}</span>
-                  <h3 className="font-serif text-2xl font-medium text-white">{case1.patientName}</h3>
+                  <h3 className="font-serif text-2xl font-medium text-primary">{case1.patientName}</h3>
                   <p className="text-xs text-secondary mt-0.5">{case1.procedure}</p>
                 </div>
-                <span className="font-serif text-3xl font-medium text-[#a3ffb2] font-mono">
+                <span className="font-serif text-3xl font-medium text-status-completed font-mono">
                   {case1.score ? `${case1.score}%` : 'N/A'}
                 </span>
               </div>
 
               <div className="space-y-2 text-xs">
-                <div className="flex justify-between py-1 border-b border-white/5">
+                <div className="flex justify-between py-1 border-b border-border-hairline">
                   <span className="text-muted">Surgical Stage:</span>
-                  <span className="text-white">{case1.stage}</span>
+                  <span className="text-primary font-medium">{case1.stage}</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-white/5">
+                <div className="flex justify-between py-1 border-b border-border-hairline">
                   <span className="text-muted">Surgery Date:</span>
-                  <span className="text-white">{case1.surgeryDate}</span>
+                  <span className="text-primary font-medium">{case1.surgeryDate}</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-white/5">
+                <div className="flex justify-between py-1 border-b border-border-hairline">
                   <span className="text-muted">95% Confidence Interval:</span>
-                  <span className="font-mono text-white">
+                  <span className="font-mono text-primary font-medium">
                     {case1.confidenceInterval ? `[${case1.confidenceInterval[0]}%, ${case1.confidenceInterval[1]}%]` : 'N/A'}
                   </span>
                 </div>
@@ -423,9 +423,9 @@ export const Insights: React.FC = () => {
                 </h4>
                 <div className="space-y-1.5">
                   {case1.domainScores.map((d, i) => (
-                    <div key={i} className="flex justify-between text-xs p-2 rounded bg-surface border border-white/5">
+                    <div key={i} className="flex justify-between text-xs p-2 rounded bg-elevated border border-border-hairline">
                       <span className="text-secondary">{d.domain}</span>
-                      <span className="font-mono text-white font-medium">{d.score}/100</span>
+                      <span className="font-mono text-primary font-medium">{d.score}/100</span>
                     </div>
                   ))}
                 </div>
@@ -433,30 +433,30 @@ export const Insights: React.FC = () => {
             </Card>
 
             {/* Case 2 Profile */}
-            <Card className="p-6 border-white/20 space-y-4">
-              <div className="flex items-start justify-between pb-4 border-b border-white/10">
+            <Card className="p-6 border-border-hairline shadow-card space-y-4">
+              <div className="flex items-start justify-between pb-4 border-b border-border-hairline">
                 <div>
                   <span className="font-mono text-xs text-muted">{case2.caseNumber}</span>
-                  <h3 className="font-serif text-2xl font-medium text-white">{case2.patientName}</h3>
+                  <h3 className="font-serif text-2xl font-medium text-primary">{case2.patientName}</h3>
                   <p className="text-xs text-secondary mt-0.5">{case2.procedure}</p>
                 </div>
-                <span className="font-serif text-3xl font-medium text-[#a3ffb2] font-mono">
+                <span className="font-serif text-3xl font-medium text-status-completed font-mono">
                   {case2.score ? `${case2.score}%` : 'N/A'}
                 </span>
               </div>
 
               <div className="space-y-2 text-xs">
-                <div className="flex justify-between py-1 border-b border-white/5">
+                <div className="flex justify-between py-1 border-b border-border-hairline">
                   <span className="text-muted">Surgical Stage:</span>
-                  <span className="text-white">{case2.stage}</span>
+                  <span className="text-primary font-medium">{case2.stage}</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-white/5">
+                <div className="flex justify-between py-1 border-b border-border-hairline">
                   <span className="text-muted">Surgery Date:</span>
-                  <span className="text-white">{case2.surgeryDate}</span>
+                  <span className="text-primary font-medium">{case2.surgeryDate}</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-white/5">
+                <div className="flex justify-between py-1 border-b border-border-hairline">
                   <span className="text-muted">95% Confidence Interval:</span>
-                  <span className="font-mono text-white">
+                  <span className="font-mono text-primary font-medium">
                     {case2.confidenceInterval ? `[${case2.confidenceInterval[0]}%, ${case2.confidenceInterval[1]}%]` : 'N/A'}
                   </span>
                 </div>
@@ -468,9 +468,9 @@ export const Insights: React.FC = () => {
                 </h4>
                 <div className="space-y-1.5">
                   {case2.domainScores.map((d, i) => (
-                    <div key={i} className="flex justify-between text-xs p-2 rounded bg-surface border border-white/5">
+                    <div key={i} className="flex justify-between text-xs p-2 rounded bg-elevated border border-border-hairline">
                       <span className="text-secondary">{d.domain}</span>
-                      <span className="font-mono text-white font-medium">{d.score}/100</span>
+                      <span className="font-mono text-primary font-medium">{d.score}/100</span>
                     </div>
                   ))}
                 </div>

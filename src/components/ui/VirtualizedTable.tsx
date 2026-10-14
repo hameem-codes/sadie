@@ -24,11 +24,11 @@ export function VirtualizedTable<T>({
   if (data.length === 0) {
     return (
       <div className="w-full rounded-lg border border-border-hairline bg-surface/40 p-12 text-center flex flex-col items-center justify-center space-y-2">
-        <div className="p-3 rounded-full bg-elevated/80 border border-white/10 text-muted">
+        <div className="p-3 rounded-full bg-elevated/80 border border-border-hairline text-muted">
           <FolderSearch className="w-5 h-5 text-muted" />
         </div>
-        <p className="text-base font-medium text-white">{emptyMessage}</p>
-        <p className="text-sm text-muted">Adjust your search filters to find relevant cases.</p>
+        <p className="text-base font-medium text-primary">{emptyMessage}</p>
+        <p className="text-sm text-secondary">Adjust your search filters to find relevant cases.</p>
       </div>
     );
   }
@@ -43,7 +43,7 @@ export function VirtualizedTable<T>({
         key={key}
         style={style}
         onClick={() => onRowClick && onRowClick(item)}
-        className={`flex items-center border-b border-white/5 px-3 sm:px-3.5 transition-colors duration-150 ${
+        className={`flex items-center border-b border-border-hairline px-3 sm:px-3.5 transition-colors duration-150 ${
           onRowClick ? 'cursor-pointer hover:bg-elevated/80' : 'hover:bg-surface/60'
         }`}
       >

@@ -122,7 +122,7 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose} title="Mobile & Clinic Rounds Suite" size="md">
       <div className="space-y-4">
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-1 bg-[#161616] p-1 rounded-pill border border-white/10 text-xs">
+        <div className="flex items-center gap-1 bg-elevated p-1 rounded-pill border border-border-hairline text-xs">
           {[
             { id: 'voice', label: 'Voice Notes', icon: Mic },
             { id: 'camera', label: 'Camera Capture', icon: Camera },
@@ -137,8 +137,8 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-pill font-medium transition-all cursor-pointer ${
                   activeTab === tab.id
-                    ? 'bg-white text-black font-semibold shadow-sm'
-                    : 'text-secondary hover:text-white'
+                    ? 'bg-btn-primary-bg text-btn-primary-text font-semibold shadow-sm'
+                    : 'text-secondary hover:text-primary hover:bg-surface'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -150,18 +150,18 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
 
         {/* Tab 1: Voice Notes */}
         {activeTab === 'voice' && (
-          <div className="space-y-3 p-4 rounded-xl bg-surface/60 border border-white/10 text-xs">
+          <div className="space-y-3 p-4 rounded-xl bg-surface border border-border-hairline text-xs">
             <div className="flex items-center justify-between">
-              <span className="font-semibold text-white">Clinical Voice Dictation</span>
+              <span className="font-semibold text-primary">Clinical Voice Dictation</span>
               {isRecording && (
-                <span className="font-mono text-red-400 flex items-center gap-1 text-[11px] animate-pulse">
-                  <span className="w-2 h-2 rounded-full bg-red-500" />
+                <span className="font-mono text-rose-500 flex items-center gap-1 text-[11px] animate-pulse">
+                  <span className="w-2 h-2 rounded-full bg-rose-500" />
                   Recording: {recordingSeconds}s
                 </span>
               )}
             </div>
 
-            <div className="p-3 rounded-lg bg-[#0a0a0c] border border-white/10 min-h-24 text-secondary leading-relaxed font-sans">
+            <div className="p-3 rounded-lg bg-elevated border border-border-hairline min-h-24 text-secondary leading-relaxed font-sans">
               {dictationText || (
                 <span className="text-muted italic">
                   Press the microphone button and dictate clinical observations. Speech is auto-transcribed using Web Speech AI.
@@ -198,14 +198,14 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
 
         {/* Tab 2: Camera Capture */}
         {activeTab === 'camera' && (
-          <div className="space-y-3 p-4 rounded-xl bg-surface/60 border border-white/10 text-xs text-center">
+          <div className="space-y-3 p-4 rounded-xl bg-surface border border-border-hairline text-xs text-center shadow-sm">
             {capturedPhoto ? (
               <div className="space-y-2">
                 <img
                   src={capturedPhoto}
                   alt="Captured clinical view"
                   loading="lazy"
-                  className="w-full h-40 object-cover rounded-lg border border-white/10"
+                  className="w-full h-40 object-cover rounded-lg border border-border-hairline"
                 />
                 <Button variant="outline" size="sm" onClick={() => setCapturedPhoto(null)} className="text-xs">
                   <RotateCcw className="w-3.5 h-3.5 mr-1" />
@@ -213,9 +213,9 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
                 </Button>
               </div>
             ) : (
-              <div className="py-6 border-2 border-dashed border-white/15 rounded-lg flex flex-col items-center justify-center space-y-2">
-                <Camera className="w-8 h-8 text-[#8EC5E8]" />
-                <p className="text-muted text-xs">Position device camera to document intraoral or profile view</p>
+              <div className="py-6 border-2 border-dashed border-border-hairline rounded-lg flex flex-col items-center justify-center space-y-2">
+                <Camera className="w-8 h-8 text-accent-blue" />
+                <p className="text-secondary text-xs">Position device camera to document intraoral or profile view</p>
                 <Button variant="primary" size="sm" onClick={simulateCameraCapture} className="text-xs mt-2">
                   Capture Clinical Photo
                 </Button>
@@ -226,13 +226,13 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
 
         {/* Tab 3: Barcode / QR Scanner */}
         {activeTab === 'scanner' && (
-          <div className="space-y-3 p-4 rounded-xl bg-surface/60 border border-white/10 text-xs text-center">
-            <div className="py-6 border-2 border-dashed border-white/15 rounded-lg flex flex-col items-center justify-center space-y-2 relative overflow-hidden">
+          <div className="space-y-3 p-4 rounded-xl bg-surface border border-border-hairline text-xs text-center shadow-sm">
+            <div className="py-6 border-2 border-dashed border-border-hairline rounded-lg flex flex-col items-center justify-center space-y-2 relative overflow-hidden">
               {isScanning && (
-                <div className="absolute inset-x-0 h-0.5 bg-[#8EC5E8] shadow-glow-cyan animate-pulse top-1/2" />
+                <div className="absolute inset-x-0 h-0.5 bg-accent-blue shadow-glow-cyan animate-pulse top-1/2" />
               )}
               <QrCode className="w-10 h-10 text-secondary" />
-              <p className="text-muted text-xs">Scan patient wristband or surgical wafer barcode</p>
+              <p className="text-secondary text-xs">Scan patient wristband or surgical wafer barcode</p>
               <Button
                 variant="primary"
                 size="sm"
@@ -245,7 +245,7 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
             </div>
 
             {scannedResult && (
-              <div className="p-2.5 rounded bg-[#122415] border border-[#2f6b3a] flex items-center justify-between text-xs text-[#a3ffb2]">
+              <div className="p-2.5 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-xs text-emerald-600 dark:text-[#a3ffb2]">
                 <span>Verified Match: {scannedResult}</span>
                 <CheckCircle2 className="w-4 h-4" />
               </div>
@@ -255,11 +255,11 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
 
         {/* Tab 4: Offline Mode */}
         {activeTab === 'offline' && (
-          <div className="space-y-3 p-4 rounded-xl bg-surface/60 border border-white/10 text-xs">
+          <div className="space-y-3 p-4 rounded-xl bg-surface border border-border-hairline text-xs shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <span className="font-semibold text-white block">Clinic Rounds Offline Mode</span>
-                <span className="text-[11px] text-muted">
+                <span className="font-semibold text-primary block">Clinic Rounds Offline Mode</span>
+                <span className="text-[11px] text-secondary">
                   Full local CBCT slice viewing & scoring when detached from hospital Wi-Fi.
                 </span>
               </div>
@@ -267,7 +267,7 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
                 type="button"
                 onClick={toggleOfflineMode}
                 className={`w-11 h-6 rounded-pill transition-colors p-0.5 cursor-pointer ${
-                  isOfflineModeActive ? 'bg-[#a3ffb2]' : 'bg-elevated border border-white/20'
+                  isOfflineModeActive ? 'bg-emerald-500' : 'bg-elevated border border-border-hairline'
                 }`}
               >
                 <div
@@ -278,9 +278,9 @@ export const MobileFeaturesModal: React.FC<MobileFeaturesModalProps> = ({
               </button>
             </div>
 
-            <div className="p-2.5 rounded bg-surface border border-white/5 flex items-center justify-between font-mono text-[11px]">
-              <span className="text-muted">Cached Cases in Local Storage:</span>
-              <span className="text-[#8EC5E8] font-bold">{cachedCasesCount} Cases (1.4 GB)</span>
+            <div className="p-2.5 rounded bg-elevated border border-border-hairline flex items-center justify-between font-mono text-[11px]">
+              <span className="text-secondary">Cached Cases in Local Storage:</span>
+              <span className="text-accent-blue font-bold">{cachedCasesCount} Cases (1.4 GB)</span>
             </div>
           </div>
         )}

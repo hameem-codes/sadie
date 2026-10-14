@@ -77,21 +77,23 @@ export const AppLayout: React.FC = () => {
   }, []);
 
   const toggleTheme = () => {
-    setIsDarkMode(prev => {
-      const next = !prev;
-      if (next) {
-        document.documentElement.classList.add('dark');
-        document.documentElement.classList.remove('light');
-        localStorage.setItem('sadie-theme', 'dark');
+    const next = !isDarkMode;
+    setIsDarkMode(next);
+    if (next) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      localStorage.setItem('sadie-theme', 'dark');
+      setTimeout(() => {
         toast({ type: 'info', title: 'Clinical Dark Mode', message: 'SADIE Radiographic Dark Theme active' });
-      } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.classList.add('light');
-        localStorage.setItem('sadie-theme', 'light');
+      }, 0);
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      localStorage.setItem('sadie-theme', 'light');
+      setTimeout(() => {
         toast({ type: 'info', title: 'Clinical Light Mode', message: 'High-Contrast Surgical Light Theme active' });
-      }
-      return next;
-    });
+      }, 0);
+    }
   };
 
   const isCopilotPage = location.pathname.startsWith('/copilot');
@@ -696,8 +698,8 @@ export const AppLayout: React.FC = () => {
             onClick={() => setIsNotificationsOpen(false)}
           />
 
-          <div className="fixed bottom-16 left-3 sm:left-4 z-50 w-[min(calc(100vw-1.5rem),360px)] glass-modal rounded-xl shadow-2xl border border-white/15 p-4 animate-fade-up">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+          <div className="fixed bottom-16 left-3 sm:left-4 z-50 w-[min(calc(100vw-1.5rem),360px)] bg-surface/95 backdrop-blur-xl rounded-xl shadow-2xl border border-border-hairline p-4 animate-fade-up">
+            <div className="flex items-center justify-between pb-3 border-b border-border-hairline">
               <div className="flex items-center gap-2">
                 <Bell className="w-4 h-4 text-status-processing" />
                 <span className="text-xs font-semibold uppercase tracking-wider text-primary">Clinical Alerts</span>
@@ -709,7 +711,7 @@ export const AppLayout: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsNotificationsOpen(false)}
-                  className="p-1 rounded-md text-muted hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                  className="p-1 rounded-md text-muted hover:text-primary hover:bg-elevated transition-colors cursor-pointer"
                   title="Close notifications"
                   aria-label="Close notifications"
                 >
@@ -718,13 +720,13 @@ export const AppLayout: React.FC = () => {
               </div>
             </div>
 
-            <div className="divide-y divide-white/5 max-h-72 overflow-y-auto mt-2 custom-scrollbar">
+            <div className="divide-y divide-border-hairline max-h-72 overflow-y-auto mt-2 custom-scrollbar">
               <div
                 onClick={() => {
                   navigate('/cases/case-104');
                   setIsNotificationsOpen(false);
                 }}
-                className="py-3 px-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group"
+                className="py-3 px-2 rounded-lg hover:bg-elevated transition-colors cursor-pointer group"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5 text-status-failed text-xs font-medium">
@@ -736,7 +738,7 @@ export const AppLayout: React.FC = () => {
                 <p className="text-xs text-secondary mt-1 group-hover:text-primary transition-colors leading-relaxed">
                   Case MX-2026-0894: CT motion blur at Infraorbital Margin. Manual landmark pin or rescan recommended.
                 </p>
-                <div className="mt-2 flex items-center gap-1 text-[11px] text-[#8EC5E8] font-medium group-hover:underline">
+                <div className="mt-2 flex items-center gap-1 text-[11px] text-accent-blue font-medium group-hover:underline">
                   <span>Inspect Case & Rescan</span>
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </div>
@@ -747,7 +749,7 @@ export const AppLayout: React.FC = () => {
                   navigate('/cases/case-103');
                   setIsNotificationsOpen(false);
                 }}
-                className="py-3 px-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group"
+                className="py-3 px-2 rounded-lg hover:bg-elevated transition-colors cursor-pointer group"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5 text-status-processing text-xs font-medium">
@@ -759,21 +761,21 @@ export const AppLayout: React.FC = () => {
                 <p className="text-xs text-secondary mt-1 group-hover:text-primary transition-colors leading-relaxed">
                   Case MX-2026-0893: 840 axial CT slices processing. Real-time bone surface model generation.
                 </p>
-                <div className="mt-2 flex items-center gap-1 text-[11px] text-[#8EC5E8] font-medium group-hover:underline">
+                <div className="mt-2 flex items-center gap-1 text-[11px] text-accent-blue font-medium group-hover:underline">
                   <span>Track Pipeline Status</span>
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
             </div>
 
-            <div className="pt-2.5 mt-2 border-t border-white/5 flex items-center justify-between text-xs">
+            <div className="pt-2.5 mt-2 border-t border-border-hairline flex items-center justify-between text-xs">
               <button
                 type="button"
                 onClick={() => {
                   navigate('/cases');
                   setIsNotificationsOpen(false);
                 }}
-                className="text-secondary hover:text-white transition-colors cursor-pointer font-medium"
+                className="text-secondary hover:text-primary transition-colors cursor-pointer font-medium"
               >
                 View all cases
               </button>
@@ -787,7 +789,7 @@ export const AppLayout: React.FC = () => {
                   });
                   setIsNotificationsOpen(false);
                 }}
-                className="text-muted hover:text-white transition-colors cursor-pointer"
+                className="text-muted hover:text-primary transition-colors cursor-pointer"
               >
                 Mark all read
               </button>

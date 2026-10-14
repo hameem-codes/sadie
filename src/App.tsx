@@ -8,6 +8,7 @@ import { CaseWorkspace } from './pages/CaseWorkspace';
 import { Insights } from './pages/Insights';
 import { Knowledge } from './pages/Knowledge';
 import { Copilot } from './pages/Copilot';
+import { Users } from './pages/Users';
 
 export const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ export const App: React.FC = () => {
             <Route path="cases/:caseId" element={<CaseWorkspace />} />
             <Route path="insights" element={<Insights />} />
             <Route path="knowledge" element={<Knowledge />} />
+            <Route path="users" element={<Users />} />
             <Route path="copilot" element={<Copilot />} />
             <Route path="*" element={<Navigate to="/copilot" replace />} />
           </Route>

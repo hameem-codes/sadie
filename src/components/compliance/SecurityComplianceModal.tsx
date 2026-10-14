@@ -40,13 +40,13 @@ export const SecurityComplianceModal: React.FC<SecurityComplianceModalProps> = (
     <Modal isOpen={isOpen} onClose={onClose} title="Security, HIPAA & Cryptographic Controls" size="lg">
       <div className="space-y-4 text-xs">
         {/* HIPAA Banner */}
-        <div className="p-3.5 rounded-xl bg-[#122415] border border-[#2f6b3a]/60 flex items-center gap-3">
-          <ShieldCheck className="w-6 h-6 text-[#a3ffb2] shrink-0" />
+        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center gap-3">
+          <ShieldCheck className="w-6 h-6 text-emerald-600 dark:text-[#a3ffb2] shrink-0" />
           <div>
-            <span className="font-semibold text-white block">
+            <span className="font-semibold text-primary block">
               HIPAA Security Rule (45 CFR § 164.312) Verified
             </span>
-            <p className="text-[11px] text-[#a3ffb2]/90">
+            <p className="text-[11px] text-emerald-700 dark:text-[#a3ffb2]/90">
               End-to-end TLS 1.3 in-transit, AES-256-GCM at rest, with automated BAA validation and zero unauthorized external telemetry.
             </p>
           </div>
@@ -55,17 +55,17 @@ export const SecurityComplianceModal: React.FC<SecurityComplianceModalProps> = (
         {/* Security Controls Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Two-Factor Authentication */}
-          <div className="p-3.5 rounded-xl bg-surface/60 border border-white/10 flex flex-col justify-between space-y-2">
+          <div className="p-3.5 rounded-xl bg-surface border border-border-hairline shadow-sm flex flex-col justify-between space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <KeyRound className="w-4 h-4 text-[#8EC5E8]" />
-                <span className="font-medium text-white">2-Factor Authentication</span>
+                <KeyRound className="w-4 h-4 text-accent-blue" />
+                <span className="font-medium text-primary">2-Factor Authentication</span>
               </div>
               <button
                 type="button"
                 onClick={handleToggle2FA}
                 className={`w-9 h-5 rounded-pill transition-colors p-0.5 cursor-pointer ${
-                  is2FAEnabled ? 'bg-[#a3ffb2]' : 'bg-elevated border border-white/20'
+                  is2FAEnabled ? 'bg-emerald-500' : 'bg-elevated border border-border-hairline'
                 }`}
               >
                 <div
@@ -75,19 +75,19 @@ export const SecurityComplianceModal: React.FC<SecurityComplianceModalProps> = (
                 />
               </button>
             </div>
-            <p className="text-[11px] text-muted">
+            <p className="text-[11px] text-secondary">
               Requires hardware WebAuthn key or authenticator app for clinical sign-offs.
             </p>
           </div>
 
           {/* Session Timeout */}
-          <div className="p-3.5 rounded-xl bg-surface/60 border border-white/10 flex flex-col justify-between space-y-2">
+          <div className="p-3.5 rounded-xl bg-surface border border-border-hairline shadow-sm flex flex-col justify-between space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#8EC5E8]" />
-                <span className="font-medium text-white">Inactivity Session Timeout</span>
+                <Clock className="w-4 h-4 text-accent-blue" />
+                <span className="font-medium text-primary">Inactivity Session Timeout</span>
               </div>
-              <span className="font-mono text-white text-[11px] font-semibold">{sessionTimeoutMin}m</span>
+              <span className="font-mono text-primary text-[11px] font-semibold">{sessionTimeoutMin}m</span>
             </div>
             <input
               type="range"
@@ -96,19 +96,19 @@ export const SecurityComplianceModal: React.FC<SecurityComplianceModalProps> = (
               step="5"
               value={sessionTimeoutMin}
               onChange={(e) => setSessionTimeoutMin(Number(e.target.value))}
-              className="accent-[#8EC5E8] w-full cursor-pointer"
+              className="accent-primary w-full cursor-pointer"
             />
-            <p className="text-[11px] text-muted">
+            <p className="text-[11px] text-secondary">
               Auto-locks workspace when screen is left unattended in clinical areas.
             </p>
           </div>
 
           {/* Auto-masking MRN */}
-          <div className="p-3.5 rounded-xl bg-surface/60 border border-white/10 flex flex-col justify-between space-y-2">
+          <div className="p-3.5 rounded-xl bg-surface border border-border-hairline shadow-sm flex flex-col justify-between space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-[#8EC5E8]" />
-                <span className="font-medium text-white">De-Identify / Mask MRN</span>
+                <Lock className="w-4 h-4 text-accent-blue" />
+                <span className="font-medium text-primary">De-Identify / Mask MRN</span>
               </div>
               <button
                 type="button"
@@ -117,7 +117,7 @@ export const SecurityComplianceModal: React.FC<SecurityComplianceModalProps> = (
                   toast({ type: 'info', title: autoMaskMRN ? 'MRN Unmasked' : 'MRN Masked for Screen Privacy' });
                 }}
                 className={`w-9 h-5 rounded-pill transition-colors p-0.5 cursor-pointer ${
-                  autoMaskMRN ? 'bg-[#a3ffb2]' : 'bg-elevated border border-white/20'
+                  autoMaskMRN ? 'bg-emerald-500' : 'bg-elevated border border-border-hairline'
                 }`}
               >
                 <div
@@ -127,21 +127,21 @@ export const SecurityComplianceModal: React.FC<SecurityComplianceModalProps> = (
                 />
               </button>
             </div>
-            <p className="text-[11px] text-muted">
+            <p className="text-[11px] text-secondary">
               Obfuscates patient medical record numbers when presenting cases publicly.
             </p>
           </div>
 
           {/* Data Retention */}
-          <div className="p-3.5 rounded-xl bg-surface/60 border border-white/10 flex flex-col justify-between space-y-2">
+          <div className="p-3.5 rounded-xl bg-surface border border-border-hairline shadow-sm flex flex-col justify-between space-y-2">
             <div className="flex items-center gap-2">
-              <FileCheck className="w-4 h-4 text-[#8EC5E8]" />
-              <span className="font-medium text-white">Statutory Data Retention</span>
+              <FileCheck className="w-4 h-4 text-accent-blue" />
+              <span className="font-medium text-primary">Statutory Data Retention</span>
             </div>
-            <p className="text-[11px] text-muted">
+            <p className="text-[11px] text-secondary">
               Preserves 3D radiomic models and signed operative rubrics for 7 years according to state medical board requirements.
             </p>
-            <span className="font-mono text-[10px] text-[#a3ffb2]">Policy: Retention Active (Permanent)</span>
+            <span className="font-mono text-[10px] text-emerald-600 dark:text-[#a3ffb2] font-semibold">Policy: Retention Active (Permanent)</span>
           </div>
         </div>
       </div>

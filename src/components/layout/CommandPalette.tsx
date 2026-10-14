@@ -66,9 +66,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         aria-hidden="true"
       />
 
-      <div className="relative w-full max-w-xl glass-modal rounded-xl overflow-hidden shadow-2xl border border-white/20 animate-fade-up z-10">
+      <div className="relative w-full max-w-xl bg-surface/95 backdrop-blur-xl rounded-xl overflow-hidden shadow-2xl border border-border-hairline animate-fade-up z-10">
         {/* Search Input Bar */}
-        <div className="p-4 border-b border-white/10 flex items-center gap-3 bg-surface/80">
+        <div className="p-4 border-b border-border-hairline flex items-center gap-3 bg-surface">
           <Search className="w-5 h-5 text-secondary shrink-0" />
           <input
             autoFocus
@@ -78,7 +78,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
             onChange={(e) => setQuery(e.target.value)}
             className="w-full bg-transparent text-primary text-base placeholder-muted focus:outline-none"
           />
-          <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono text-muted bg-elevated rounded border border-white/10">
+          <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono text-muted bg-elevated rounded border border-border-hairline">
             ESC
           </kbd>
         </div>
@@ -94,13 +94,13 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
               <button
                 type="button"
                 onClick={() => handleSelect(() => onNewCase())}
-                className="w-full flex items-center justify-between p-2.5 rounded-lg text-left text-white hover:bg-elevated transition-colors"
+                className="w-full flex items-center justify-between p-2.5 rounded-lg text-left text-primary hover:bg-elevated transition-colors"
               >
                 <div className="flex items-center gap-3">
-                  <span className="p-1.5 rounded-md bg-white text-black">
+                  <span className="p-1.5 rounded-md bg-btn-primary-bg text-btn-primary-text">
                     <Plus className="w-3.5 h-3.5" />
                   </span>
-                  <span className="font-medium">Create New Maxillofacial Case</span>
+                  <span className="font-medium text-primary">Create New Maxillofacial Case</span>
                 </div>
                 <span className="text-xs text-muted">Action</span>
               </button>
@@ -119,17 +119,17 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                     key={c.id}
                     type="button"
                     onClick={() => handleSelect(() => navigate(`/cases/${c.id}`))}
-                    className="w-full flex items-center justify-between p-2.5 rounded-lg text-left text-secondary hover:text-white hover:bg-elevated transition-colors"
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg text-left text-secondary hover:text-primary hover:bg-elevated transition-colors"
                   >
                     <div>
-                      <div className="font-medium text-white flex items-center gap-2">
+                      <div className="font-medium text-primary flex items-center gap-2">
                         {c.patientName}
                         <span className="text-xs text-muted font-mono">{c.caseNumber}</span>
                       </div>
-                      <div className="text-xs text-muted">{c.procedure} • {c.stage}</div>
+                      <div className="text-xs text-secondary">{c.procedure} • {c.stage}</div>
                     </div>
                     {c.score && (
-                      <span className="text-xs font-mono font-medium text-[#a3ffb2] bg-[#122415] px-2 py-0.5 rounded-pill border border-[#2f6b3a]/70">
+                      <span className="text-xs font-mono font-medium text-emerald-600 dark:text-[#a3ffb2] bg-emerald-500/10 px-2 py-0.5 rounded-pill border border-emerald-500/20">
                         {c.score}%
                       </span>
                     )}
@@ -151,11 +151,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                     key={d.id}
                     type="button"
                     onClick={() => handleSelect(() => navigate('/knowledge'))}
-                    className="w-full flex items-center justify-between p-2.5 rounded-lg text-left text-secondary hover:text-white hover:bg-elevated transition-colors"
+                    className="w-full flex items-center justify-between p-2.5 rounded-lg text-left text-secondary hover:text-primary hover:bg-elevated transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
                       <BookOpen className="w-4 h-4 text-purple-400 shrink-0" />
-                      <span className="font-medium text-white truncate max-w-sm">{d.title}</span>
+                      <span className="font-medium text-primary truncate max-w-sm">{d.title}</span>
                     </div>
                     <span className="text-[11px] text-muted">{d.category}</span>
                   </button>
@@ -176,10 +176,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                     key={item.path}
                     type="button"
                     onClick={() => handleSelect(() => navigate(item.path))}
-                    className="w-full flex items-center gap-3 p-2.5 rounded-lg text-left text-secondary hover:text-white hover:bg-elevated transition-colors"
+                    className="w-full flex items-center gap-3 p-2.5 rounded-lg text-left text-secondary hover:text-primary hover:bg-elevated transition-colors"
                   >
                     {item.icon}
-                    <span className="font-medium">{item.label}</span>
+                    <span className="font-medium text-primary">{item.label}</span>
                   </button>
                 ))}
               </div>

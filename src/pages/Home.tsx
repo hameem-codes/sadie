@@ -183,7 +183,7 @@ export const Home: React.FC = () => {
               e.stopPropagation();
               navigate(`/cases/${item.id}`);
             }}
-            className="text-sm text-secondary hover:text-white px-3 py-1.5"
+            className="text-sm text-secondary hover:text-primary px-3 py-1.5"
             icon={<ArrowUpRight className="w-4 h-4" />}
           >
             Open
@@ -196,9 +196,9 @@ export const Home: React.FC = () => {
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
       {/* Top Banner / Welcome with Eyebrow Badge */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-white/10 animate-drop-down">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-border-hairline animate-drop-down">
         <div>
-          <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-white">
+          <h1 className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-primary">
             Maxillofacial Surgical Overview
           </h1>
         </div>
@@ -208,9 +208,9 @@ export const Home: React.FC = () => {
             variant="outline"
             size="md"
             onClick={() => setIsCustomizeWidgetsOpen(true)}
-            icon={<SlidersHorizontal className="w-4 h-4 text-[#8EC5E8]" />}
+            icon={<SlidersHorizontal className="w-4 h-4 text-accent" />}
             iconPosition="left"
-            className="border-white/15"
+            className="border-border-hairline text-primary"
             title="Configure visible dashboard widgets"
           >
             Customize
@@ -219,9 +219,9 @@ export const Home: React.FC = () => {
             variant="outline"
             size="md"
             onClick={() => setIsReportModalOpen(true)}
-            icon={<TrendingUp className="w-4 h-4 text-[#8EC5E8]" />}
+            icon={<TrendingUp className="w-4 h-4 text-accent" />}
             iconPosition="left"
-            className="border-white/15"
+            className="border-border-hairline text-primary"
           >
             Quarterly Report
           </Button>
@@ -298,17 +298,17 @@ export const Home: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-slide-up" style={{ animationDelay: '240ms' }}>
           {/* Outcome Trajectory & Success Rates Widget (2 cols or full if activity hidden) */}
           {visibleWidgets.trajectoryChart && (
-            <div className={`${visibleWidgets.activityFeed ? 'lg:col-span-2' : 'lg:col-span-3'} p-5 rounded-xl bg-surface/40 border border-border-hairline flex flex-col justify-between space-y-4`}>
-              <div className="flex items-center justify-between pb-3 border-b border-white/5">
+            <div className={`${visibleWidgets.activityFeed ? 'lg:col-span-2' : 'lg:col-span-3'} p-5 rounded-xl bg-surface border border-border-hairline shadow-card flex flex-col justify-between space-y-4`}>
+              <div className="flex items-center justify-between pb-3 border-b border-border-hairline">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-lg bg-elevated border border-white/10 text-[#8EC5E8]">
+                  <div className="p-2 rounded-lg bg-elevated border border-border-hairline text-accent">
                     <TrendingUp className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-serif text-base font-medium text-white">
+                    <h3 className="font-serif text-base font-medium text-primary">
                       Longitudinal Surgical Trajectory
                     </h3>
-                    <p className="text-xs text-muted">
+                    <p className="text-xs text-secondary">
                       3D Radiomic cephalometric score progression across clinical cohorts
                     </p>
                   </div>
