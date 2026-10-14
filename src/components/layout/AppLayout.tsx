@@ -189,7 +189,7 @@ export const AppLayout: React.FC = () => {
 
   return (
     <div className="flex h-screen h-[100dvh] w-full max-w-full overflow-hidden bg-base text-primary relative">
-      <aside className="hidden md:flex fixed top-0 left-0 bottom-0 z-40 w-16 bg-surface/98 backdrop-blur-xl border-r border-border-hairline flex-col items-center py-3.5 select-none justify-between shadow-lg">
+      <aside className="hidden md:flex fixed top-0 left-0 bottom-0 z-40 w-16 bg-surface border-r border-border-hairline flex-col items-center py-3.5 select-none justify-between shadow-lg">
         {/* TOP SECTION: Toggle & Primary Nav Icons Matching Image 1 */}
         <div className="flex flex-col items-center w-full space-y-1.5">
           {/* Top Collapse/Expand Toggle (matches [>] in user image) */}
@@ -486,20 +486,20 @@ export const AppLayout: React.FC = () => {
       {/* Backdrop when Nav Bar is open */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-[2px] transition-opacity duration-300"
+          className="fixed inset-0 z-40 bg-black/30 dark:bg-black/60 backdrop-blur-sm transition-opacity duration-300"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* OVERLAY NAVIGATION BAR: When opened, shows centered SADIE brand text and close tab */}
       <aside
-        className={`fixed top-0 left-0 bottom-0 z-50 w-64 bg-surface/98 backdrop-blur-2xl border-r border-border-hairline shadow-2xl flex flex-col transition-transform duration-300 ease-in-out select-none ${
+        className={`fixed top-0 left-0 bottom-0 z-50 w-64 bg-surface border-r border-border-hairline shadow-2xl flex flex-col transition-transform duration-300 ease-in-out select-none ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full pointer-events-none'
         }`}
       >
         <div className="w-64 flex flex-col h-full shrink-0">
           {/* Header in Nav Bar: SADIE brand text placed in the exact center of the navigation bar */}
-          <div className="h-20 w-full relative flex items-center justify-center px-4 border-b border-border-hairline bg-surface/50">
+          <div className="h-20 w-full relative flex items-center justify-center px-4 border-b border-border-hairline bg-surface">
             <NavLink
               to="/copilot"
               onClick={() => setIsSidebarOpen(false)}
