@@ -1,0 +1,167 @@
+{
+  "CASE-SC01": {
+    "expected_evaluation_status": "COMPLETED_INDEPENDENT_PROFILES",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": false,
+    "expected_missing_inputs_count": 0,
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-01": "MODERATE_COMPLEXITY_SKELETAL_INJURY",
+      "COMPLEX-CRIT-02": "MONOSTOTIC_SINGLE_COMPARTMENT_SURGERY",
+      "COMPLEX-CRIT-03": "LEVEL_2_DIRECT_ANATOMIC",
+      "COMPLEX-CRIT-04": "SINGLE_PROCEDURE_COMPLEXITY",
+      "COMPLEX-CRIT-05": "MODERATE_HARDWARE_BURDEN",
+      "COMPLEX-CRIT-06": "ISOLATED_SKELETAL_NO_COMPLEX_SOFT_TISSUE",
+      "COMPLEX-CRIT-07": "COMBINED_OR_TRANSCUTANEOUS_APPROACHES",
+      "COMPLEX-CRIT-08": "SHORT_MINIMAL_BLOOD_LOSS",
+      "COMPLEX-CRIT-09": "UNEVENTFUL_INTRAOPERATIVE_COURSE"
+    }
+  },
+  "CASE-SC02": {
+    "expected_evaluation_status": "COMPLETED_INDEPENDENT_PROFILES",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": false,
+    "expected_missing_inputs_count": 0,
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-01": "MODERATE_COMPLEXITY_SKELETAL_INJURY",
+      "COMPLEX-CRIT-02": "MONOSTOTIC_SINGLE_COMPARTMENT_SURGERY",
+      "COMPLEX-CRIT-03": "LEVEL_2_DIRECT_ANATOMIC",
+      "COMPLEX-CRIT-04": "MODERATE_PROCEDURAL_COMPLEXITY",
+      "COMPLEX-CRIT-05": "LOW_HARDWARE_BURDEN",
+      "COMPLEX-CRIT-06": "ISOLATED_SKELETAL_NO_COMPLEX_SOFT_TISSUE",
+      "COMPLEX-CRIT-07": "LOCAL_OR_INTRAORAL_SOLO_APPROACH",
+      "COMPLEX-CRIT-08": "SHORT_MINIMAL_BLOOD_LOSS",
+      "COMPLEX-CRIT-09": "UNEVENTFUL_INTRAOPERATIVE_COURSE"
+    }
+  },
+  "CASE-SC03": {
+    "expected_evaluation_status": "COMPLETED_PROFILES_HUMAN_REVIEW_RECOMMENDED",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": true,
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-01": "HIGH_COMPLEXITY_SKELETAL_INJURY",
+      "COMPLEX-CRIT-02": "POLYSTOTIC_MULTI_COMPARTMENT_SURGERY",
+      "COMPLEX-CRIT-03": "LEVEL_4_COMPLEX_COMMINUTED_REASSEMBLY",
+      "COMPLEX-CRIT-04": "HIGH_PROCEDURAL_COMPLEXITY",
+      "COMPLEX-CRIT-05": "HEAVY_HARDWARE_BURDEN",
+      "COMPLEX-CRIT-06": "SEVERE_SYSTEMIC_AND_COMPLEX_SOFT_TISSUE_INVOLVEMENT",
+      "COMPLEX-CRIT-07": "EXTENDED_MULTIPLE_APPROACHES_OR_STAGED",
+      "COMPLEX-CRIT-08": "PROLONGED_HIGH_PHYSIOLOGICAL_STRESS",
+      "COMPLEX-CRIT-09": "UNEVENTFUL_INTRAOPERATIVE_COURSE"
+    }
+  },
+  "CASE-SC04": {
+    "expected_evaluation_status": "COMPLETED_INDEPENDENT_PROFILES",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": false,
+    "clinical_decoupling_validation": "Complex reconstruction with stellar postoperative outcome: proves high surgical complexity is maintained regardless of good outcome.",
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-01": "HIGH_COMPLEXITY_SKELETAL_INJURY",
+      "COMPLEX-CRIT-02": "BI_COMPARTMENT_OLIGOSTOTIC_SURGERY",
+      "COMPLEX-CRIT-03": "LEVEL_4_ADVANCED_COMPUTER_GUIDED",
+      "COMPLEX-CRIT-04": "HIGH_PROCEDURAL_COMPLEXITY",
+      "COMPLEX-CRIT-05": "HEAVY_HARDWARE_BURDEN",
+      "COMPLEX-CRIT-06": "ISOLATED_SKELETAL_NO_COMPLEX_SOFT_TISSUE",
+      "COMPLEX-CRIT-07": "COMBINED_OR_TRANSCUTANEOUS_APPROACHES",
+      "COMPLEX-CRIT-08": "MODERATE_DURATION_AND_BLOOD_LOSS",
+      "COMPLEX-CRIT-09": "UNEVENTFUL_INTRAOPERATIVE_COURSE"
+    }
+  },
+  "CASE-SC05": {
+    "expected_evaluation_status": "COMPLETED_INDEPENDENT_PROFILES",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": false,
+    "clinical_decoupling_validation": "Low-complexity surgery with severe postoperative osteomyelitis and plate removal: proves surgical complexity remains low and is not defined by late complications.",
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-01": "MODERATE_COMPLEXITY_SKELETAL_INJURY",
+      "COMPLEX-CRIT-02": "MONOSTOTIC_SINGLE_COMPARTMENT_SURGERY",
+      "COMPLEX-CRIT-03": "LEVEL_2_DIRECT_ANATOMIC",
+      "COMPLEX-CRIT-04": "SINGLE_PROCEDURE_COMPLEXITY",
+      "COMPLEX-CRIT-05": "LOW_HARDWARE_BURDEN",
+      "COMPLEX-CRIT-06": "ISOLATED_SKELETAL_NO_COMPLEX_SOFT_TISSUE",
+      "COMPLEX-CRIT-07": "LOCAL_OR_INTRAORAL_SOLO_APPROACH",
+      "COMPLEX-CRIT-08": "SHORT_MINIMAL_BLOOD_LOSS",
+      "COMPLEX-CRIT-09": "UNEVENTFUL_INTRAOPERATIVE_COURSE"
+    }
+  },
+  "CASE-SC06": {
+    "expected_evaluation_status": "COMPLETED_PROFILES_HUMAN_REVIEW_RECOMMENDED",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": true,
+    "expected_missing_inputs_contain": ["COMPLEX-CRIT-05", "COMPLEX-CRIT-08"],
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-01": "MODERATE_COMPLEXITY_SKELETAL_INJURY",
+      "COMPLEX-CRIT-02": "MONOSTOTIC_SINGLE_COMPARTMENT_SURGERY",
+      "COMPLEX-CRIT-05": "UNDETERMINED_INSUFFICIENT_DATA",
+      "COMPLEX-CRIT-08": "UNDETERMINED_INSUFFICIENT_DATA"
+    }
+  },
+  "CASE-SC07": {
+    "expected_evaluation_status": "CONFLICTING_OPERATIVE_EVIDENCE",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": true,
+    "expected_conflicting_criteria": ["COMPLEX-CRIT-05", "COMPLEX-CRIT-09"]
+  },
+  "CASE-SC08": {
+    "expected_evaluation_status": "COMPLETED_PROFILES_HUMAN_REVIEW_RECOMMENDED",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": true,
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-08": "PROLONGED_HIGH_PHYSIOLOGICAL_STRESS",
+      "COMPLEX-CRIT-09": "CRITICAL_INTRAOPERATIVE_EVENT_OR_UNPLANNED_INTERVENTION"
+    }
+  },
+  "CASE-SC09": {
+    "expected_evaluation_status": "INSUFFICIENT_DATA_FOR_DEFENSIBLE_PROFILE",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": true
+  },
+  "CASE-SC10": {
+    "expected_evaluation_status": "COMPLETED_PROFILES_HUMAN_REVIEW_RECOMMENDED",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": true,
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-01": "HIGH_COMPLEXITY_SKELETAL_INJURY",
+      "COMPLEX-CRIT-02": "BI_COMPARTMENT_OLIGOSTOTIC_SURGERY",
+      "COMPLEX-CRIT-04": "HIGH_PROCEDURAL_COMPLEXITY",
+      "COMPLEX-CRIT-06": "CONCOMITANT_SYSTEMIC_OR_SPINAL_RISK_FACTOR",
+      "COMPLEX-CRIT-08": "PROLONGED_HIGH_PHYSIOLOGICAL_STRESS"
+    }
+  },
+  "CASE-SC11": {
+    "expected_evaluation_status": "COMPLETED_INDEPENDENT_PROFILES",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": false,
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-01": "HIGH_COMPLEXITY_SKELETAL_INJURY",
+      "COMPLEX-CRIT-02": "MONOSTOTIC_SINGLE_COMPARTMENT_SURGERY",
+      "COMPLEX-CRIT-03": "LEVEL_3_MULTIAXIAL_DIFFICULT",
+      "COMPLEX-CRIT-05": "HEAVY_HARDWARE_BURDEN",
+      "COMPLEX-CRIT-07": "EXTENDED_MULTIPLE_APPROACHES_OR_STAGED"
+    }
+  },
+  "CASE-SC12": {
+    "expected_evaluation_status": "COMPLETED_INDEPENDENT_PROFILES",
+    "expected_composite_calculated": false,
+    "expected_composite_score": null,
+    "expected_human_review_required": false,
+    "expected_criteria_tiers": {
+      "COMPLEX-CRIT-01": "HIGH_COMPLEXITY_SKELETAL_INJURY",
+      "COMPLEX-CRIT-02": "BI_COMPARTMENT_OLIGOSTOTIC_SURGERY",
+      "COMPLEX-CRIT-04": "HIGH_PROCEDURAL_COMPLEXITY",
+      "COMPLEX-CRIT-05": "HEAVY_HARDWARE_BURDEN",
+      "COMPLEX-CRIT-06": "COMPLEX_FACIAL_SOFT_TISSUE_OR_NEUROVASCULAR_REPAIR",
+      "COMPLEX-CRIT-08": "PROLONGED_HIGH_PHYSIOLOGICAL_STRESS"
+    }
+  }
+}

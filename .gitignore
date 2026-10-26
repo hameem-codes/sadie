@@ -34,3 +34,34 @@ dist-ssr
 
 # TypeScript build info cache
 *.tsbuildinfo
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Reference PDFs and copyrighted/sensitive material
+references/originals/*
+!references/originals/.gitkeep
+references/working/*
+!references/working/.gitkeep
+
+# Data artifacts
+data/extracted/*
+!data/extracted/.gitkeep
+data/validated/*
+!data/validated/.gitkeep
+data/research/*
+!data/research/.gitkeep
+data/input/*
+!data/input/.gitkeep
+data/output/*
+!data/output/.gitkeep
+
+# Reports (track markdown documentation and audit records)
+reports/*.tmp
+reports/*.log

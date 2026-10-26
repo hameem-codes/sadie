@@ -1,162 +1,179 @@
-# SADIE — Maxillofacial Surgical Outcome Evaluator
+# SADIE: AI-Driven Craniomaxillofacial Trauma Treatment-Outcome Evaluator
+### Evidence-Grounded, Rule-Based Multimodal Assessment Framework for Craniomaxillofacial Surgery
 
-SADIE is a clinical web application for evaluating orthognathic and maxillofacial surgical outcomes using multiplanar radiographic assessment (3D CT volume, axial, coronal, and lateral cephalometric X-ray), automated anatomical landmark tracking, and standardized consensus scoring rubrics.
-
-Built with **React**, **TypeScript**, **Vite**, **Tailwind CSS**, and **React Router**.
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/)
+[![3D Slicer](https://img.shields.io/badge/3D%20Slicer-5.12.4%20Integrated-green.svg)](https://www.slicer.org/)
+[![Test Suite](https://img.shields.io/badge/Tests-75%2F75%20Passed-brightgreen.svg)](tests/)
+[![JSON Schema Draft-07](https://img.shields.io/badge/Schemas-JSON%20Schema%20Draft--07-orange.svg)](schemas/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
 
 ---
 
-## 1. Quick Start
+## 🌟 Overview
 
-### Prerequisites
-- Node.js (v18+)
-- npm (v9+)
+**ADRAB** is a prototype software framework designed for standardized, auditable, and multi-domain evaluation of post-operative outcomes in **craniomaxillofacial (CMF) trauma surgery**. 
 
-### Installation & Running Locally
-```bash
-# Install dependencies
-npm install
+CMF trauma management spans complex anatomical zones (orbit, zygoma, mandible, midface, condyle) where single-metric success scores fail to capture clinical reality. ADRAB establishes:
+1. **Evidence-Grounded Clinical Rubric:** Synthesized from standard surgical reference atlases and clinical trials.
+2. **Deterministic Multi-Domain Evaluation Engine:** Evaluates 8 independent clinical outcome domains without black-box scores.
+3. **Rigorous Clinical Discordance & Safety Detection:** Automatically flags discordances (e.g. perfect anatomical orbital volume restoration occurring alongside functional diplopia).
+4. **3D Slicer Medical Imaging Integration:** Automated headless pipeline (`Slicer.exe` / VTK / MRML) for 3D CT volume inspection and provisional bone surface mesh reconstruction.
+5. **Zero-PHI & Strict Provenance Guardrails:** Fully pseudonymous case schemas (`CASE-...`) with complete audit trails and data contracts.
 
-# Start development server
-npm run dev
-# The application will be running at http://localhost:5173/
+---
 
-# Typecheck and build production bundle
-npm run build
+## 📐 Architecture & Pipeline
 
-# Preview production bundle
-npm run preview
+```mermaid
+flowchart TD
+    subgraph Input_Layer ["1. Multimodal Evidence Input"]
+        CT["CT Volume (DICOM / NRRD / NIfTI)"]
+        CLIN["Clinical Case Record (JSON Schema)"]
+    end
+
+    subgraph Imaging_Subsystem ["2. 3D Slicer Imaging Subsystem"]
+        SLICER["3D Slicer 5.12.4 Headless Engine"]
+        INSPECT["inspect_ct_volume.py<br/>(Voxel spacing, scalar range, gantry tilt)"]
+        EXPORT["export_bone_surface.py<br/>(HU Thresholding & VTK PolyData)"]
+        ADAPT["ImagingPipelineAdapter<br/>(schemas/imaging_evidence_output.schema.json)"]
+        
+        CT --> SLICER
+        SLICER --> INSPECT
+        SLICER --> EXPORT
+        INSPECT & EXPORT --> ADAPT
+    end
+
+    subgraph Evaluation_Core ["3. ADRAB Deterministic Evaluator Engine"]
+        VALID["Schema Validation & Contract Checker"]
+        HARNESS["EvaluatorTestHarness"]
+        ENGINE["TreatmentOutcomeEvaluator<br/>(src/treatment_outcome_evaluator.py)"]
+        
+        CLIN --> VALID
+        ADAPT -.-> VALID
+        VALID --> HARNESS
+        HARNESS --> ENGINE
+    end
+
+    subgraph Output_Profiles ["4. Multi-Domain Outcome Profiles"]
+        D1["1. Occlusion & Dental Alignment"]
+        D2["2. Mandibular Function & MIO"]
+        D3["3. Facial Symmetry & Projection"]
+        D4["4. Orbital Anatomy (Volume & Enophthalmos)"]
+        D5["5. Visual Function (Diplopia & Motility)"]
+        D6["6. Neurological Function (V2/V3 Paresthesia)"]
+        D7["7. Complications (Clavien-Dindo Severity)"]
+        D8["8. Patient-Reported Outcome Measures (QoL)"]
+        
+        ENGINE --> D1 & D2 & D3 & D4 & D5 & D6 & D7 & D8
+    end
+
+    subgraph Guardrails ["5. Active Clinical Guardrails"]
+        ALERT1["Discordance Detection<br/>(e.g., Orbital Volume OK vs Persistent Diplopia)"]
+        ALERT2["Safety Threshold Exceeded<br/>(e.g., IMF Duration > 4 Weeks)"]
+        ALERT3["Provisional Flagging<br/>(Unreviewed Meshes != Clinical Outcome)"]
+        
+        ENGINE --> ALERT1 & ALERT2 & ALERT3
+    end
 ```
 
-### Deploy to Vercel
-This repository is configured for instantaneous deployment on Vercel:
-1. Import the repository `https://github.com/hameem-codes/sadie` into your [Vercel Dashboard](https://vercel.com/new).
-2. Framework Preset will be automatically detected as **Vite**.
-3. Build Command: `npm run build`
-4. Output Directory: `dist`
-5. Root Directory: `./`
-6. Click **Deploy**. Single-page routing and caching are handled via `vercel.json`.
+---
+
+## 🏥 Evaluated Clinical Outcome Domains
+
+ADRAB rejects single composite scores (such as "85% surgical success") in favor of **8 independent, auditable domain profiles**:
+
+| Domain | Key Metrics Evaluated | Clinical Safety & Discordance Checks |
+|:---|:---|:---|
+| **1. Occlusion & Alignment** | Malocclusion class, midline shift (mm), premolar contacts | Verifies functional bite restoration vs hardware integrity. |
+| **2. Mandibular Function** | Maximal Incisal Opening (MIO in mm), lateral excursion, diet | Flags trismus ($\text{MIO} < 35\text{ mm}$); audits prolonged intermaxillary fixation (IMF). |
+| **3. Facial Symmetry** | Zygomatic projection delta (mm), malar contour, soft-tissue asymmetry | Quantifies aesthetic and skeletal symmetry without clinical exaggeration. |
+| **4. Orbital Anatomy** | Orbital volume delta ($\Delta\text{ mL}$ vs contralateral), enophthalmos (mm) | Separated strictly from visual function to avoid masking functional impairment. |
+| **5. Visual Function** | Diplopia (primary, reading, extremes of gaze), ocular motility restriction | Evaluated independently; triggers alert if orbital volume is normal but diplopia persists. |
+| **6. Neurologic Status** | Hypoesthesia / paresthesia in V1, V2 (infraorbital), and V3 (inferior alveolar) | Tracks nerve recovery timeframes vs permanent neuropathic deficits. |
+| **7. Complications** | Surgical site infection, hardware loosening, malunion/nonunion | Graded via modified **Clavien-Dindo Classification** (e.g., Grade IIIb re-operation). |
+| **8. Patient-Reported (PROM)** | Pain visual analog scale (VAS), aesthetic satisfaction, chewing comfort | Captures patient quality of life directly alongside objective anatomical markers. |
 
 ---
 
-## 2. Design System Tokens Used (`DESIGN_SYSTEM.md`)
+## 🔬 3D Slicer Integration
 
-All design tokens from section 9 of `DESIGN_SYSTEM.md` were directly mapped into `tailwind.config.ts` and `src/index.css`:
-
-| Category | Token | Value | Clinical Application |
-|---|---|---|---|
-| **Canvas** | `bg-base` | `#0A0A0A` | Deep calm canvas for high contrast DICOM & radiomic views |
-| **Panels** | `bg-surface` | `#141414` | Clinical cards, inputs, and multiplanar viewports |
-| **Elevated** | `bg-elevated` | `#1C1C1C` | Dropdowns, table hover rows, active chips |
-| **Typography** | `font-serif` | `"Lora", Georgia, serif` | Editorial headlines, H1/H2, KPI score displays |
-| **Typography** | `font-sans` | `"Inter", system-ui, sans-serif` | Dense clinical data, measurements, and table text |
-| **Radius** | `radius-pill` | `999px` | Buttons, badges, chips, search pills, chat bubbles |
-| **Radius** | `radius-lg` | `16px` | Feature cards, viewport frames |
-| **Radius** | `radius-md` | `12px` | Modals, drawers, inputs |
-| **Hairlines** | `border-subtle` | `rgba(255, 255, 255, 0.25)` | Pill borders, active badge outlines |
-| **Hairlines** | `border-hairline` | `rgba(255, 255, 255, 0.12)` | Subtle panel and table row dividers |
-
-### Design System Extensions Added
-To adapt the original marketing page design system for a dense clinical tool:
-1. **Restrained Clinical Status Palette**:
-   - `status-completed` (`#4E9A4B` / `#18301C` leaf green): Successful analysis with 95% CI computed.
-   - `status-processing` (`#E58A3A` / `#3B230D` amber with animated pulse): Radiomic DICOM segmentation running.
-   - `status-failed` (`#C8623C` / `#361515` terracotta red): Imaging artifact or registration failure.
-   - `status-draft` (`#7A7A7A` / `#1E1E1E` muted gray): Pre-operative baseline without post-op scan.
-2. **Clinical Readability Typography Scale**:
-   - Raised body, measurement, and table text to **13–14px** (with monospace font for millimeter/degree landmarks) to guarantee WCAG AA legibility in high-density surgical tables.
-3. **Multiplanar Radiographic Viewer**:
-   - Added interactive CT volume, axial, coronal, and lateral cephalometric views with zoom (60%–200%), landmark overlay toggles (ANS, PNS, Pog, Me), and pre/post split comparison slider.
-4. **Report Preview Drawer**:
-   - Dossier with PDF preview, JSON export, and instant browser print formatting.
-
----
-
-## 3. Application Structure
+The imaging subsystem links ADRAB directly to an actual **3D Slicer** application environment (tested with **3D Slicer 5.12.4**, VTK 9.6.2, and embedded Python 3.12.10).
 
 ```
+scripts/slicer/
+├── slicer_launcher.py       # Reusable headless CLI launcher with environment probe
+├── inspect_ct_volume.py     # Audits CT volume geometry, HU scalar ranges, gantry tilt
+└── export_bone_surface.py   # Extracts provisional bone surface meshes (.vtk) via HU threshold
+```
+
+### Key Capabilities
+- **Headless Application Execution:** Runs automated processing jobs via `Slicer.exe --no-splash --no-main-window --python-script <script>`.
+- **Full MRML & VTK Pipeline:** Accesses `slicer.mrmlScene`, `slicer.util.loadVolume`, and VTK polydata extraction without graphical overhead.
+- **Contract-Conforming Metadata:** Serializes imaging results according to `schemas/imaging_evidence_output.schema.json`.
+- **Provisional Guardrail:** Output models are explicitly flagged as `provisional_segmentation: true` and cannot be misrepresented as standalone clinical scores.
+
+---
+
+## 📁 Repository Structure
+
+```
+adrab/
+├── data/
+│   ├── candidate_rubrics/           # Multi-chapter surgical evidence tables
+│   ├── phase_05_candidate_rubric.csv # 8-domain CMF clinical evaluation rubric
+│   └── synthetic_cases/             # Diverse synthetic validation cases (CASE-SYN01 to SYN06)
+├── references/                      # Clinical reference notes & extraction logs
+├── reports/                         # Detailed milestone reports (Phase 01 through Phase 07F)
+│   ├── phase_06c_integration_report.md
+│   ├── phase_07a_imaging_pipeline_report.md
+│   └── phase_07f_slicer_integration_readiness_report.md
+├── schemas/
+│   ├── treatment_outcome_case.schema.json    # JSON Schema (Draft-07) for CMF case records
+│   └── imaging_evidence_output.schema.json   # JSON Schema for Slicer imaging evidence
+├── scripts/
+│   └── slicer/                      # 3D Slicer executable integration scripts
 ├── src/
-│   ├── components/
-│   │   ├── layout/
-│   │   │   ├── AppLayout.tsx         # Responsive sidebar, topbar, mobile drawer, new case modal
-│   │   │   └── CommandPalette.tsx    # Global Cmd/Ctrl+K search modal
-│   │   ├── ui/
-│   │   │   ├── Button.tsx            # Pill primary, secondary, outline, ghost, icon
-│   │   │   ├── Badge.tsx             # Eyebrow badges & pill badges
-│   │   │   ├── Chip.tsx              # Filter chips & suggestion prompts
-│   │   │   ├── Card.tsx              # Dark container cards (radius-lg, radius-md)
-│   │   │   ├── Input.tsx             # Dark panel input with focus ring
-│   │   │   ├── Table.tsx             # Dense clinical table with 13-14px font
-│   │   │   ├── Tabs.tsx              # Pill & underline tab navigation
-│   │   │   ├── Drawer.tsx            # Slide-over drawer with backdrop blur
-│   │   │   ├── Modal.tsx             # Accessible dialog with ESC close
-│   │   │   ├── Toast.tsx             # Clinical notification toast provider & hook
-│   │   │   ├── KpiCard.tsx           # Lora serif KPI metric cards
-│   │   │   ├── ChatBubble.tsx        # Section 6 chat mockup bubble with nested cards
-│   │   │   ├── StatusPill.tsx        # Restrained status pills with animated pulse
-│   │   │   └── index.ts              # Component exports
-│   │   └── workspace/
-│   │       └── ImagingViewer.tsx     # Pre vs post multiplanar CT & X-ray viewer
-│   ├── data/
-│   │   └── mockData.ts               # 12 clinical cases, 6 users, 10 knowledge docs, rubrics
-│   ├── pages/
-│   │   ├── Home.tsx                  # 4 KPIs, Needs Attention list, Recent cases
-│   │   ├── Cases.tsx                 # Full table, filter chips, action row menus
-│   │   ├── CaseWorkspace.tsx         # 4 Tabs: Overview, Measurements, Evidence, Files + Copilot slide-over
-│   │   ├── Insights.tsx              # Recharts Scores histogram, Trends, and Case Comparison
-│   │   ├── Knowledge.tsx             # Documents PDF viewer, Rubric v3.2 & history, Imaging standards
-│   │   ├── Copilot.tsx               # Chat thread, context picker (All cases or specific), prompt chips
-│   │   └── Users.tsx                 # Clinical user administration & invite modal
-│   ├── services/
-│   │   └── api.ts                    # Async mock API layer (ready to swap with real REST/GraphQL)
-│   ├── types/
-│   │   └── index.ts                  # TypeScript clinical domain interfaces
-│   ├── App.tsx                       # React Router configuration
-│   ├── index.css                     # Design tokens, motion rules, scrollbars
-│   └── main.tsx                      # Root mount
-├── tailwind.config.ts                # Tailwind design token mapping
-└── index.html                        # Google Fonts (Lora, Inter)
+│   ├── treatment_outcome_evaluator.py  # Rule-based 8-domain evaluator engine
+│   ├── evaluator_test_harness.py       # Deterministic test runner & discordance auditor
+│   ├── imaging_pipeline_adapter.py     # Normalizes Slicer metadata into ADRAB schema
+│   ├── synthetic_case_generator.py     # Generates diverse clinical test cases
+│   └── harmonize_evidence.py           # Clinical literature data harmonizer
+└── tests/
+    ├── test_treatment_outcome_evaluator.py
+    ├── test_imaging_pipeline_adapter.py
+    ├── test_phase_06c_integration.py
+    ├── test_phase_07c_slicer_verification.py
+    └── test_slicer_scripts.py
 ```
 
 ---
 
-## 4. Key Pages & Features
+## 🚀 Quick Start Guide
 
-1. **Home (`/dashboard`)**:
-   - 4 KPI cards: Total Cases (12), In Progress (1), Completed (8), Average Score (93.8%).
-   - "Needs Attention" list highlighting imaging artifacts (e.g., motion blur, scatter) with 1-click retry.
-   - Recent cases table with direct link to workspace.
-   - Primary "New Case" pill button opening a structured clinical entry modal.
+### 1. Prerequisites & Installation
 
-2. **Cases Directory (`/cases`)**:
-   - Complete table of surgical records with search by patient, procedure, MRN, or surgeon.
-   - Filter chips: All Cases, My Cases, Shared with Me, Status toggles, and Procedure dropdown.
-   - Row menu: Open Workspace, Run Analysis, Share, Export JSON, Duplicate, Archive, Delete.
+Clone the repository and install core dependencies:
+```bash
+git clone https://github.com/sadiyasyed28/adrab.git
+cd adrab
+pip install -r requirements.txt
+```
 
-3. **Case Workspace (`/cases/:caseId`)**:
-   - Header with patient demographics, procedure type, stage, Run Analysis, Share, and Report.
-   - **Overview Tab**: Outcome score with 95% Confidence Interval, interactive Pre vs Post Multiplanar Imaging Viewer (CT 3D, axial, coronal, ceph X-ray with pan, zoom, split slider, fullscreen), domain breakdown, and key observations.
-   - **Measurements Tab**: Quantitative table of pre-op, post-op, change (Δ), expected normative range, and status indicator, filterable by category (Skeletal, Dental, Soft Tissue, Airway).
-   - **Evidence Tab**: Auditable chain linking radiographic findings to consensus rubric rules with confidence scores.
-   - **Files Tab**: Upload zone for DICOM / STL / CBCT files with rename, replace, and delete controls.
-   - **Case-Scoped Copilot**: Slide-over available from any tab for asking case-specific anatomical questions.
-   - **Report Drawer**: Clinical dossier with PDF download, JSON export, and instant browser Print formatting.
+### 2. Verify 3D Slicer Environment
 
-4. **Insights (`/insights`)**:
-   - **Scores**: Score distribution histogram and clinical domain performance using Recharts.
-   - **Trends**: Longitudinal tracking of outcome accuracy and confidence over time.
-   - **Compare**: Side-by-side comparative analysis of two selected cases across all metrics.
+To check whether 3D Slicer is installed, detected, and ready for headless operations:
+```bash
+python scripts/slicer/slicer_launcher.py --check-environment
+```
 
-5. **Knowledge & Rubrics (`/knowledge`)**:
-   - **Documents**: 10 clinical reference guides with category filters and interactive PDF viewer with page navigation, zoom, and fullscreen mode.
-   - **Rubric**: Governing Consensus Rubric v3.2 specs with criteria table and historical changelog (v3.1, v3.0).
-   - **Imaging Requirements**: Standardized CBCT/CT acquisition protocols, voxel resolution, FOV, and head positioning.
-
-6. **Copilot Assistant (`/copilot`)**:
-   - Conversation management: search past threads, create new threads, rename, and delete.
-   - Context picker: Toggle between All Cases (global cohort) or any specific patient case.
-   - Chat bubbles styled after `DESIGN_SYSTEM.md` Section 6 with nested outcome result cards, landmark measurement blocks, radiographic sources, and clickable suggestion chips.
-
-7. **User Administration (`/users`)**:
-   - Clinical staff roster with role filters (Chief Surgeon, Fellow, Resident, Radiologist, Admin).
-   - Invite staff member modal and role edit / deactivate actions.
+*Expected output:*
+```json
+{
+  "status": "READY",
+  "returncode": 0,
+  "executable": "C:\\Users\\...\\3D Slicer 5.12.4\\Slicer.exe",
+  "has_full_slicer_api": true,
+  "environment_info": {
+    "slicer_version": "5.12.4",
+    "has_mrml": true,
+    "vtk_version": "9.6.2"

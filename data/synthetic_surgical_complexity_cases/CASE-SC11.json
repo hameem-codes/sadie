@@ -1,0 +1,79 @@
+{
+  "case_metadata": {
+    "pseudonymous_case_id": "CASE-SC11",
+    "schema_version": "1.0.0",
+    "rubric_specification_version": "SURGICAL-COMPLEXITY-v1.0",
+    "case_creation_timestamp": "2026-10-20T10:00:00Z",
+    "patient_age_group": "ADULT_18_TO_64",
+    "asa_physical_status": "ASA_I"
+  },
+  "fracture_characterization": {
+    "fracture_locations": [
+      "MANDIBULAR_SYMPHYSIS_PARASYMPHYSIS",
+      "MANDIBULAR_CONDYLE_HEAD_NECK"
+    ],
+    "documented_severity": "COMMINUTED_SEGMENTAL",
+    "bilateral_injury": true,
+    "panfacial_involvement": false,
+    "occlusal_derangement_preop": "PRESERVED_NORMAL"
+  },
+  "operative_details": {
+    "anatomical_regions_operated": [
+      "LOWER_FACE_MANDIBULAR"
+    ],
+    "bones_operated": [
+      "MANDIBLE"
+    ],
+    "reduction_complexity": "OPEN_MULTIAXIAL_DIFFICULT_TRACTION",
+    "procedures_performed": [
+      "OPEN_REDUCTION_INTERNAL_FIXATION",
+      "INTERMAXILLARY_FIXATION_APPLICATION"
+    ],
+    "surgical_approaches": [
+      "MANDIBULAR_VESTIBULAR_INTRAORAL",
+      "RETROMANDIBULAR",
+      "PREAURICULAR_ENDRUM"
+    ],
+    "staged_procedure": {
+      "is_staged": true,
+      "stage_number": 1,
+      "total_planned_stages": 2,
+      "timing_description": "Stage 1 symphysis and right condyle ORIF; Stage 2 left condyle arthroplasty."
+    }
+  },
+  "hardware_inventory": {
+    "hardware_documented": true,
+    "plate_count": 4,
+    "screw_count": 16,
+    "mesh_implant_count": 0,
+    "custom_patient_specific_implant_used": false,
+    "reconstruction_plate_used": true,
+    "fixation_sites": [
+      "ZYGOMATICOMAXILLARY_BUTTRESS",
+      "INFRAORBITAL_RIM"
+    ]
+  },
+  "soft_tissue_and_associated_injuries": {
+    "extensive_facial_lacerations_or_degloving": false,
+    "primary_nerve_repair_or_decompression": false,
+    "lacrimal_system_repair_or_intubation": false,
+    "concomitant_cervical_spine_injury": false,
+    "concomitant_traumatic_brain_injury": false,
+    "concomitant_vascular_injury": false
+  },
+  "intraoperative_events_and_resources": {
+    "operative_duration_minutes": 270.0,
+    "estimated_blood_loss_ml": 300.0,
+    "blood_transfusion_units": 0.0,
+    "intraoperative_complications": [
+      "NONE_DOCUMENTED"
+    ],
+    "unplanned_additional_interventions": []
+  },
+  "complexity_evaluation_audit": {
+    "evaluator_disclaimer": "PROTOTYPE TESTING FIXTURE: Synthetic fictional case.",
+    "surgeon_validation_status": "PENDING_SURGEON_CONSENSUS_VALIDATION",
+    "composite_score_status": "PROHIBITED_UNVALIDATED_PROFILE_ONLY",
+    "known_postoperative_outcome_reference": "UNCOMPLICATED_HEALING"
+  }
+}

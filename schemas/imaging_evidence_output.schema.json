@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://adrab.ai/schemas/imaging_evidence_output.schema.json",
+  "title": "ImagingEvidenceOutputContract",
+  "description": "Standardized contract for quantitative imaging outputs extracted from craniomaxillofacial radiological and optical scans. Encapsulates study metadata, technical parameters, quality auditing, objective geometric/volumetric measurements, landmark/segmentation provenance, and error bounds. STRICT GUARDRAIL: The imaging subsystem outputs measurements, methods, units, quality flags, and limitations ONLY. It NEVER emits clinical treatment-outcome grades, pass/fail verdicts, or clinical recommendations.",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "pseudonymous_case_id",
+    "imaging_modality",
+    "anatomical_regions_imaged",
+    "study_metadata",
+    "technical_parameters",
+    "image_quality_audit",
+    "measurements",
+    "provenance",
+    "human_review_status",
+    "limitations_and_uncertainty"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "type": "string",
+      "enum": ["1.0.0"],
+      "description": "Version of the Imaging Evidence Output Contract."
+    },
+    "pseudonymous_case_id": {
+      "type": "string",
+      "pattern": "^CASE-[A-Z0-9]{4,12}$",
+      "description": "Cryptographically hashed or pseudo-anonymized case identifier. Direct patient identifiers (PHI) are strictly prohibited."
+    },
+    "imaging_modality": {
+      "type": "string",
+      "enum": [
+        "MULTI_DETECTOR_CT",
+        "CONE_BEAM_CT",
+        "PLAIN_RADIOGRAPHY_PANORAMIC",
+        "PLAIN_RADIOGRAPHY_WATERS",
+        "MRI",
+        "3D_OPTICAL_PHOTOGRAMMETRY"
+      ]
+    },
+    "anatomical_regions_imaged": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "COMPLETE_CRANIOFACIAL_SKELETON",
+          "MIDFACE_AND_ORBITS",
+          "MANDIBLE_AND_TMJ",
+          "ISOLATED_ZYGOMA_AND_ARCH",
+          "ISOLATED_NASOETHMOID",
+          "DENTOALVEOLAR_ARCHES"
+        ]
+      }
+    },
+    "study_metadata": {
+      "type": "object",
+      "description": "De-identified acquisition timing and scan sequence parameters.",
+      "required": ["scan_epoch", "series_instance_hash", "source_reference_id"],
+      "additionalProperties": false,
+      "properties": {
+        "scan_epoch": {
+          "type": "string",
+          "enum": [
+            "PREOPERATIVE_BASELINE",
+            "INTRAOPERATIVE_POST_REDUCTION",
+            "POSTOPERATIVE_ACUTE_0_TO_2_WEEKS",
+            "POSTOPERATIVE_FOLLOWUP_6_WEEKS",
+            "POSTOPERATIVE_FOLLOWUP_3_MONTHS",
+            "POSTOPERATIVE_FOLLOWUP_6_MONTHS",
+            "POSTOPERATIVE_FOLLOWUP_12_MONTHS"
+          ]
+        },
+        "series_instance_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{16,64}$",
+          "description": "De-identified SHA-256 hash or pseudonym of the DICOM series instance UID."
+        },
+        "source_reference_id": {
+          "type": "string",
+          "description": "Internal de-identified imaging study token (e.g. IMG-STUDY-0012)."
+        }
+      }
+    },
+    "technical_parameters": {
+      "type": "object",
+      "description": "Physical scan resolution and geometry settings.",
+      "required": ["slice_thickness_mm", "reconstruction_kernel", "gantry_tilt_degrees", "voxel_size_xyz_mm"],
+      "additionalProperties": false,
+      "properties": {
+        "slice_thickness_mm": {
+          "type": ["number", "null"],
+          "description": "Nominal reconstruction slice thickness in mm. Null if optical scan."
+        },
+        "reconstruction_kernel": {
+          "type": "string",
+          "description": "Convolution kernel, e.g. BONE, SHARP, STANDARD, SOFT_TISSUE."
+        },
+        "gantry_tilt_degrees": {
+          "type": ["number", "null"],
+          "description": "Physical gantry tilt in degrees. Must be 0 for reliable 3D multiplanar mirroring."
+        },
+        "voxel_size_xyz_mm": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "Isometric or anisotropic voxel dimensions [x, y, z] in mm."
+        }
+      }
+    },
+    "image_quality_audit": {
+      "type": "object",
+      "description": "Standardized quality flags and usability audit for quantitative computing.",
+      "required": [
+        "metal_hardware_artifact_severity",
+        "patient_motion_artifact_present",
+        "field_of_view_adequacy",
+        "usable_for_3d_mirroring",
+        "unusable_reason_codes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "metal_hardware_artifact_severity": {
+          "type": "string",
+          "enum": ["NONE", "MILD_NON_OBSCURING", "MODERATE_PARTIALLY_OBSCURING", "SEVERE_INVALIDATING"]
+        },
+        "patient_motion_artifact_present": {
+          "type": "boolean"
+        },
+        "field_of_view_adequacy": {
+          "type": "string",
+          "enum": ["COMPLETE_FACIAL_SKELETON", "TRUNCATED_MIDFACE", "TRUNCATED_MANDIBLE", "SUBOPTIMAL"]
+        },
+        "usable_for_3d_mirroring": {
+          "type": "boolean",
+          "description": "Indicates whether image quality and bilateral skeletal coverage permit algorithmic mid-sagittal mirroring."
+        },
+        "unusable_reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "SEVERE_METAL_STREAK",
+              "PATIENT_MOTION_BLUR",
+              "NON_ZERO_GANTRY_TILT",
+              "TRUNCATED_ANATOMY",
+              "ABSENT_CONTRALATERAL_REFERENCE",
+              "SLICE_THICKNESS_EXCEEDS_1MM",
+              "SOFT_TISSUE_KERNEL_ONLY"
+            ]
+          }
+        }
+      }
+    },
+    "measurements": {
+      "type": "array",
+      "description": "Granular, objective geometric and volumetric measurements extracted by the imaging pipeline.",
+      "items": {
+        "type": "object",
+        "required": [
+          "measurement_id",
+          "construct",
+          "anatomical_subsite",
+          "measurement_category",
+          "numerical_value",
+          "unit",
+          "method",
+          "reference_frame",
+          "quality_flag",
+          "supporting_evidence_id"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "measurement_id": { "type": "string" },
+          "construct": {
+            "type": "string",
+            "enum": [
+              "SKELETAL_SURFACE_DISTANCE_MSD",
+              "SKELETAL_SURFACE_DISTANCE_RMSD",
+              "MAXIMUM_SURFACE_DEVIATION",
+              "ORBITAL_VOLUME_DELTA",
+              "ORBITAL_DEFECT_AREA",
+              "GLOBE_PROJECTION_DELTA_HERTEL",
+              "ANTERIOR_BUTTRESS_DISPLACEMENT_GAP",
+              "POSTERIOR_BUTTRESS_DISPLACEMENT_GAP",
+              "CONDYLAR_HEIGHT_RATIO_PERCENT",
+              "DENTAL_MIDLINE_DISCREPANCY"
+            ]
+          },
+          "anatomical_subsite": { "type": "string" },
+          "measurement_category": {
+            "type": "string",
+            "enum": ["OBSERVED_DIRECT_MEASUREMENT", "ALGORITHMIC_SURFACE_REGISTRATION", "VOLUMETRIC_SEGMENTATION_ESTIMATE"]
+          },
+          "numerical_value": { "type": ["number", "null"] },
+          "unit": {
+            "type": "string",
+            "enum": ["MILLIMETERS", "MILLILITERS", "SQUARE_MILLIMETERS", "PERCENT", "NONE_UNITLESS"]
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "AUTOMATED_3D_MIRRORING_ICP",
+              "MANUAL_LANDMARK_TRIANGULATION",
+              "CT_SLICE_SLICE_PLANIMETRY",
+              "DEEP_LEARNING_SEGMENTATION",
+              "DIGITAL_CALIPER_MEASUREMENT"
+            ]
+          },
+          "reference_frame": {
+            "type": "string",
+            "enum": [
+              "CONTRALATERAL_MIRRORED_SKELETON",
+              "FRANKFORT_HORIZONTAL_PLANE",
+              "MIDSAGITTAL_REFERENCE_PLANE",
+              "ANTERIOR_ORBITAL_APERTURE_PLANE",
+              "CORONAL_FRONTOMAXILLARY_AXIS"
+            ]
+          },
+          "uncertainty_margin": {
+            "type": "object",
+            "required": ["confidence_interval_95", "std_error"],
+            "additionalProperties": false,
+            "properties": {
+              "confidence_interval_95": {
+                "type": "array",
+                "items": { "type": "number" },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "std_error": { "type": "number" }
+            }
+          },
+          "quality_flag": {
+            "type": "string",
+            "enum": [
+              "VERIFIED_OPTIMAL",
+              "UNCERTAIN_BORDER_ARTIFACT",
+              "UNRELIABLE_MOTION",
+              "UNMEASURABLE_ABSENT_CONTRALATERAL",
+              "UNMEASURABLE_SEVERE_ARTIFACT"
+            ]
+          },
+          "supporting_evidence_id": {
+            "type": "string",
+            "pattern": "^CANON-(RES-EVD-[0-9]{3}|CH12-EVD-[0-9]{3}|ATLAS-CH19-EVD-[0-9]{3})$"
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Traceability of software tooling, neural architectures, and execution environments.",
+      "required": ["software_pipeline_name", "pipeline_version", "model_identifier", "execution_timestamp"],
+      "additionalProperties": false,
+      "properties": {
+        "software_pipeline_name": { "type": "string" },
+        "pipeline_version": { "type": "string" },
+        "model_identifier": {
+          "type": ["string", "null"],
+          "description": "Neural model architecture or weights tag if deep learning was employed; otherwise null."
+        },
+        "execution_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "human_review_status": {
+      "type": "string",
+      "enum": [
+        "AUTOMATED_EXTRACTION_UNCONFIRMED",
+        "VERIFIED_BY_RADIOLOGY_TECHNOLOGIST",
+        "VERIFIED_BY_ATTENDING_RADIOLOGIST",
+        "VERIFIED_BY_OPERATING_SURGEON"
+      ]
+    },
+    "limitations_and_uncertainty": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

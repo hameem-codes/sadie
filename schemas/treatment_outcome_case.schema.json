@@ -1,0 +1,518 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://adrab.ai/schemas/treatment_outcome_case.schema.json",
+  "title": "MaxillofacialTreatmentOutcomeCase",
+  "description": "Standardized, versioned JSON Schema for structured case evaluation in the Maxillofacial Treatment-Outcome Evaluator project. Enforces de-identification, separation of facts from clinical decisions, modular domain assessments, and strict measurement-level quality auditing without composite algorithmic scoring.",
+  "type": "object",
+  "required": [
+    "case_metadata",
+    "clinical_baseline",
+    "imaging_subsystem",
+    "domain_assessments",
+    "evaluation_audit"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "case_metadata": {
+      "type": "object",
+      "description": "Pseudonymous tracking and administrative audit metadata. Strictly excludes direct personal identifiers.",
+      "required": [
+        "pseudonymous_case_id",
+        "evaluator_schema_version",
+        "rubric_specification_version",
+        "case_creation_timestamp",
+        "primary_fracture_regions",
+        "treatment_context",
+        "assessment_epoch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "pseudonymous_case_id": {
+          "type": "string",
+          "pattern": "^CASE-[A-Z0-9]{4,12}$",
+          "description": "Cryptographically hashed or pseudo-anonymized identifier (e.g. CASE-AB1234)."
+        },
+        "evaluator_schema_version": {
+          "type": "string",
+          "enum": ["1.0.0", "1.1.0"],
+          "description": "Version of this case JSON schema."
+        },
+        "rubric_specification_version": {
+          "type": "string",
+          "enum": ["PHASE-05-CANDIDATE-v1.0"],
+          "description": "Version of the formal candidate rubric specification against which the case is assessed."
+        },
+        "case_creation_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "primary_fracture_regions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "ZYGOMATICOMAXILLARY_COMPLEX",
+              "ZYGOMATIC_ARCH",
+              "ORBITAL_FLOOR_AND_MEDIAL_WALL",
+              "ORBITAL_ROOF_AND_RIM",
+              "MANDIBULAR_CONDYLE_AND_SUBCONDYLE",
+              "MANDIBULAR_RAMUS_AND_CORONOID",
+              "MANDIBULAR_ANGLE",
+              "MANDIBULAR_BODY",
+              "MANDIBULAR_SYMPHYSIS_AND_PARASYMPHYSIS",
+              "NASOETHMOID_COMPLEX",
+              "FRONTAL_SINUS_AND_CRANIOFACIAL_JUNCTION",
+              "LE_FORT_I",
+              "LE_FORT_II",
+              "LE_FORT_III",
+              "DENTOALVEOLAR"
+            ]
+          }
+        },
+        "treatment_context": {
+          "type": "string",
+          "enum": [
+            "OPEN_REDUCTION_INTERNAL_FIXATION",
+            "CLOSED_REDUCTION_WITH_IMF",
+            "CLOSED_REDUCTION_WITHOUT_IMF",
+            "CONSERVATIVE_OBSERVATION",
+            "ENDOSCOPIC_COMPUTER_ASSISTED_RECONSTRUCTION",
+            "SECONDARY_POST_TRAUMATIC_REVISION"
+          ]
+        },
+        "assessment_epoch": {
+          "type": "string",
+          "enum": [
+            "IMMEDIATE_POSTOPERATIVE_0_TO_2_WEEKS",
+            "EARLY_FOLLOWUP_6_WEEKS",
+            "INTERMEDIATE_FOLLOWUP_3_MONTHS",
+            "INTERMEDIATE_FOLLOWUP_6_MONTHS",
+            "LATE_STABLE_12_MONTHS",
+            "LONG_TERM_BEYOND_12_MONTHS"
+          ]
+        }
+      }
+    },
+
+    "clinical_baseline": {
+      "type": "object",
+      "description": "Patient-level baseline reference data required for individualized trajectory comparison.",
+      "required": [
+        "contralateral_facial_skeleton_status",
+        "premorbid_dentition_status",
+        "history_of_previous_facial_injury_or_surgery"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "contralateral_facial_skeleton_status": {
+          "type": "string",
+          "enum": ["INTACT_NORMAL_REFERENCE", "PREVIOUSLY_INJURED", "CONCOMITANT_BILATERAL_FRACTURE", "CONGENITAL_ASYMMETRY", "UNKNOWN"]
+        },
+        "premorbid_dentition_status": {
+          "type": "string",
+          "enum": ["COMPLETE_NATURAL_DENTITION", "PARTIAL_EDENTULISM_WITH_STABLE_STOPS", "UNSTABLE_PARTIAL_EDENTULISM", "EDENTULOUS", "UNKNOWN"]
+        },
+        "history_of_previous_facial_injury_or_surgery": {
+          "type": "boolean"
+        },
+        "known_premorbid_mio_mm": {
+          "type": ["number", "null"],
+          "minimum": 15.0,
+          "maximum": 75.0,
+          "description": "Recorded pre-injury mouth opening in mm if documented in historical records; otherwise null."
+        }
+      }
+    },
+
+    "imaging_subsystem": {
+      "type": "object",
+      "description": "Objective data produced by radiologic and 3D imaging pipelines. Strict rule: the imaging subsystem returns measurements, segmentations, and technical quality flags only; it NEVER outputs a clinical pass/fail outcome grade.",
+      "required": [
+        "imaging_modality",
+        "scan_timing",
+        "technical_parameters",
+        "image_quality_audit",
+        "measurements"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "imaging_modality": {
+          "type": "string",
+          "enum": ["MULTI_DETECTOR_CT", "CONE_BEAM_CT", "PLAIN_RADIOGRAPHY_PANORAMIC", "PLAIN_RADIOGRAPHY_WATERS", "MRI", "3D_OPTICAL_PHOTOGRAMMETRY"]
+        },
+        "scan_timing": {
+          "type": "string",
+          "enum": ["PREOPERATIVE", "POSTOPERATIVE_ACUTE", "POSTOPERATIVE_FOLLOWUP"]
+        },
+        "technical_parameters": {
+          "type": "object",
+          "required": ["slice_thickness_mm", "reconstruction_kernel", "gantry_tilt_degrees"],
+          "additionalProperties": false,
+          "properties": {
+            "slice_thickness_mm": {
+              "type": ["number", "null"],
+              "description": "Axial slice thickness (e.g. 0.75 mm). Null if plain radiograph."
+            },
+            "reconstruction_kernel": {
+              "type": "string",
+              "description": "E.g. BONE, STANDARD, SHARP, SOFT_TISSUE"
+            },
+            "gantry_tilt_degrees": {
+              "type": ["number", "null"],
+              "description": "Gantry tilt angle in degrees. Must be 0 for reliable 3D multiplanar mirroring."
+            }
+          }
+        },
+        "image_quality_audit": {
+          "type": "object",
+          "required": ["metal_hardware_artifact_severity", "patient_motion_artifact_present", "field_of_view_adequacy", "usable_for_3d_mirroring"],
+          "additionalProperties": false,
+          "properties": {
+            "metal_hardware_artifact_severity": {
+              "type": "string",
+              "enum": ["NONE", "MILD_NON_OBSCURING", "MODERATE_PARTIALLY_OBSCURING", "SEVERE_INVALIDATING"]
+            },
+            "patient_motion_artifact_present": {
+              "type": "boolean"
+            },
+            "field_of_view_adequacy": {
+              "type": "string",
+              "enum": ["COMPLETE_FACIAL_SKELETON", "TRUNCATED_MIDFACE", "TRUNCATED_MANDIBLE", "SUBOPTIMAL"]
+            },
+            "usable_for_3d_mirroring": {
+              "type": "boolean",
+              "description": "Indicates whether image quality and bilateral skeletal coverage permit algorithmic mid-sagittal mirroring."
+            }
+          }
+        },
+        "measurements": {
+          "type": "array",
+          "description": "List of objective raw geometric/volumetric measurements extracted by the imaging pipeline.",
+          "items": {
+            "type": "object",
+            "required": ["measurement_id", "construct", "anatomical_subsite", "method", "numerical_value", "unit", "quality_flag"],
+            "additionalProperties": false,
+            "properties": {
+              "measurement_id": { "type": "string" },
+              "construct": {
+                "type": "string",
+                "enum": [
+                  "SKELETAL_SURFACE_DISTANCE_MSD",
+                  "SKELETAL_SURFACE_DISTANCE_RMSD",
+                  "MAXIMUM_SURFACE_DEVIATION",
+                  "ORBITAL_VOLUME_DELTA",
+                  "ORBITAL_DEFECT_AREA",
+                  "GLOBE_PROJECTION_DELTA_HERTEL",
+                  "ANTERIOR_BUTTRESS_DISPLACEMENT_GAP",
+                  "POSTERIOR_BUTTRESS_DISPLACEMENT_GAP",
+                  "CONDYLAR_HEIGHT_RATIO_PERCENT",
+                  "DENTAL_MIDLINE_DISCREPANCY"
+                ]
+              },
+              "anatomical_subsite": { "type": "string" },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "AUTOMATED_3D_MIRRORING_ICP",
+                  "MANUAL_LANDMARK_TRIANGULATION",
+                  "CT_SLICE_SLICE_PLANIMETRY",
+                  "DEEP_LEARNING_SEGMENTATION",
+                  "DIGITAL_CALIPER_MEASUREMENT"
+                ]
+              },
+              "numerical_value": { "type": ["number", "null"] },
+              "unit": {
+                "type": "string",
+                "enum": ["MILLIMETERS", "MILLILITERS", "SQUARE_MILLIMETERS", "PERCENT", "NONE_UNITLESS"]
+              },
+              "quality_flag": {
+                "type": "string",
+                "enum": ["VERIFIED_OPTIMAL", "UNCERTAIN_BORDER_ARTIFACT", "UNRELIABLE_MOTION", "UNMEASURABLE_ABSENT_CONTRALATERAL"]
+              },
+              "supporting_evidence_id": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "domain_assessments": {
+      "type": "object",
+      "description": "Modular evaluation across the 8 defined outcome domains. Each domain remains separate without algorithmic weighted aggregation.",
+      "required": [
+        "domain_1_skeletal_alignment",
+        "domain_2_orbital_ophthalmic",
+        "domain_3_occlusion_mandibular_function",
+        "domain_4_mastication_speech",
+        "domain_5_neurosensory",
+        "domain_6_soft_tissue_aesthetics",
+        "domain_7_patient_reported_outcomes",
+        "domain_8_safety_and_complications"
+      ],
+      "additionalProperties": false,
+      "properties": {
+
+        "domain_1_skeletal_alignment": {
+          "type": "object",
+          "required": ["applicability_status", "evaluation_status"],
+          "additionalProperties": false,
+          "properties": {
+            "applicability_status": {
+              "type": "string",
+              "enum": ["APPLICABLE", "NOT_APPLICABLE_NO_BONY_FRACTURE", "NOT_APPLICABLE_BILATERAL_COMMINUTED_NO_REFERENCE"]
+            },
+            "evaluation_status": {
+              "type": "string",
+              "enum": ["PENDING_SURGEON_REVIEW", "COMPLETED_REVIEW", "UNASSESSABLE_IMAGE_ARTIFACT"]
+            },
+            "quantitative_findings": {
+              "type": "object",
+              "properties": {
+                "zmc_surface_msd_mm": { "type": ["number", "null"] },
+                "zmc_surface_rmsd_mm": { "type": ["number", "null"] },
+                "max_buttress_gap_mm": { "type": ["number", "null"] }
+              }
+            },
+            "surgeon_qualitative_assessment": {
+              "type": "string",
+              "enum": ["ANATOMIC_REDUCTION", "NEAR_ANATOMIC_SUB_MILLIMETER", "RESIDUAL_DISPLACEMENT_ACCEPTABLE", "RESIDUAL_DISPLACEMENT_UNACCEPTABLE", "NOT_EVALUATED"]
+            },
+            "unresolved_decision_flags": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+
+        "domain_2_orbital_ophthalmic": {
+          "type": "object",
+          "required": ["applicability_status", "evaluation_status"],
+          "additionalProperties": false,
+          "properties": {
+            "applicability_status": {
+              "type": "string",
+              "enum": ["APPLICABLE", "NOT_APPLICABLE_NO_ORBITAL_FRACTURE"]
+            },
+            "evaluation_status": {
+              "type": "string",
+              "enum": ["PENDING_SURGEON_REVIEW", "COMPLETED_REVIEW", "DATA_MISSING_PENDING_OPHTHALMOLOGY"]
+            },
+            "orbital_volume_delta_ml": { "type": ["number", "null"] },
+            "globe_projection_difference_mm": { "type": ["number", "null"] },
+            "clinical_enophthalmos_present": { "type": ["boolean", "null"] },
+            "diplopia_status": {
+              "type": "string",
+              "enum": ["NONE", "EXTREME_PERIPHERAL_GAZE_ONLY", "PRIMARY_GAZE", "READING_DOWNWARD_GAZE", "UNTESTED"]
+            },
+            "ocular_motility_limitation": {
+              "type": "string",
+              "enum": ["FULL_MOTILITY", "MILD_ELEVATION_RESTRICTION", "SEVERE_EXTRAOCULAR_RESTRICTION", "UNTESTED"]
+            }
+          }
+        },
+
+        "domain_3_occlusion_mandibular_function": {
+          "type": "object",
+          "required": ["applicability_status", "evaluation_status"],
+          "additionalProperties": false,
+          "properties": {
+            "applicability_status": {
+              "type": "string",
+              "enum": ["APPLICABLE", "NOT_APPLICABLE_NO_MANDIBULAR_OR_MAXILLARY_INJURY", "NOT_APPLICABLE_EDENTULOUS"]
+            },
+            "evaluation_status": {
+              "type": "string",
+              "enum": ["PENDING_SURGEON_REVIEW", "COMPLETED_REVIEW", "DATA_MISSING_PENDING_CLINICAL_CHECK"]
+            },
+            "maximal_interincisal_opening_mm": { "type": ["number", "null"] },
+            "lateral_excursion_ipsilateral_mm": { "type": ["number", "null"] },
+            "lateral_excursion_contralateral_mm": { "type": ["number", "null"] },
+            "protrusive_movement_mm": { "type": ["number", "null"] },
+            "terminal_opening_deviation_present": { "type": ["boolean", "null"] },
+            "occlusal_relationship_status": {
+              "type": "string",
+              "enum": ["PREMORBID_REPRODUCED", "PREMATURE_CONTACT_MINOR", "POSTERIOR_OPEN_BITE", "ANTERIOR_OPEN_BITE", "CROSSBITE", "UNEVALUATED"]
+            },
+            "duration_of_active_imf_weeks": { "type": ["number", "null"] }
+          }
+        },
+
+        "domain_4_mastication_speech": {
+          "type": "object",
+          "required": ["applicability_status", "evaluation_status"],
+          "additionalProperties": false,
+          "properties": {
+            "applicability_status": {
+              "type": "string",
+              "enum": ["APPLICABLE", "NOT_APPLICABLE"]
+            },
+            "evaluation_status": {
+              "type": "string",
+              "enum": ["PENDING_SURGEON_REVIEW", "COMPLETED_REVIEW", "UNASSESSED"]
+            },
+            "dietary_progression_level": {
+              "type": "string",
+              "enum": ["REGULAR_SOLID_DIET", "SOFT_MECHANICAL_DIET", "NON_CHEW_PUREED_DIET", "LIQUID_ONLY", "UNRECORDED"]
+            },
+            "articulatory_speech_impairment_present": { "type": ["boolean", "null"] }
+          }
+        },
+
+        "domain_5_neurosensory": {
+          "type": "object",
+          "required": ["applicability_status", "evaluation_status"],
+          "additionalProperties": false,
+          "properties": {
+            "applicability_status": {
+              "type": "string",
+              "enum": ["APPLICABLE", "NOT_APPLICABLE"]
+            },
+            "evaluation_status": {
+              "type": "string",
+              "enum": ["PENDING_SURGEON_REVIEW", "COMPLETED_REVIEW", "UNASSESSED"]
+            },
+            "infraorbital_nerve_status": {
+              "type": "string",
+              "enum": ["NORMAL_INTACT", "HYPOAESTHESIA", "DYSAESTHESIA_PAIN", "ANAESTHESIA_COMPLETE_LOSS", "UNTESTED"]
+            },
+            "inferior_alveolar_nerve_status": {
+              "type": "string",
+              "enum": ["NORMAL_INTACT", "HYPOAESTHESIA", "DYSAESTHESIA_PAIN", "ANAESTHESIA_COMPLETE_LOSS", "UNTESTED"]
+            },
+            "facial_nerve_motor_deficit_present": { "type": ["boolean", "null"] }
+          }
+        },
+
+        "domain_6_soft_tissue_aesthetics": {
+          "type": "object",
+          "required": ["applicability_status", "evaluation_status"],
+          "additionalProperties": false,
+          "properties": {
+            "applicability_status": {
+              "type": "string",
+              "enum": ["APPLICABLE", "NOT_APPLICABLE"]
+            },
+            "evaluation_status": {
+              "type": "string",
+              "enum": ["PENDING_SURGEON_REVIEW", "COMPLETED_REVIEW", "UNASSESSED"]
+            },
+            "canthal_dystopia_present": { "type": ["boolean", "null"] },
+            "facial_soft_tissue_ptosis_present": { "type": ["boolean", "null"] },
+            "hypertrophic_or_unsatisfactory_scarring_present": { "type": ["boolean", "null"] }
+          }
+        },
+
+        "domain_7_patient_reported_outcomes": {
+          "type": "object",
+          "required": ["applicability_status", "evaluation_status"],
+          "additionalProperties": false,
+          "properties": {
+            "applicability_status": {
+              "type": "string",
+              "enum": ["APPLICABLE", "SURVEY_NOT_ADMINISTERED", "PATIENT_DECLINED_OR_UNAVAILABLE"]
+            },
+            "evaluation_status": {
+              "type": "string",
+              "enum": ["COMPLETED", "PARTIAL", "NOT_ASSESSED"]
+            },
+            "prom_instrument_administered": {
+              "type": "string",
+              "enum": ["FACE_Q_CRANIOFACIAL", "FACE_Q_AESTHETICS", "OHIP_14", "DWI_DISABILITY", "NONE"]
+            },
+            "face_q_appearance_satisfaction_score": {
+              "type": ["number", "null"],
+              "minimum": 0.0,
+              "maximum": 100.0,
+              "description": "Rasch transformed interval score 0-100 (Pusic et al. 2013). Kept strictly isolated from imaging metric math."
+            },
+            "face_q_early_life_impact_score": {
+              "type": ["number", "null"],
+              "minimum": 0.0,
+              "maximum": 100.0
+            }
+          }
+        },
+
+        "domain_8_safety_and_complications": {
+          "type": "object",
+          "required": ["applicability_status", "evaluation_status", "complications_recorded"],
+          "additionalProperties": false,
+          "properties": {
+            "applicability_status": {
+              "type": "string",
+              "enum": ["APPLICABLE", "INSUFFICIENT_FOLLOWUP_DURATION"]
+            },
+            "evaluation_status": {
+              "type": "string",
+              "enum": ["COMPLETED_REVIEW", "PENDING_CLINICAL_CHART_AUDIT"]
+            },
+            "complications_recorded": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["complication_type", "onset_timing_weeks", "clavien_dindo_severity_grade", "additional_intervention_required"],
+                "additionalProperties": false,
+                "properties": {
+                  "complication_type": {
+                    "type": "string",
+                    "enum": [
+                      "SURGICAL_SITE_INFECTION_SUPERFICIAL",
+                      "SURGICAL_SITE_INFECTION_DEEP_HARDWARE",
+                      "WOUND_DEHISCENCE_INTRAORAL",
+                      "OSTEOMYELITIS_OR_NONUNION",
+                      "MALUNION_REQUIRING_OSTEOTOMY",
+                      "HARDWARE_EXPOSURE_EXTRABUCCAL",
+                      "HARDWARE_COLD_INTOLERANCE_PAIN",
+                      "SYMPTOMATIC_HARDWARE_REMOVAL",
+                      "DENTAL_ROOT_DAMAGE_FROM_SCREW",
+                      "CEREBROSPINAL_FLUID_LEAK_PERSISTENT",
+                      "BLINDNESS_RETROBULBAR_HAEMORRHAGE"
+                    ]
+                  },
+                  "onset_timing_weeks": { "type": "number" },
+                  "clavien_dindo_severity_grade": {
+                    "type": "string",
+                    "enum": ["GRADE_I", "GRADE_II", "GRADE_IIIa", "GRADE_IIIb", "GRADE_IV", "GRADE_V"]
+                  },
+                  "additional_intervention_required": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "evaluation_audit": {
+      "type": "object",
+      "description": "Meta-audit tracking human oversight, evidence dependencies, and explicit prohibition of unvalidated composite scoring.",
+      "required": [
+        "human_surgeon_review_status",
+        "composite_score_status",
+        "uncertainty_and_limitations_summary",
+        "missing_data_reasons"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "human_surgeon_review_status": {
+          "type": "string",
+          "enum": ["UNREVIEWED_MACHINE_EXTRACTED_ONLY", "PENDING_PANEL_DELPHI", "REVIEWED_BY_QUALIFIED_SURGEON"]
+        },
+        "composite_score_status": {
+          "type": "string",
+          "enum": ["PROHIBITED_UNVALIDATED", "NOT_CALCULATED_PARALLEL_PROFILES_ONLY"],
+          "description": "Enforces that the evaluator outputs parallel domain profiles rather than an unvalidated single composite number."
+        },
+        "uncertainty_and_limitations_summary": {
+          "type": "string",
+          "description": "Documented limitations of data capture, scan quality, or incomplete longitudinal follow-up."
+        },
+        "missing_data_reasons": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}
