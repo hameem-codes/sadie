@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://adrab.ai/schemas/surgical_complexity_case.schema.json",
+  "title": "MaxillofacialSurgicalComplexityCase",
+  "description": "Standardized, versioned JSON Schema for evaluating the extent and technical complexity of maxillofacial trauma surgery performed. Distinct from postoperative outcome evaluation.",
+  "type": "object",
+  "required": [
+    "case_metadata",
+    "fracture_characterization",
+    "operative_details",
+    "hardware_inventory",
+    "soft_tissue_and_associated_injuries",
+    "intraoperative_events_and_resources",
+    "complexity_evaluation_audit"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "case_metadata": {
+      "type": "object",
+      "required": [
+        "pseudonymous_case_id",
+        "schema_version",
+        "rubric_specification_version",
+        "case_creation_timestamp",
+        "patient_age_group",
+        "asa_physical_status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "pseudonymous_case_id": {
+          "type": "string",
+          "pattern": "^CASE-[A-Z0-9]{4,12}$"
+        },
+        "schema_version": {
+          "type": "string",
+          "enum": ["1.0.0"]
+        },
+        "rubric_specification_version": {
+          "type": "string",
+          "enum": ["SURGICAL-COMPLEXITY-v1.0"]
+        },
+        "case_creation_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "patient_age_group": {
+          "type": "string",
+          "enum": ["PEDIATRIC_UNDER_12", "ADOLESCENT_12_TO_17", "ADULT_18_TO_64", "GERIATRIC_65_PLUS", "UNKNOWN"]
+        },
+        "asa_physical_status": {
+          "type": "string",
+          "enum": ["ASA_I", "ASA_II", "ASA_III", "ASA_IV", "ASA_V", "ASA_VI", "UNKNOWN"]
+        }
+      }
+    },
+
+    "fracture_characterization": {
+      "type": "object",
+      "description": "Preoperative injury severity and anatomical distribution (Criterion 1 & 2).",
+      "required": [
+        "fracture_locations",
+        "documented_severity",
+        "bilateral_injury",
+        "panfacial_involvement",
+        "occlusal_derangement_preop"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "fracture_locations": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "enum": [
+              "FRONTAL_SINUS_ANTERIOR_TABLE",
+              "FRONTAL_SINUS_POSTERIOR_TABLE",
+              "NASOETHMOID_COMPLEX",
+              "NASAL_BONES",
+              "ORBITAL_FLOOR",
+              "ORBITAL_MEDIAL_WALL",
+              "ORBITAL_LATERAL_WALL_RIM",
+              "ORBITAL_ROOF",
+              "ZYGOMATICOMAXILLARY_COMPLEX",
+              "ZYGOMATIC_ARCH",
+              "LE_FORT_I",
+              "LE_FORT_II",
+              "LE_FORT_III",
+              "MAXILLARY_ALVEOLUS_PALATE",
+              "MANDIBULAR_SYMPHYSIS_PARASYMPHYSIS",
+              "MANDIBULAR_BODY",
+              "MANDIBULAR_ANGLE",
+              "MANDIBULAR_RAMUS_CORONOID",
+              "MANDIBULAR_CONDYLE_HEAD_NECK",
+              "DENTOALVEOLAR_MANDIBLE"
+            ]
+          }
+        },
+        "documented_severity": {
+          "type": "string",
+          "enum": [
+            "NON_DISPLACED_SIMPLE",
+            "DISPLACED_NON_COMMINUTED",
+            "COMMINUTED_SEGMENTAL",
+            "HIGH_ENERGY_CRUSH_BONE_LOSS",
+            "DEFECT_OR_AVULSION",
+            "UNSPECIFIED_OR_UNDOCUMENTED"
+          ]
+        },
+        "bilateral_injury": {
+          "type": "boolean"
+        },
+        "panfacial_involvement": {
+          "type": "boolean",
+          "description": "Simultaneous involvement of upper face, midface, and lower face/mandible."
+        },
+        "occlusal_derangement_preop": {
+          "type": ["string", "null"],
+          "enum": ["PRESERVED_NORMAL", "ANTERIOR_OPEN_BITE", "POSTERIOR_OPEN_BITE", "CROSSBITE", "GROSS_DISARTICULATION", "EDENTULOUS", "UNKNOWN", null]
+        }
+      }
+    },
+
+    "operative_details": {
+      "type": "object",
+      "description": "Operative extent, anatomical sites operated on, reduction complexity, procedures, approaches, and staging.",
+      "required": [
+        "anatomical_regions_operated",
+        "bones_operated",
+        "reduction_complexity",
+        "procedures_performed",
+        "surgical_approaches",
+        "staged_procedure"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "anatomical_regions_operated": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "UPPER_FACE_CRANIOFACIAL",
+              "ORBITAL_INTERNAL",
+              "MIDFACE_MAXILLARY_ZYGOMATIC",
+              "LOWER_FACE_MANDIBULAR"
+            ]
+          }
+        },
+        "bones_operated": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "FRONTAL_BONE",
+              "NASAL_ETHMOID_BONES",
+              "ZYGOMA",
+              "MAXILLA",
+              "PALATINE_SPHENOID",
+              "MANDIBLE"
+            ]
+          }
+        },
+        "reduction_complexity": {
+          "type": "string",
+          "enum": [
+            "CLOSED_MANUAL_OR_TRACTION_ONLY",
+            "OPEN_DIRECT_ANATOMIC_SIMPLE",
+            "OPEN_MULTIAXIAL_DIFFICULT_TRACTION",
+            "OPEN_COMMINUTED_REASSEMBLY_PUZZLE",
+            "COMPUTER_ASSISTED_NAVIGATION_OR_PSI",
+            "NOT_APPLICABLE_CONSERVATIVE",
+            "UNDOCUMENTED"
+          ]
+        },
+        "procedures_performed": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CLOSED_REDUCTION_IMF",
+              "OPEN_REDUCTION_INTERNAL_FIXATION",
+              "INTERNAL_ORBITAL_RECONSTRUCTION_MESH",
+              "INTERNAL_ORBITAL_RECONSTRUCTION_PSI",
+              "AUTOLOGOUS_BONE_GRAFTING",
+              "ALLOPLASTIC_BONE_SUBSTITUTE_GRAFTING",
+              "FRONTAL_SINUS_OBLITERATION_OR_CRANIALIZATION",
+              "CANTHOPEXY_MEDIAL_OR_LATERAL",
+              "INTERMAXILLARY_FIXATION_APPLICATION",
+              "TRACHEOSTOMY_SURGICAL",
+              "CORONOIDECTOMY_FOR_IMPINGEMENT",
+              "TOOTH_EXTRACTION_IN_FRACTURE_LINE"
+            ]
+          }
+        },
+        "surgical_approaches": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CORONAL_BICORONAL",
+              "SUBCILIARY_TRANSCUTANEOUS",
+              "TRANSCONJUNCTIVAL_RETROSEPTAL_PRESEPTAL",
+              "SUBTARSAL_INFRAORBITAL",
+              "MAXILLARY_VESTIBULAR_GINGIVOBUCCAL",
+              "MANDIBULAR_VESTIBULAR_INTRAORAL",
+              "RISDON_SUBMANDIBULAR",
+              "RETROMANDIBULAR",
+              "PREAURICULAR_ENDRUM",
+              "LOCAL_LACERATION_EXISTING",
+              "PERCUTANEOUS_TROCAR"
+            ]
+          }
+        },
+        "staged_procedure": {
+          "type": "object",
+          "required": ["is_staged", "stage_number", "total_planned_stages", "timing_description"],
+          "additionalProperties": false,
+          "properties": {
+            "is_staged": { "type": "boolean" },
+            "stage_number": { "type": ["integer", "null"] },
+            "total_planned_stages": { "type": ["integer", "null"] },
+            "timing_description": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+
+    "hardware_inventory": {
+      "type": "object",
+      "description": "Fixation hardware counts, locations, and constructs (Criterion 5).",
+      "required": [
+        "hardware_documented",
+        "plate_count",
+        "screw_count",
+        "mesh_implant_count",
+        "custom_patient_specific_implant_used",
+        "reconstruction_plate_used",
+        "fixation_sites"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "hardware_documented": {
+          "type": "boolean"
+        },
+        "plate_count": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "screw_count": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "mesh_implant_count": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "custom_patient_specific_implant_used": {
+          "type": "boolean"
+        },
+        "reconstruction_plate_used": {
+          "type": "boolean",
+          "description": "Load-bearing 2.4/2.7 mm reconstruction plate across mandibular continuity defect or comminution."
+        },
+        "fixation_sites": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "soft_tissue_and_associated_injuries": {
+      "type": "object",
+      "description": "Concomitant soft-tissue lacerations, avulsions, nerve repairs, and associated system trauma (Criterion 6).",
+      "required": [
+        "extensive_facial_lacerations_or_degloving",
+        "primary_nerve_repair_or_decompression",
+        "lacrimal_system_repair_or_intubation",
+        "concomitant_cervical_spine_injury",
+        "concomitant_traumatic_brain_injury",
+        "concomitant_vascular_injury"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "extensive_facial_lacerations_or_degloving": { "type": "boolean" },
+        "primary_nerve_repair_or_decompression": { "type": "boolean" },
+        "lacrimal_system_repair_or_intubation": { "type": "boolean" },
+        "concomitant_cervical_spine_injury": { "type": "boolean" },
+        "concomitant_traumatic_brain_injury": { "type": "boolean" },
+        "concomitant_vascular_injury": { "type": "boolean" }
+      }
+    },
+
+    "intraoperative_events_and_resources": {
+      "type": "object",
+      "description": "Operative duration, blood loss, complications, and unplanned interventions (Criteria 8 & 9).",
+      "required": [
+        "operative_duration_minutes",
+        "estimated_blood_loss_ml",
+        "blood_transfusion_units",
+        "intraoperative_complications",
+        "unplanned_additional_interventions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "operative_duration_minutes": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "estimated_blood_loss_ml": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "blood_transfusion_units": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "intraoperative_complications": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "SIGNIFICANT_HAEMORRHAGE_INTERNAL_MAXILLARY_OR_ETHMOIDAL",
+              "DURAL_TEAR_CSF_LEAK",
+              "ORBITAL_APEX_SYNDROME_OR_RETROBULBAR_TENSION",
+              "FACIAL_NERVE_BRANCH_TRANSECTION",
+              "AIRWAY_COMPROMISE_DIFFICULT_INTUBATION",
+              "INSTRUMENT_OR_HARDWARE_FAILURE_IN_SITU",
+              "CARDIAC_OR_ANAESTHETIC_INSTABILITY",
+              "NONE_DOCUMENTED"
+            ]
+          }
+        },
+        "unplanned_additional_interventions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "complexity_evaluation_audit": {
+      "type": "object",
+      "description": "Audit record ensuring separation of surgical complexity from postoperative outcome.",
+      "required": [
+        "evaluator_disclaimer",
+        "surgeon_validation_status",
+        "composite_score_status",
+        "known_postoperative_outcome_reference"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "evaluator_disclaimer": { "type": "string" },
+        "surgeon_validation_status": {
+          "type": "string",
+          "enum": ["PENDING_SURGEON_CONSENSUS_VALIDATION", "SURGEON_REVIEWED"]
+        },
+        "composite_score_status": {
+          "type": "string",
+          "enum": ["PROHIBITED_UNVALIDATED_PROFILE_ONLY", "PARALLEL_CRITERIA_ONLY"]
+        },
+        "known_postoperative_outcome_reference": {
+          "type": ["string", "null"],
+          "description": "Optional reference to postop outcome for study of complexity vs outcome discordance, NEVER used to calculate complexity score."
+        }
+      }
+    }
+  }
+}

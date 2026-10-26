@@ -1,0 +1,121 @@
+{
+  "case_metadata": {
+    "pseudonymous_case_id": "CASE-SYN06",
+    "evaluator_schema_version": "1.0.0",
+    "rubric_specification_version": "PHASE-05-CANDIDATE-v1.0",
+    "case_creation_timestamp": "2026-10-11T12:00:00Z",
+    "primary_fracture_regions": [
+      "LE_FORT_II",
+      "LE_FORT_III",
+      "NASOETHMOID_COMPLEX"
+    ],
+    "treatment_context": "OPEN_REDUCTION_INTERNAL_FIXATION",
+    "assessment_epoch": "LATE_STABLE_12_MONTHS"
+  },
+  "clinical_baseline": {
+    "contralateral_facial_skeleton_status": "CONCOMITANT_BILATERAL_FRACTURE",
+    "premorbid_dentition_status": "COMPLETE_NATURAL_DENTITION",
+    "history_of_previous_facial_injury_or_surgery": false,
+    "known_premorbid_mio_mm": 45.0
+  },
+  "imaging_subsystem": {
+    "imaging_modality": "MULTI_DETECTOR_CT",
+    "scan_timing": "POSTOPERATIVE_FOLLOWUP",
+    "technical_parameters": {
+      "slice_thickness_mm": 0.75,
+      "reconstruction_kernel": "BONE",
+      "gantry_tilt_degrees": 0.0
+    },
+    "image_quality_audit": {
+      "metal_hardware_artifact_severity": "MILD_NON_OBSCURING",
+      "patient_motion_artifact_present": false,
+      "field_of_view_adequacy": "COMPLETE_FACIAL_SKELETON",
+      "usable_for_3d_mirroring": false
+    },
+    "measurements": [
+      {
+        "measurement_id": "MEAS-SYN06-01",
+        "construct": "SKELETAL_SURFACE_DISTANCE_RMSD",
+        "anatomical_subsite": "Bilateral midface",
+        "method": "AUTOMATED_3D_MIRRORING_ICP",
+        "numerical_value": null,
+        "unit": "MILLIMETERS",
+        "quality_flag": "UNMEASURABLE_ABSENT_CONTRALATERAL",
+        "supporting_evidence_id": "CANON-RES-EVD-001"
+      }
+    ]
+  },
+  "domain_assessments": {
+    "domain_1_skeletal_alignment": {
+      "applicability_status": "NOT_APPLICABLE_BILATERAL_COMMINUTED_NO_REFERENCE",
+      "evaluation_status": "COMPLETED_REVIEW",
+      "quantitative_findings": {
+        "zmc_surface_msd_mm": null,
+        "zmc_surface_rmsd_mm": null,
+        "max_buttress_gap_mm": null
+      },
+      "surgeon_qualitative_assessment": "RESIDUAL_DISPLACEMENT_ACCEPTABLE",
+      "unresolved_decision_flags": []
+    },
+    "domain_2_orbital_ophthalmic": {
+      "applicability_status": "NOT_APPLICABLE_NO_ORBITAL_FRACTURE",
+      "evaluation_status": "COMPLETED_REVIEW",
+      "orbital_volume_delta_ml": null,
+      "globe_projection_difference_mm": null,
+      "clinical_enophthalmos_present": null,
+      "diplopia_status": "UNTESTED",
+      "ocular_motility_limitation": "UNTESTED"
+    },
+    "domain_3_occlusion_mandibular_function": {
+      "applicability_status": "NOT_APPLICABLE_NO_MANDIBULAR_OR_MAXILLARY_INJURY",
+      "evaluation_status": "COMPLETED_REVIEW",
+      "maximal_interincisal_opening_mm": null,
+      "lateral_excursion_ipsilateral_mm": null,
+      "lateral_excursion_contralateral_mm": null,
+      "protrusive_movement_mm": null,
+      "terminal_opening_deviation_present": null,
+      "occlusal_relationship_status": "UNEVALUATED",
+      "duration_of_active_imf_weeks": null
+    },
+    "domain_4_mastication_speech": {
+      "applicability_status": "NOT_APPLICABLE",
+      "evaluation_status": "UNASSESSED",
+      "dietary_progression_level": "UNRECORDED",
+      "articulatory_speech_impairment_present": null
+    },
+    "domain_5_neurosensory": {
+      "applicability_status": "NOT_APPLICABLE",
+      "evaluation_status": "UNASSESSED",
+      "infraorbital_nerve_status": "UNTESTED",
+      "inferior_alveolar_nerve_status": "UNTESTED",
+      "facial_nerve_motor_deficit_present": null
+    },
+    "domain_6_soft_tissue_aesthetics": {
+      "applicability_status": "NOT_APPLICABLE",
+      "evaluation_status": "UNASSESSED",
+      "canthal_dystopia_present": null,
+      "facial_soft_tissue_ptosis_present": null,
+      "hypertrophic_or_unsatisfactory_scarring_present": null
+    },
+    "domain_7_patient_reported_outcomes": {
+      "applicability_status": "APPLICABLE",
+      "evaluation_status": "COMPLETED",
+      "prom_instrument_administered": "FACE_Q_CRANIOFACIAL",
+      "face_q_appearance_satisfaction_score": 72.0,
+      "face_q_early_life_impact_score": 78.0
+    },
+    "domain_8_safety_and_complications": {
+      "applicability_status": "APPLICABLE",
+      "evaluation_status": "COMPLETED_REVIEW",
+      "complications_recorded": []
+    }
+  },
+  "evaluation_audit": {
+    "human_surgeon_review_status": "UNREVIEWED_MACHINE_EXTRACTED_ONLY",
+    "composite_score_status": "PROHIBITED_UNVALIDATED",
+    "uncertainty_and_limitations_summary": "Synthetic test case demonstrating schema compliance.",
+    "missing_data_reasons": [
+      "Contralateral skeletal mirroring is inapplicable due to severe bilateral panfacial comminution."
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "case_metadata": {
+    "pseudonymous_case_id": "CASE-SYN03",
+    "evaluator_schema_version": "1.0.0",
+    "rubric_specification_version": "PHASE-05-CANDIDATE-v1.0",
+    "case_creation_timestamp": "2026-10-11T12:00:00Z",
+    "primary_fracture_regions": [
+      "MANDIBULAR_CONDYLE_AND_SUBCONDYLE"
+    ],
+    "treatment_context": "CLOSED_REDUCTION_WITH_IMF",
+    "assessment_epoch": "EARLY_FOLLOWUP_6_WEEKS"
+  },
+  "clinical_baseline": {
+    "contralateral_facial_skeleton_status": "INTACT_NORMAL_REFERENCE",
+    "premorbid_dentition_status": "COMPLETE_NATURAL_DENTITION",
+    "history_of_previous_facial_injury_or_surgery": false,
+    "known_premorbid_mio_mm": 52.0
+  },
+  "imaging_subsystem": {
+    "imaging_modality": "PLAIN_RADIOGRAPHY_PANORAMIC",
+    "scan_timing": "POSTOPERATIVE_FOLLOWUP",
+    "technical_parameters": {
+      "slice_thickness_mm": null,
+      "reconstruction_kernel": "BONE",
+      "gantry_tilt_degrees": null
+    },
+    "image_quality_audit": {
+      "metal_hardware_artifact_severity": "MILD_NON_OBSCURING",
+      "patient_motion_artifact_present": false,
+      "field_of_view_adequacy": "COMPLETE_FACIAL_SKELETON",
+      "usable_for_3d_mirroring": false
+    },
+    "measurements": []
+  },
+  "domain_assessments": {
+    "domain_1_skeletal_alignment": {
+      "applicability_status": "APPLICABLE",
+      "evaluation_status": "PENDING_SURGEON_REVIEW",
+      "quantitative_findings": {
+        "zmc_surface_msd_mm": null,
+        "zmc_surface_rmsd_mm": null,
+        "max_buttress_gap_mm": null
+      },
+      "surgeon_qualitative_assessment": "NOT_EVALUATED",
+      "unresolved_decision_flags": []
+    },
+    "domain_2_orbital_ophthalmic": {
+      "applicability_status": "NOT_APPLICABLE_NO_ORBITAL_FRACTURE",
+      "evaluation_status": "COMPLETED_REVIEW",
+      "orbital_volume_delta_ml": null,
+      "globe_projection_difference_mm": null,
+      "clinical_enophthalmos_present": null,
+      "diplopia_status": "UNTESTED",
+      "ocular_motility_limitation": "UNTESTED"
+    },
+    "domain_3_occlusion_mandibular_function": {
+      "applicability_status": "APPLICABLE",
+      "evaluation_status": "COMPLETED_REVIEW",
+      "maximal_interincisal_opening_mm": 28.0,
+      "lateral_excursion_ipsilateral_mm": 3.0,
+      "lateral_excursion_contralateral_mm": 2.0,
+      "protrusive_movement_mm": 2.5,
+      "terminal_opening_deviation_present": true,
+      "occlusal_relationship_status": "POSTERIOR_OPEN_BITE",
+      "duration_of_active_imf_weeks": 5.0
+    },
+    "domain_4_mastication_speech": {
+      "applicability_status": "APPLICABLE",
+      "evaluation_status": "COMPLETED_REVIEW",
+      "dietary_progression_level": "NON_CHEW_PUREED_DIET",
+      "articulatory_speech_impairment_present": true
+    },
+    "domain_5_neurosensory": {
+      "applicability_status": "NOT_APPLICABLE",
+      "evaluation_status": "UNASSESSED",
+      "infraorbital_nerve_status": "UNTESTED",
+      "inferior_alveolar_nerve_status": "UNTESTED",
+      "facial_nerve_motor_deficit_present": null
+    },
+    "domain_6_soft_tissue_aesthetics": {
+      "applicability_status": "NOT_APPLICABLE",
+      "evaluation_status": "UNASSESSED",
+      "canthal_dystopia_present": null,
+      "facial_soft_tissue_ptosis_present": null,
+      "hypertrophic_or_unsatisfactory_scarring_present": null
+    },
+    "domain_7_patient_reported_outcomes": {
+      "applicability_status": "SURVEY_NOT_ADMINISTERED",
+      "evaluation_status": "NOT_ASSESSED",
+      "prom_instrument_administered": "NONE",
+      "face_q_appearance_satisfaction_score": null,
+      "face_q_early_life_impact_score": null
+    },
+    "domain_8_safety_and_complications": {
+      "applicability_status": "APPLICABLE",
+      "evaluation_status": "COMPLETED_REVIEW",
+      "complications_recorded": []
+    }
+  },
+  "evaluation_audit": {
+    "human_surgeon_review_status": "UNREVIEWED_MACHINE_EXTRACTED_ONLY",
+    "composite_score_status": "PROHIBITED_UNVALIDATED",
+    "uncertainty_and_limitations_summary": "Synthetic test case demonstrating schema compliance.",
+    "missing_data_reasons": []
+  }
+}

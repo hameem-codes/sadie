@@ -1,0 +1,467 @@
+"""
+Phase 5 Pipeline & Artifact Builder
+
+Generates:
+1. data/phase_05_candidate_rubric.csv
+2. data/phase_05_surgeon_review_template.csv
+3. reports/phase_05_candidate_rubric_specification.md
+4. reports/phase_05_open_decisions.md
+5. reports/phase_05_validation_plan.md
+"""
+
+import os
+import sys
+import csv
+import json
+
+def build_phase_05():
+    print("Building Phase 5 Candidate Rubric Deliverables...")
+    os.makedirs("data", exist_ok=True)
+    os.makedirs("reports", exist_ok=True)
+    os.makedirs("schemas", exist_ok=True)
+
+    # 1. Build data/phase_05_candidate_rubric.csv
+    rubric_headers = [
+        "criterion_id",
+        "domain_number",
+        "domain_name",
+        "clinical_construct",
+        "eligible_fracture_regions",
+        "eligible_treatment_contexts",
+        "source_reported_finding",
+        "candidate_operational_definition",
+        "measurement_method_and_tools",
+        "measurement_units",
+        "preoperative_baseline_required",
+        "postoperative_assessment_timing",
+        "direction_of_favourable_result",
+        "threshold_evidence_status",
+        "proposed_clinical_decision",
+        "validation_requirement",
+        "surgeon_validation_status",
+        "applicability_and_exclusion_criteria",
+        "missing_or_unreliable_data_policy",
+        "automation_type",
+        "supporting_evidence_ids",
+        "verification_scope",
+        "open_research_questions"
+    ]
+
+    rubric_rows = [
+        [
+            "RUB-CRIT-D1-01",
+            "1",
+            "Skeletal reduction, alignment and symmetry",
+            "ZMC 3D Surface Mesh Congruence & Global Facial Symmetry",
+            "Zygomaticomaxillary complex (ZMC), Zygomatic arch, Lateral orbital wall",
+            "ORIF, Computer-assisted navigation, Patient-specific implants",
+            "Ho et al. (2017) documented natural baseline facial asymmetry in 15 uninjured adult trauma controls: Mean Surface Distance (MSD) = 0.14 +/- 0.12 mm (range 0.002-0.881 mm); Root Mean Square Distance (RMSD) = 0.87 +/- 0.21 mm (range 0.56-1.98 mm).",
+            "Postoperative 3D surface distance mapping across segmented ZMC surface mesh registered against mirrored uninjured contralateral facial skeleton using Iterative Closest Point (ICP).",
+            "Fine-slice multiplanar CT (<= 1.0 mm slice, 0 deg gantry tilt) + Automated 3D mesh surface registration",
+            "Millimeters (MSD and RMSD in mm)",
+            "Contralateral uninjured facial skeleton serves as virtual anatomical reference; preoperative baseline scan recommended for defect mapping.",
+            "Postoperative 2 to 6 weeks (baseline skeletal reduction check) or >= 6 months (late stability)",
+            "Favourable: Residual asymmetry values approaching normal population biological baseline (RMSD <= 0.87 mm).",
+            "NO EXPLICIT THRESHOLD REPORTED (Normal biological asymmetry up to 1.98 mm RMSD is reference control data, not an automatic postoperative pass/fail standard)",
+            "Surgeons must determine whether residual RMSD discrepancy is categorized into tiered clinical bands (e.g. <1.0 mm, 1.0-2.0 mm, >2.0 mm) or evaluated continuously with patient aesthetic input.",
+            "Multi-center clinical agreement study correlating 3D CT RMSD values with blinded expert surgeon aesthetic ratings and FACE-Q scores in surgically treated ZMC cohorts.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: Unilateral ZMC fractures with intact contralateral facial skeleton. Excluded: Bilateral comminuted midface fractures lacking uninjured mirror reference; pre-existing severe craniofacial dysmorphology.",
+            "If severe metal streak artifact or missing contralateral anatomy precludes registration, flag as UNMEASURABLE_ABSENT_CONTRALATERAL. Do not treat missing measurement as normal.",
+            "Requires Both (Automated 3D mesh segmentation + Surgeon clinical oversight)",
+            "CANON-RES-EVD-001 (PAP-001), CANON-RES-EVD-002 (PAP-002)",
+            "abstract only (VERIFIED_ABSTRACT_ONLY)",
+            "What is the exact millimeter threshold where residual skeletal asymmetry becomes perceptible to lay observers vs trained craniomaxillofacial surgeons?"
+        ],
+        [
+            "RUB-CRIT-D1-02",
+            "1",
+            "Skeletal reduction, alignment and symmetry",
+            "Vertical and Horizontal Craniofacial Buttress Anatomical Continuity",
+            "Zygomaticomaxillary buttress, Nasomaxillary buttress, Pterygomaxillary junction, Frontomaxillary pillar",
+            "ORIF, Le Fort osteotomy/fixation, Panfacial fracture reconstruction",
+            "Fonseca Ch. 12 (pp. 232-235) establishes vertical and horizontal buttress pillars as structural frameworks governing facial height, width, and projection. Cortical continuity restoration is required for masticatory load transfer.",
+            "Direct multiplanar radiological assessment of cortical bone alignment, residual gap, and step-off deformity at key buttress contact points.",
+            "Multiplanar high-resolution CT (axial, coronal, sagittal reformations, bone algorithm kernel)",
+            "Millimeters (Cortical displacement step-off and bone gap in mm)",
+            "Preoperative CT required to classify initial buttress comminution and displacement.",
+            "Immediate postoperative or 2-4 weeks post-reduction",
+            "Favourable: Anatomic cortical continuity with minimal residual gap (<1.0 mm) and absence of hardware loosening.",
+            "NO EXPLICIT THRESHOLD REPORTED (Textbook establishes qualitative anatomical principles; no statistical millimeter reduction cutoff reported)",
+            "Surgeons must define acceptable reduction tolerance: anatomic (<1 mm gap), near-anatomic (1-2 mm), or malreduced (>2 mm with loss of facial projection).",
+            "Inter-rater reliability trial testing agreement among craniomaxillofacial surgeons measuring buttress step-offs on 2D multiplanar CT vs 3D volume renderings.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: All displaced midfacial and panfacial fractures involving vertical/horizontal load-bearing pillars. Excluded: Isolated soft tissue injuries.",
+            "If metal plate hardware obscures the osteotomy interface, record as UNCERTAIN_BORDER_ARTIFACT and report visible margins only.",
+            "Requires Both (Algorithmic landmark detection + Surgeon verification)",
+            "CANON-CH12-EVD-001, CANON-CH12-EVD-002",
+            "full text (VERIFIED_PRIMARY_SOURCE)",
+            "Does a residual 1.5 mm gap at the zygomaticomaxillary buttress impact long-term midfacial projection or fatigue life of titanium miniplates under biting load?"
+        ],
+        [
+            "RUB-CRIT-D2-01",
+            "2",
+            "Orbital reconstruction and ophthalmic outcomes",
+            "Internal Bony Orbital Volume Restoration",
+            "Orbital floor, Medial orbital wall, Inferior orbital rim",
+            "Reconstruction with titanium mesh, PEEK, Autologous bone graft, Resorbable plates",
+            "Whitehouse et al. (1994) showed that each 1.0 cm3 (1.0 mL) expansion in bony orbital volume predicts 0.8 mm of late enophthalmos (r = 0.79, P < 0.001). Bly et al. (2013) showed computer-assisted repair achieves mean volume delta 0.74 mL vs 2.12 mL conventional (P = .003).",
+            "Postoperative difference in bony orbital volume between reconstructed orbit and contralateral unaffected orbit (Delta mL = Volume_reconstructed - Volume_contralateral).",
+            "Multiplanar fine-slice CT (<= 1.0 mm slices) with slice-by-slice planimetry or deep learning volumetric segmentation",
+            "Milliliters (Delta mL)",
+            "Contralateral unaffected orbit serves as patient-specific normative volume target.",
+            "Postoperative 2 to 6 weeks (baseline CT) and 6 months (after soft tissue edema resolves)",
+            "Favourable: Near-complete restoration of volume parity relative to contralateral orbit (Delta volume <= 0.74-1.0 mL).",
+            "NO EXPLICIT THRESHOLD REPORTED (1.0 mL is a continuous predictive regression ratio [1.0 mL = 0.8 mm enophthalmos], NOT a universal standalone binary pass/fail cutoff)",
+            "Surgeons must confirm whether orbital volume delta is interpreted as an isolated metric or strictly conditioned on clinical globe position and motility.",
+            "Prospective cohort assessing whether automated AI orbital volume segmentation matches manual planimetry and correlates with 6-month Hertel exophthalmometry.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: Unilateral orbital floor/medial wall fractures. Excluded: Bilateral orbital blowout fractures lacking contralateral reference.",
+            "If anterior orbital rim is destroyed, define boundary by standardized anterior orbital plane connecting superior and inferior rims.",
+            "Can Be Automated (Volumetric segmentation algorithm with quality audit flag)",
+            "CANON-RES-EVD-003 (PAP-003), CANON-RES-EVD-005 (PAP-005)",
+            "full text (PAP-003 PMC504888) / abstract only (PAP-005)",
+            "How does post-traumatic orbital fat necrosis or retrobulbar scar contracture alter the 0.8 mm / mL predictive ratio in complex defect reconstructions?"
+        ],
+        [
+            "RUB-CRIT-D2-02",
+            "2",
+            "Orbital reconstruction and ophthalmic outcomes",
+            "Clinical Globe Projection & Enophthalmos",
+            "Orbital floor, Medial orbital wall, ZMC complex",
+            "Reconstruction with alloplastic implants, Bone grafting, Computer-guided repair",
+            "Zhang et al. (2012) reported secondary enophthalmos averaged 4.0 +/- 1.49 mm and demonstrated that only herniation posterior to the vertical eyeball equator significantly drives globe recession. Atlas Ch. 19 (p. 809) emphasizes serial globe projection tracking.",
+            "Direct clinical measurement of anterior corneal projection relative to lateral orbital rim using Hertel exophthalmometry, or 3D multiplanar CT axial globe protrusion comparison.",
+            "Hertel exophthalmometer (clinical) and/or Multiplanar CT axial slice through lens/optic nerve",
+            "Millimeters (Difference between affected and unaffected globe projection in mm)",
+            "Contralateral normal eye serves as reference; premorbid baseline noted if available.",
+            "Postoperative 6 to 12 weeks, and 6 months (definitive assessment after hematoma/edema resolves)",
+            "Favourable: Globe projection symmetry within 1.0-2.0 mm of unaffected contralateral eye; absence of clinically visible enophthalmos.",
+            "NO EXPLICIT THRESHOLD REPORTED (Clinical consensus defines enophthalmos as >2.0 mm recession; source documents linear relationships without binary success boundary)",
+            "Clinicians must ratify acceptable globe projection difference: <= 1.0 mm (optimal), 1.1-2.0 mm (mild/subclinical), > 2.0 mm (adverse clinical enophthalmos).",
+            "Inter-examiner reliability comparison of Hertel exophthalmometer measurements vs 3D CT axial globe distance in post-traumatic cohorts.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: Orbital trauma with potential soft tissue herniation. Excluded: Pre-existing strabismus, contralateral orbital trauma, severe pre-injury microphthalmia.",
+            "If marked soft tissue swelling is present at early evaluation, record as UNCERTAIN_BORDER_ARTIFACT and defer definitive scoring to >= 6 months.",
+            "Requires Clinical Assessment (Physical examination or dedicated ophthalmic review)",
+            "CANON-RES-EVD-004 (PAP-004), CANON-ATLAS-CH19-EVD-004",
+            "abstract only (PAP-004) / full text (Atlas Ch. 19)",
+            "Can 3D photographic surface anthropometry reliably substitute for Hertel exophthalmometry in quantifying post-traumatic globe recession?"
+        ],
+        [
+            "RUB-CRIT-D2-03",
+            "2",
+            "Orbital reconstruction and ophthalmic outcomes",
+            "Postoperative Diplopia & Ocular Motility Field",
+            "Orbital floor, Medial wall, Orbital apex",
+            "Surgical release of trapped tissues, Reconstruction of orbital walls",
+            "Atlas Ch. 19 (p. 809) and Bly et al. (2013) document diplopia incidence and extraocular motility restriction. Bly reported conventional repair left 38% enophthalmos vs 9% in computer-guided cohorts.",
+            "Structured binocular visual field evaluation recording presence, gaze direction (primary, downward/reading, extreme periphery), and severity of double vision.",
+            "Goldmann perimetry, Hess screen, Binocular Single Vision (BSV) score, or structured clinical motility exam",
+            "Categorical gaze zones & degrees of arc",
+            "Preoperative baseline diplopia mapping required to differentiate surgical complication from nerve transection at trauma.",
+            "Postoperative 6 weeks, 3 months, 6 months (allows resolution of transient muscular neuropraxia and orbital edema)",
+            "Favourable: Complete absence of diplopia in primary and reading gaze; binocular single vision preserved across functional field.",
+            "NO EXPLICIT THRESHOLD REPORTED (Qualitative ophthalmic grading standard; binary pass/fail is clinically inappropriate without gaze-direction stratification)",
+            "Surgeons and ophthalmologists must approve grading rule: diplopia in extreme peripheral gaze (>30 deg) is clinically acceptable, whereas diplopia in primary/reading gaze is an adverse outcome.",
+            "Prospective multi-center registry tracking rate of spontaneous diplopia resolution from 6 weeks to 6 months post-repair.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: All internal orbital fracture repairs. Excluded: Pre-existing monocular blindness or chronic cranial nerve III/IV/VI palsies.",
+            "If ophthalmology perimetry is not available, record clinical screening result and flag as PARTIAL_DATA_CLINICAL_SCREENING_ONLY.",
+            "Requires Clinical Assessment (Specialized ophthalmic examination)",
+            "CANON-ATLAS-CH19-EVD-004, CANON-RES-EVD-005 (PAP-005)",
+            "full text (Atlas Ch. 19) / abstract only (PAP-005)",
+            "What proportion of diplopia cases persisting at 6 weeks resolve spontaneously without re-operation by 12 months?"
+        ],
+        [
+            "RUB-CRIT-D3-01",
+            "3",
+            "Occlusion and mandibular function",
+            "Maximal Interincisal Opening (MIO) & Functional Mobility",
+            "Mandibular condyle, Subcondyle, Angle, Ramus, Body, Symphysis",
+            "ORIF, Closed reduction with IMF, Functional rehabilitation physiotherapy",
+            "Eckelt et al. (2006) randomized trial showed operative repair achieved significantly higher mean MIO (46.5 mm vs 40.9 mm, P = 0.001) and greater protrusion (7.3 mm vs 4.7 mm). Both groups had mean MIO > 40 mm.",
+            "Interincisal distance between maxillary and mandibular central incisor edges at maximum comfortable and active jaw opening, measured in millimeters.",
+            "TheraBite scale, calibrated millimeter ruler, or digital caliper",
+            "Millimeters (MIO in mm)",
+            "Pre-injury baseline MIO documented if known; otherwise adjusted for age, gender, and dentition.",
+            "Postoperative 6 weeks, 12 weeks, 6 months, 12 months",
+            "Favourable: Active MIO >= 40 mm (or return to patient-specific premorbid baseline) without joint pain or severe opening deflection.",
+            "NO EXPLICIT THRESHOLD REPORTED (40 mm is not a universal pass/fail boundary; both operative and closed groups in Eckelt exceeded 40 mm)",
+            "Surgeons must ratify continuous functional categories: Normal (>= 40 mm or baseline), Mild Limitation (35-39 mm), Severe Trismus (< 35 mm), adjusted for lateral excursion.",
+            "Longitudinal study measuring pre-injury baseline MIO distribution and recovery trajectories across adult mandibular trauma cohorts.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: Mandibular and maxillary fracture repairs. Excluded: Pre-existing TMJ ankylosis, severe oral submucous fibrosis.",
+            "If patient is edentulous, measure distance between alveolar ridges or denture incisal edges and flag as DENTURE_ADJUSTED_MIO.",
+            "Requires Clinical Assessment (Physical measurement with calibrated tool)",
+            "CANON-RES-EVD-006 (PAP-006), CANON-RES-EVD-008 (PAP-008)",
+            "abstract only (VERIFIED_ABSTRACT_ONLY)",
+            "What is the correlation between objective MIO in millimeters and patient-reported masticatory satisfaction on validated trauma PROMs?"
+        ],
+        [
+            "RUB-CRIT-D3-02",
+            "3",
+            "Occlusion and mandibular function",
+            "Static and Dynamic Dental Occlusal Restoration",
+            "Mandibular fractures, Maxillary fractures, Le Fort I/II/III, Dentoalveolar injuries",
+            "ORIF, Intermaxillary fixation, Elastic guiding traction, Occlusal equilibration",
+            "Ellis et al. (2000) prospective trial showed closed treatment of condylar fractures had significantly higher incidence of postoperative malocclusion across all displacement severities. Atlas Ch. 19 (p. 810) stresses restoration of pre-morbid wear facets.",
+            "Clinical evaluation of intercuspation reproducibility, absence of premature contacts, preservation of pre-traumatic wear facets, and dental midline alignment.",
+            "Articulating paper (20-40 micron), shimstock foil, clinical inspection, T-Scan computerized occlusal analysis",
+            "Categorical occlusal relationship + millimeter midline deviation",
+            "Pre-morbid dental occlusion reference (wear facets, dental records, study models if available).",
+            "Immediate post-IMF release (2-4 weeks), 6 weeks, 3 months, 6 months",
+            "Favourable: Complete reproduction of pre-morbid stable intercuspation without open bite, crossbite, or premature occlusal interference.",
+            "NO EXPLICIT THRESHOLD REPORTED (Literature records presence vs absence of malocclusion; no millimeter step-off cutoff reported)",
+            "Surgeons must define grading: Class 1 (reproduction of premorbid occlusion), Class 2 (minor prematurity managed by minor grinding/elastics), Class 3 (gross malocclusion requiring revision).",
+            "Validation study comparing clinical articulating paper evaluation against digital computerized occlusal force mapping (T-Scan) in trauma follow-up.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: Dentate or partially dentate patients with occlusal stops. Excluded: Edentulous patients without prostheses.",
+            "If pre-existing malocclusion (e.g. anterior open bite) was present, document as PREEXISTING_ANOMALY to prevent false attribution to fracture surgery.",
+            "Requires Clinical Assessment (Intraoral examination by surgeon or prosthodontist)",
+            "CANON-RES-EVD-007 (PAP-007), CANON-ATLAS-CH19-EVD-010, CANON-ATLAS-CH19-EVD-011",
+            "abstract only (PAP-007) / full text (Atlas Ch. 19)",
+            "How accurately can automated 3D dental scan registration identify post-reduction occlusal discrepancies compared to clinical articulating paper?"
+        ],
+        [
+            "RUB-CRIT-D3-03",
+            "3",
+            "Occlusion and mandibular function",
+            "Intermaxillary Fixation (IMF) Immobilization Duration",
+            "Mandibular fractures in tooth-bearing areas, Condylar process fractures",
+            "Closed reduction, Post-ORIF guiding elastics, Hybrid arch bars",
+            "Adeyemi et al. (2012) trial showed 2 weeks of IMF achieved normal MIO recovery significantly faster than 4-6 weeks with equal union rates. Atlas Ch. 19 (p. 812) warns that elastic IMF exceeding 4 weeks leads to permanent TMJ stiffness and muscular atrophy.",
+            "Documented total duration (in elapsed calendar days and weeks) of rigid or tight elastic intermaxillary immobilization.",
+            "Clinical chart review and documented date of IMF removal/release",
+            "Weeks (or calendar days)",
+            "Documented initial date of IMF application.",
+            "Postoperative 2 to 6 weeks",
+            "Favourable: Short immobilization period (<= 2 weeks active IMF) transitioning to early active physiotherapy.",
+            "NO EXPLICIT THRESHOLD REPORTED (Establishes clinical safety limit of <= 4 weeks; not a continuous standalone quality score)",
+            "Surgeons must confirm protocol rule: IMF duration > 4 weeks without documented specific indication is flagged as a functional risk factor.",
+            "Multi-center observational audit examining long-term TMJ dysfunction rates in patients immobilized for <=2 weeks vs >4 weeks.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: Patients managed with active IMF or post-ORIF guiding elastics. Excluded: Patients treated with rigid ORIF and immediate mobilization without IMF.",
+            "If records lack exact release date, record as IMF_RELEASE_DATE_UNRECORDED and audit clinical notes.",
+            "Can Be Automated (Clinical EHR timestamp data extraction)",
+            "CANON-RES-EVD-008 (PAP-008), CANON-ATLAS-CH19-EVD-012",
+            "abstract only (PAP-008) / full text (Atlas Ch. 19)",
+            "In comminuted fractures, what is the optimal timing window for transitioning from guiding elastics to unrestricted jaw mobilization?"
+        ],
+        [
+            "RUB-CRIT-D4-01",
+            "4",
+            "Mastication, speech and other functional outcomes",
+            "Masticatory Efficiency & Dietary Progression",
+            "Panfacial, Maxillary, Mandibular fractures",
+            "ORIF, Closed treatment, Conservative management",
+            "Atlas Ch. 19 (p. 810) describes dietary progression timeline: soft non-chew diet for 4-6 weeks transitioning to normal mastication as bony union consolidates.",
+            "Standardized categorical assessment of highest tolerated dietary consistency (liquid, pureed, soft mechanical, unrestricted solid diet) at follow-up epochs.",
+            "Structured clinical questionnaire or Masticatory Performance Scale",
+            "Categorical dietary stage (Levels 1 to 4)",
+            "Pre-morbid dietary capability recorded.",
+            "Postoperative 6 weeks, 12 weeks, 6 months",
+            "Favourable: Progression to unrestricted solid food mastication by 12 weeks post-injury.",
+            "NO EXPLICIT THRESHOLD REPORTED (Qualitative clinical aftercare milestone)",
+            "Surgeons must ratify expected dietary recovery timeline milestones: Level 4 (normal solids) achieved by 12 weeks in uncomplicated fractures.",
+            "Validation of a standardized maxillofacial masticatory score against objective chewing sieve tests in trauma populations.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: All facial trauma repairs. Excluded: Patients with pre-existing dysphagia or enteral tube feeding dependencies.",
+            "If patient is on dietary restrictions for unrelated medical reasons, flag as NON_TRAUMA_DIETARY_RESTRICTION.",
+            "Requires Clinical Assessment (Patient interview or functional feeding assessment)",
+            "CANON-ATLAS-CH19-EVD-010",
+            "full text (VERIFIED_PRIMARY_SOURCE)",
+            "How strongly does bite-force recovery correlate with subjective dietary satisfaction during the first 6 months post-surgery?"
+        ],
+        [
+            "RUB-CRIT-D5-01",
+            "5",
+            "Neurosensory outcomes",
+            "Trigeminal Sensory Nerve Recovery (Infraorbital & Inferior Alveolar)",
+            "ZMC fractures, Orbital floor, Mandibular body, Mandibular angle, Parasymphysis",
+            "ORIF, Transantral reduction, Closed reduction",
+            "Atlas Ch. 19 (p. 813) details neurosensory recovery curves: neuropraxia improves over 6-12 months; persistent anesthesia beyond 12 months signifies permanent axonotmesis or entrapment.",
+            "Standardized clinical neurosensory testing (static 2-point discrimination in mm, light brush directional sensation, pinprick sharp/dull discrimination) mapped across V2 and V3 dermatomes.",
+            "Calibrated 2-point discriminator, von Frey monofilaments, dental probe",
+            "Millimeters (2PD in mm) & Medical Research Council (MRC) sensory grade (S0 to S4)",
+            "Contralateral unaffected dermatome serves as internal control.",
+            "Postoperative 6 weeks, 3 months, 6 months, 12 months",
+            "Favourable: Recovery of protective and discriminative sensation (MRC Grade S3+ or S4; 2PD <= 8 mm) by 12 months.",
+            "NO EXPLICIT THRESHOLD REPORTED (Surgical atlas describes biological timeframe of 6-12 months; no binary success cutoff reported)",
+            "Clinicians must approve timeline rule: neurosensory deficit evaluated as adverse surgical outcome ONLY after 12 months follow-up, distinguishing early post-injury neuropraxia.",
+            "Prospective observational study measuring quantitative sensory testing (QST) recovery trajectories in displaced ZMC vs mandibular fractures.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: Fractures traversing infraorbital canal/foramen or inferior alveolar canal/mental foramen. Excluded: Pre-existing trigeminal neuropathy.",
+            "If formal 2PD testing was omitted, record subjective patient report as SUBJECTIVE_REPORT_ONLY_NO_QUANTITATIVE_TEST.",
+            "Requires Clinical Assessment (Bedside neurosensory examination)",
+            "CANON-ATLAS-CH19-EVD-013",
+            "full text (VERIFIED_PRIMARY_SOURCE)",
+            "What clinical neurosensory testing threshold at 3 months best predicts permanent long-term numbness at 12 months?"
+        ],
+        [
+            "RUB-CRIT-D6-01",
+            "6",
+            "Facial soft-tissue appearance and symmetry",
+            "Facial Soft Tissue Contour & Scar Maturation",
+            "Panfacial fractures, Coronal/subciliary/transconjunctival/intraoral surgical approaches",
+            "ORIF, Soft tissue re-suspension, Scar management",
+            "Atlas Ch. 19 (p. 815) documents soft tissue redraping and scar maturation continuing for 12-18 months. Highlights potential for ectropion, canthal dystopia, and facial ptosis following trauma dissection.",
+            "Assessment of soft tissue symmetry, lower eyelid position (scleral show / ectropion), intercanthal position, and surgical scar quality using Patient and Observer Scar Assessment Scale (POSAS).",
+            "Standard 5-view medical photography, 3D optical surface photogrammetry, POSAS clinical scale",
+            "Millimeters (scleral show in mm) & POSAS numeric score (1 to 10)",
+            "Preoperative photographic baseline if available; contralateral normal anatomy as symmetry reference.",
+            "Postoperative 3 months, 6 months, 12 months (definitive scar evaluation >= 12 months)",
+            "Favourable: Normal lower eyelid position without scleral show, preserved canthal alignment, and flat mature surgical scars.",
+            "NO EXPLICIT THRESHOLD REPORTED (Qualitative aesthetic guideline; binary success threshold not supported in source)",
+            "Surgeons must confirm timing threshold: definitive soft-tissue aesthetic scoring must not be finalized before 12 months post-injury.",
+            "Reliability study comparing 3D optical surface photogrammetry symmetry metrics with expert panel aesthetic ratings in trauma cohorts.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: All surgically exposed facial fractures. Excluded: Severe primary facial avulsion burns or pre-existing facial paralysis.",
+            "If severe swelling is present, record as EDEMA_CONFOUNDED and defer definitive aesthetic scoring.",
+            "Requires Both (Standardized photographic capture + Expert clinical grading)",
+            "CANON-ATLAS-CH19-EVD-018, CANON-ATLAS-CH19-EVD-019",
+            "full text (VERIFIED_PRIMARY_SOURCE)",
+            "Does 3D surface photogrammetry correlate better with patient self-perception than with surgeon observer scores?"
+        ],
+        [
+            "RUB-CRIT-D7-01",
+            "7",
+            "Patient-reported outcomes",
+            "FACE-Q Satisfaction with Facial Appearance",
+            "Panfacial, Midface, ZMC, Mandibular, Orbital fractures",
+            "ORIF, Closed reduction, Conservative treatment",
+            "Elegbede et al. (2018) prospectively administered FACE-Q scales to 185 facial fracture patients (Cronbach alpha 0.824-0.969). Pusic et al. (2013) developed the Satisfaction with Facial Appearance scale using Rasch Measurement Theory (transformed score 0-100).",
+            "Patient-completed FACE-Q Satisfaction with Facial Appearance module. 10 items scored 1-4 and transformed via Rasch conversion table to a unidimensional interval-level score from 0 (lowest) to 100 (highest satisfaction).",
+            "Formal licensed FACE-Q instrument (electronic survey or paper questionnaire)",
+            "Interval score 0 to 100 (Rasch-transformed score)",
+            "Pre-injury baseline not obtainable retrospectively; population normative mean serves as benchmark.",
+            "Postoperative 6 weeks, 3 months, 6 months, 12 months",
+            "Favourable: Higher transformed satisfaction score (scores > 70-80 indicate high aesthetic satisfaction).",
+            "NO EXPLICIT THRESHOLD REPORTED (Psychometrically validated continuous survey scale; source defines no binary surgical success cutoff)",
+            "Surgeons and patient panels must decide how PROM scores are reported alongside objective CT measurements without arithmetic weighted collapsing.",
+            "Structural equation modeling evaluating whether combining FACE-Q and CT displacement into an arithmetic index distorts clinical utility.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: Cognitively capable adult patients. Excluded: Severe traumatic brain injury, pediatric populations, non-validated language translations.",
+            "If patient declines or survey is not completed, record as SURVEY_OMITTED_PATIENT_UNAVAILABLE. Do not substitute median score.",
+            "Can Be Automated (Electronic digital survey data capture)",
+            "CANON-RES-EVD-012 (PAP-012), CANON-RES-EVD-013 (PAP-013)",
+            "full text (PAP-012 PMC6326617) / abstract only (PAP-013)",
+            "What is the Minimal Clinically Important Difference (MCID) on the FACE-Q Satisfaction with Appearance scale following facial fracture surgery?"
+        ],
+        [
+            "RUB-CRIT-D8-01",
+            "8",
+            "Complications, safety and additional treatment",
+            "Hardware Complications & Symptomatic Plate Removal",
+            "All internal fixation fractures (Titanium plates, Screws, Reconstruction bars)",
+            "Open reduction and rigid internal fixation",
+            "Nagase et al. (2005) 13-year cohort reported 33.3% hardware removal, with 64.4% of removals driven by infection, pain, palpability, or cold intolerance. Mosbah et al. (2003) confirmed site pain in 14% and early removal driven by infection/exposure. Atlas Ch. 19 (p. 814) notes 5-10% removal rate.",
+            "Documented incidence, postoperative timing, and specific indication (infection, exposure, pain, cold intolerance, interference with dental implants) for surgical removal of osteosynthesis hardware.",
+            "Clinical records audit, surgical operative notes, follow-up radiographs",
+            "Categorical event (Present / Absent) + Postoperative timing (weeks/months) + Clavien-Dindo Grade",
+            "Documented operative record of hardware placement.",
+            "Postoperative 6 weeks through >= 12 to 24 months",
+            "Favourable: Uneventful hardware retention without pain, infection, palpability, or requirement for secondary surgical removal.",
+            "NO EXPLICIT THRESHOLD REPORTED (Literature documents removal incidence and clinical justifications; routine removal is explicitly discouraged)",
+            "Surgeons must confirm event definition: asymptomatic hardware retention = stable outcome; plate removal within 12 months for infection/dehiscence = surgical complication.",
+            "Prospective multicenter registry analyzing risk factors (e.g. smoking, transoral approach, locking vs non-locking plates) for symptomatic plate removal.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: All patients receiving rigid internal fixation. Excluded: Patients treated with closed reduction or resorbable osteosynthesis.",
+            "If follow-up duration is < 6 months, mark as INSUFFICIENT_FOLLOWUP_DURATION. Do not assume absence of late hardware complications.",
+            "Can Be Automated (Structured EHR operative procedure code extraction)",
+            "CANON-RES-EVD-010 (PAP-010), CANON-RES-EVD-011 (PAP-011), CANON-ATLAS-CH19-EVD-015",
+            "abstract only (PAP-010, PAP-011) / full text (Atlas Ch. 19)",
+            "What proportion of symptomatic cold intolerance following titanium plate fixation resolves without plate removal by 2 years?"
+        ],
+        [
+            "RUB-CRIT-D8-02",
+            "8",
+            "Complications, safety and additional treatment",
+            "Surgical Site Infection, Wound Dehiscence & Bone Non-Union",
+            "Mandibular fractures, Maxillary fractures, Frontal sinus, ZMC",
+            "ORIF, Transoral incisions, Coronal approach, Closed reduction",
+            "Atlas Ch. 19 (pp. 806-808) details postoperative wound complications, healing timelines, and factors predisposing to osteomyelitis, bone non-union, or catastrophic plate exposure.",
+            "Occurrence of deep or superficial surgical site infection (CDC criteria), mucosal wound breakdown exposing bone/plates, or delayed/non-union requiring secondary surgery.",
+            "Clinical physical examination, wound culture/microbiology, plain/CT imaging for osteolysis",
+            "Clavien-Dindo Complication Grade (Grade I to Grade V)",
+            "Preoperative baseline wound contamination / compound open fracture classification.",
+            "Postoperative 2 weeks, 6 weeks, 12 weeks, and 6 months",
+            "Favourable: Primary wound healing by first intention without purulence, erythema, dehiscence, or non-union.",
+            "NO EXPLICIT THRESHOLD REPORTED (Standard surgical adverse event metric)",
+            "Surgeons must ratify complication severity grading using Clavien-Dindo classification adapted for maxillofacial trauma.",
+            "Clinical audit validating the inter-rater reliability of Clavien-Dindo grading in craniomaxillofacial surgical audits.",
+            "PENDING SURGEON VALIDATION",
+            "Applicable: All surgically treated facial fractures. Excluded: None.",
+            "If documentation is missing, record as PENDING_CLINICAL_CHART_AUDIT. Never treat unrecorded complications as confirmed absence.",
+            "Requires Clinical Assessment (Surgical physical examination and microbiological testing)",
+            "CANON-ATLAS-CH19-EVD-001, CANON-ATLAS-CH19-EVD-002, CANON-ATLAS-CH19-EVD-007",
+            "full text (VERIFIED_PRIMARY_SOURCE)",
+            "What are the definitive CT criteria that distinguish delayed bone healing from true infected non-union at 3 months post-reduction?"
+        ]
+    ]
+
+    with open("data/phase_05_candidate_rubric.csv", "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(rubric_headers)
+        writer.writerows(rubric_rows)
+    print(f"Generated data/phase_05_candidate_rubric.csv ({len(rubric_rows)} criteria)")
+
+    # 2. Build data/phase_05_surgeon_review_template.csv
+    template_headers = [
+        "criterion_id",
+        "domain_number_and_name",
+        "plain_language_description",
+        "evidence_references_and_verification_level",
+        "proposed_operational_definition",
+        "clinical_relevance_question",
+        "proposed_measurement_feasibility_question",
+        "threshold_decision",
+        "potential_sources_of_bias_or_confounding",
+        "reviewer_decision",
+        "reviewer_rationale",
+        "reviewer_identifier_or_role",
+        "review_date",
+        "review_version"
+    ]
+
+    template_rows = []
+    for r in rubric_rows:
+        cid = r[0]
+        domain = f"Domain {r[1]}: {r[2]}"
+        plain_desc = f"{r[3]} ({r[4]})"
+        ev_refs = f"{r[20]} [{r[21]}]"
+        op_def = r[7]
+        clin_q = f"Does measuring {r[3]} provide critical, clinically meaningful evidence of treatment success or failure in {r[4]}?"
+        meas_q = f"Is the proposed method ({r[8]}) feasible, reproducible, and objective in routine postoperative clinical workflows?"
+        thresh_dec = r[13]
+        bias = "Confounded by pre-existing asymmetry, bilateral injuries, patient compliance, timing of scan, or metal artifact."
+        
+        # Clinician fields left strictly blank as mandated by Task 5
+        template_rows.append([
+            cid,
+            domain,
+            plain_desc,
+            ev_refs,
+            op_def,
+            clin_q,
+            meas_q,
+            thresh_dec,
+            bias,
+            "",  # reviewer_decision (blank)
+            "",  # reviewer_rationale (blank)
+            "",  # reviewer_identifier_or_role (blank)
+            "",  # review_date (blank)
+            "PHASE-05-CANDIDATE-v1.0"
+        ])
+
+    with open("data/phase_05_surgeon_review_template.csv", "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(template_headers)
+        writer.writerows(template_rows)
+    print(f"Generated data/phase_05_surgeon_review_template.csv ({len(template_rows)} rows)")
+
+    # 3. Reports are generated in the next step
+    return rubric_rows, template_rows
+
+if __name__ == "__main__":
+    build_phase_05()
